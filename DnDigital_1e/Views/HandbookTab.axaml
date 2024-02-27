@@ -1,0 +1,62 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+			 d:DesignWidth="1850" d:DesignHeight="1080"
+			 FontFamily="Roboto"
+             x:Class="DnDigital_1e.Views.HandbookTab">
+	<Panel>
+		<!-- Бургер-навигация по справочнику, остается на всех страницах -->
+		<ToggleButton Classes="Menu" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="15"/>
+
+		<!-- Главная страница справочника -->
+		<StackPanel Spacing="30" HorizontalAlignment="Center" Margin="15,45">
+			<Border Width="1000" Height="60" Background="#20232A">
+				<TextBlock Text="Поиск"/>
+			</Border>
+			<StackPanel Spacing="30" Orientation="Horizontal">
+				<Border Width="720" Height="200" Background="#20232A">
+					<TextBlock Text="Класс"/>
+				</Border>
+				<Border Width="720" Height="200" Background="#20232A">
+					<TextBlock Text="Расы"/>
+				</Border>
+			</StackPanel>
+			<StackPanel Spacing="30" Orientation="Horizontal">
+				<Border Width="720" Height="200" Background="#20232A">
+					<TextBlock Text="Черты"/>
+				</Border>
+				<Border Width="720" Height="200" Background="#20232A">
+					<TextBlock Text="Преедыстории"/>
+				</Border>
+			</StackPanel>
+			<StackPanel Spacing="30" Orientation="Horizontal">
+				<Border Width="470" Height="200" Background="#20232A">
+					<TextBlock Text="Оружие"/>
+				</Border>
+				<Border Width="470" Height="200" Background="#20232A">
+					<TextBlock Text="Доспехи"/>
+				</Border>
+				<Border Width="470" Height="200" Background="#20232A">
+					<TextBlock Text="Заклинания"/>
+				</Border>
+			</StackPanel>
+			<StackPanel Spacing="30" Orientation="Horizontal">
+				<Border Width="345" Height="150" Background="#20232A">
+					<TextBlock Text="Снаряжение"/>
+				</Border>
+				<Border Width="345" Height="150" Background="#20232A">
+					<TextBlock Text="Магические предметы"/>
+				</Border>
+				<Border Width="345" Height="150" Background="#20232A">
+					<TextBlock Text="Бестиарий"/>
+				</Border>
+				<Border Width="345" Height="150" Background="#20232A">
+					<TextBlock Text="Правила"/>
+				</Border>
+			</StackPanel>
+		</StackPanel>
+
+	</Panel>
+</UserControl>

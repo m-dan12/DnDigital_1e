@@ -1,0 +1,166 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:DnDigital_1e.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="1920" d:DesignHeight="1080"
+		xmlns:views="clr-namespace:DnDigital_1e.Views"
+        x:Class="DnDigital_1e.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="DnDigital_1e">
+
+    <Design.DataContext>
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+
+	
+	<!-- Стили -->
+    <Window.Styles>
+
+		<Style Selector="Window">
+			<Setter Property="Background" Value="#191B1F"/>
+			<Setter Property="FontSize" Value="18"/>
+			<Setter Property="FontFamily" Value="Roboto"/>
+			<Setter Property="WindowState" Value="FullScreen"/>
+		</Style>
+		
+		<Style Selector="Border">
+			<Setter Property="Background" Value="#23272E"/>
+			<Setter Property="Padding" Value="5"/>
+			<Setter Property="CornerRadius" Value="5"/>
+			
+			<Style Selector="^.VerticalMenu">
+				<Setter Property="DockPanel.Dock" Value="Left"/>
+				<Setter Property="Width" Value="44"/>
+				<Setter Property="CornerRadius" Value="0"/>
+				<Setter Property="Background" Value="#2E343C"/>
+				
+				<Style Selector="^ ToggleButton">
+					<Setter Property="DockPanel.Dock" Value="Top"/>
+					<Setter Property="VerticalAlignment" Value="Top"/>
+					<Setter Property="HorizontalAlignment" Value="Center"/>
+					<Setter Property="Margin" Value="0,5"/>
+					<Setter Property="IsEnabled" Value="{Binding !$self.IsChecked}"/>
+				</Style>
+			</Style>
+			
+			<Style Selector="^.HorizontalMenu">
+				<Setter Property="DockPanel.Dock" Value="Top"/>
+				<Setter Property="Height" Value="44"/>
+				<Setter Property="CornerRadius" Value="0"/>
+				<Setter Property="Background" Value="#2E343C"/>
+				
+				<Style Selector="^ ToggleButton">
+					<Setter Property="DockPanel.Dock" Value="Left"/>
+					<Setter Property="VerticalAlignment" Value="Center"/>
+					<Setter Property="HorizontalAlignment" Value="Left"/>
+					<Setter Property="Margin" Value="5,0"/>
+					<Style Selector="^.Right">
+						<Setter Property="DockPanel.Dock" Value="Right"/>
+						<Setter Property="HorizontalAlignment" Value="Right"/>
+					</Style>
+				</Style>
+			</Style>
+			
+			<Style Selector="^ ToggleButton">
+				<Setter Property="Width" Value="34"/>
+				<Setter Property="Height" Value="34"/>
+			</Style>
+
+			<Style Selector="^.Submenu">
+				<Setter Property="Background" Value="#23272E"/>
+				<Setter Property="DockPanel.Dock" Value="Left"/>
+				<Setter Property="CornerRadius" Value="0"/>
+				<Setter Property="Width" Value="300"/>
+			</Style>
+		</Style>
+		
+		<Style Selector="Button.WinButton">
+			<Setter Property="DockPanel.Dock" Value="Right"/>
+			<Setter Property="HorizontalAlignment" Value="Right"/>
+			<Setter Property="VerticalAlignment" Value="Stretch"/>
+			<Setter Property="CornerRadius" Value="0"/>
+			<Setter Property="BorderThickness" Value="0"/>
+			<Setter Property="Width" Value="44"/>
+		</Style>
+
+		<Style Selector="TextBlock">
+			<Setter Property="Foreground" Value="White"/>
+			<Setter Property="Margin" Value="15"/>
+		</Style>
+
+		<Style Selector="TabItem">
+			<Setter Property="IsVisible" Value="False"/>
+		</Style>
+	
+	</Window.Styles>
+
+	
+	<!-- Разметка -->
+	<DockPanel>
+		
+		<!-- Верхнее меню -->
+		<Border Classes="HorizontalMenu">
+			<DockPanel>
+				<!-- Левая часть верхнего меню -->
+				<ToggleButton x:Name="LeftSubmenu" Margin="0,0,5,0"/> <!-- Скрывает/открывает левое подменю -->
+				<ToggleButton x:Name="BurgerOrCharacterOrFolder" IsVisible="{Binding #LeftSubmenu.IsChecked}"/> <!-- Бургер со вкладками справочника / Иконка перса со списком персонажей / Папка с папками и заметками приключения -->
+				<ToggleButton x:Name="Bookmark" IsVisible="{Binding #LeftSubmenu.IsChecked}"/> <!-- Закладки -->
+				<ToggleButton x:Name="Search" IsVisible="{Binding #LeftSubmenu.IsChecked}"/> <!-- Поиск -->
+				
+				<!-- Правая часть верхнего меню -->
+					<!-- Кнопки свернуть, развернуть на весь экран и закрыть-->
+					<Button Classes="WinButton" Margin="0,-5,-5,-5"/>
+					<Button Classes="WinButton" Margin="0,-5"/>
+					<Button Classes="WinButton" Margin="5,-5,0,-5"/>
+					<!-- Почему еще один таб? Да потому что мне так хочется! -->
+				
+				<ToggleButton x:Name="RightSubmenu" Classes="Right"/> <!-- Скрывает/открывает правое подменю -->
+				<ToggleButton x:Name="Structure" Classes="Right" IsVisible="{Binding #RightSubmenu.IsChecked}"/> <!-- Структура заметки (Онли приключение) -->
+				<ToggleButton x:Name="DiceRoller" Classes="Right" IsVisible="{Binding #RightSubmenu.IsChecked}"/> <!-- Дайс-роллер и история бросков -->
+				<ToggleButton x:Name="Initiative" Classes="Right" IsVisible="{Binding #RightSubmenu.IsChecked}"/> <!-- Трекер инициативы -->
+			</DockPanel>
+		</Border>
+		
+		<!-- Левое меню -->
+		<Border Classes="VerticalMenu">
+			<DockPanel>
+				<ToggleButton x:Name="Profile" Margin="0,0,0,5"/>
+				<ToggleButton x:Name="HomePage"/>
+				<ToggleButton x:Name="HandBook"/>
+				<ToggleButton x:Name="Characters"/>
+				<ToggleButton x:Name="Adventures"/>
+				<ToggleButton x:Name="LogOut" DockPanel.Dock="Bottom" VerticalAlignment="Bottom" Margin="0,5,0,0"/>
+				<ToggleButton x:Name="Help" DockPanel.Dock="Bottom" VerticalAlignment="Bottom" Margin="0,5,0,0"/>
+			</DockPanel>
+		</Border>
+		
+		<!-- Левое подменю -->
+		<Border Classes="Submenu" IsVisible="{Binding #LeftSubmenu.IsChecked, Mode=TwoWay}"/>
+		
+		<!-- Правое подменю -->
+		<Border Classes="Submenu" DockPanel.Dock="Right" IsVisible="{Binding #RightSubmenu.IsChecked, Mode=TwoWay}"/>
+
+		<!-- Страницы -->
+		<TabControl Padding="0" Margin="0" BorderThickness="0" CornerRadius="0" TabStripPlacement="Left">
+
+			<TabItem Header="Профиль" IsSelected="{Binding IsChecked, ElementName=Profile, Mode=TwoWay}"/>
+			<TabItem Header="Главная" IsSelected="{Binding IsChecked, ElementName=HomePage, Mode=TwoWay}"/>
+			<TabItem Header="Справочник" IsSelected="{Binding #HandBook.IsChecked, Mode=TwoWay}">
+				<views:HandbookTab/>
+			</TabItem>
+			<TabItem Header="Персонажи" IsSelected="{Binding #Characters.IsChecked, Mode=TwoWay}">
+				<views:CharacterTab/>
+			</TabItem>
+			<TabItem Header="Приключения" IsSelected="{Binding #Adventures.IsChecked, Mode=TwoWay}">
+				<views:AdvanturesTab/>
+			</TabItem>
+			
+		</TabControl>
+		
+		
+	</DockPanel>
+
+	
+</Window>
