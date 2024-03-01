@@ -25,60 +25,41 @@ namespace DnDigital_1e.ViewModels
             Source = source;
         }
     }
-    public class Money
+    public class Money //Допилено
     {
+        // Вложенный класс
         public class Coin
         {
-            internal int value;
-            internal string name;
+            // Свойства
+            private int value; // Значение
+            private string name; // Наименование
+            public string Performance => $"{value} {name}"; // Представление монеты (пример: 10 зм)
+
+            // Конструктор
             public Coin(int value, string name)
             {
                 this.value = value;
                 this.name = name;
             }
-            internal void Take(int i) => value += i;
-            internal void Give(int i) => value -= i;
+
+            // Методы
+            internal void Take(int i) => value += i; // Получить монеты
+            internal void Give(int i) => value -= i; // Отдать монеты
+            
+            // Преобразование типов
+            public static implicit operator int(Coin coin) => coin.value; // При обращении к объекту класса, получим value, а не объект (не распространяется на методы и прочее)
         }
+
         // Свойства
-        private Coin cp;
-        public int CP
-        {
-            get => cp.value;
-            set => cp.value = value;
-        }
-        
-        private Coin sp;
-        public int SP
-        {
-            get => sp.value;
-            set => sp.value = value;
-        }
-        
-        private Coin ep;
-        public int EP
-        {
-            get => ep.value;
-            set => ep.value = value;
-        }
-        
-        private Coin gp;
-        public int GP
-        {
-            get => gp.value;
-            set => gp.value = value;
-        }
-        
-        private Coin pp;
-        public int PP
-        {
-            get => pp.value;
-            set => pp.value = value;
-        }
-        
-        public double SumGP => CP / 100.0 + SP / 10.0 + EP / 2.0 + GP + 10.0 * PP;  // Получаем сумму денег в золотых
-        public string Performance => (new Coin[] { pp, gp, ep, sp, cp }).Where(x => x.value != 0)
-                                                                        .Select(x => $"{x.value} {x.name}")
-                                                                        .Aggregate((a, b) => $"{a}, {b}");
+        public Coin cp; // Медь (мм)     = 0.01 зм
+        public Coin sp; // Серебро (см)  = 0.1 зм
+        public Coin ep; // Электрум (эм) = 0.5 зм
+        public Coin gp; // Золото (зм)
+        public Coin pp; // Платина (пм)  = 10 зм
+        public double SumGP => cp / 100.0 + cp / 10.0 + ep / 2.0 + gp + 10.0 * pp;  // Сумма денег в золотых
+        public string Performance => (new Coin[] { pp, gp, ep, sp, cp }).Where(x => x != 0)
+                                                                        .Select(x => x.Performance)
+                                                                        .Aggregate((a, b) => $"{a}, {b}"); // Представление стоимости товара (пример: 10 зм, 5 см)
         // Конструкторы
         public Money(int cp, int sp, int ep, int gp, int pp)
         {
