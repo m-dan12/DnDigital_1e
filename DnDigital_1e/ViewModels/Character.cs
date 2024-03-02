@@ -5,10 +5,11 @@ using System.Reactive.Joins;
 using System.Text;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
+using NCalc;
 
 namespace DnDigital_1e.ViewModels
 {
-    public class HandbooksElement
+    public abstract class HandbooksElement
     {
         public readonly string Name;
         public string mdName => $"#{Name}";
@@ -72,50 +73,45 @@ namespace DnDigital_1e.ViewModels
     }
     public class Dice
     {
-        // Статичные свойства и методы
-        private static readonly Regex regex = new("\\d+(к|d|К|D)\\d+");
-        public static int Roll(int numbersOfDices, int numbersOfFaces)
+        public class D20
         {
-            var rnd = new Random();
-            int sum = 0;
-            for (int i = 0; i < numbersOfDices; i++) sum += rnd.Next(numbersOfFaces) + 1;
-            return sum;
+            private readonly int[] result; // Два броска
+            public int Result => result[0]; // Первый
+            public int Advantage => result.Max(); // Максимальный
+            public int Disadvantage => result.Min(); // Минимальный
+            public D20() => result = new int[] { rnd.Next(20) + 1, rnd.Next(20) + 1 };
+            public D20(int i) => result = new int[] { rnd.Next(20) + 1 + i, rnd.Next(20) + 1 + i };
+
+            public static implicit operator int(D20 d20) => d20.Result;
+        }
+        public static D20 RollD20() => new(); // Бросок к20 (просто, с преимуществом, с помехой)
+        public static D20 RollD20(int i) => new(i); // Бросок к20 с модификатором
+
+
+        private static readonly Random rnd = new();
+
+        public const string pattern = "^\\d+[кdКD]\\d+$"; // Паттерн: число'к'число
+        private static readonly Predicate<string> isDice = (string str) => Regex.IsMatch(str, @"^\d+[кdКD]\d+$"); // Предикат, проверяющий удовлетворяет ли строка паттерну
+        private static readonly Predicate<string> isMath = (string str) => Regex.IsMatch(str, @"^[\d\s\(\)\+\-\*\/]+$"); // Предикат, проверяющий удовлетворяет ли строка паттерну
+
+        public static (string expression, int result) Roll(string str) // Решаем выражение с дайсами (пример: "1к8 кол. + 3к6 псих. + 4")
+        {
+            str = Regex.Replace(Regex.Replace(Regex.Replace(str, @"\++", "+"), @"\/+", "/"), @"\*+", "*");
+            string[] arrayOfWords = str.Split(' '); // Разделяем строку на слова
+            List<string> a = arrayOfWords.Select(x => isDice(x) ? PerformanceRoll(x) : x).ToList(); // Обозначение дайсов перевели в результаты бросков
+            string b = string.Join(" ", a); // Представление броска
+            string c = string.Join(" ", a.Where(x => isMath(x))); // Математическое выражение
+            if (c.Trim() == "") return (b, 0);
+            int d = (int)Math.Floor(Convert.ToDouble(new Expression(c).Evaluate())); // Подсчеты математического выражения
+            return (b, d);
+        }
+        private static string PerformanceRoll(string str)
+        {
+            string[] numsString = str.Split('к');
+            var num = (OfDices: int.Parse(numsString[0]), OfFaces: int.Parse(numsString[1]));
+            return "(" + string.Join(" + ", Enumerable.Range(1, num.OfDices).Select(_ => rnd.Next(1, num.OfFaces + 1))) + ")";
         }
 
-        public static string RollAllDiceInString(string str)
-        {
-            MatchCollection matches = regex.Matches(str);
-            if (matches.Count == 0) return str;
-            foreach(Match match in matches) str = str.Replace(match.Value, $"{match.Value} = {(new Dice(match.Value)).Roll()}");
-            return str;
-        }
-        
-        // Свойства
-        private int numbersOfDices;
-        private int numbersOfFaces;
-        public string Performance => $"{numbersOfDices}к{numbersOfFaces}";
-
-        // Конструкторы
-        public Dice(int numbersOfDices, int numbersOfFaces)
-        {
-            this.numbersOfDices = numbersOfDices;
-            this.numbersOfFaces = numbersOfFaces;
-        }
-        public Dice(string str)
-        {
-            String[] numArr = str.Split('к');
-            numbersOfDices = int.Parse(numArr[0]);
-            numbersOfFaces = int.Parse(numArr[1]);
-        }
-        
-        // Методы
-        public int Roll()
-        {
-            var rnd = new Random();
-            int sum = 0;
-            for (int i = 0; i < numbersOfDices; i++) sum += rnd.Next(numbersOfFaces) + 1;
-            return sum;
-        }
     }
     public class Equipments : HandbooksElement
     {
@@ -160,12 +156,11 @@ namespace DnDigital_1e.ViewModels
     }
     public class Arms : Equipments
     {
-        private Dice _damageDices; // Дайсы урона
-        public string DicePerformance => _damageDices.Performance; // Представление дайсов урона
+        private string _damageDices; // Дайсы урона
         private List<(string name, string description)> _features; // Свойства оружия
         public string FeaturesNames => _features.Select(x => x.name).Aggregate((a, b) => a + ", " + b);
         public Arms(string Name, string EngName, string Source, Money price, string Weight, string Description, List<string> Categories, 
-                    Dice dices, List<(string, string)> features)
+                    string dices, List<(string, string)> features)
                     : base(Name, EngName, Source, price, Weight, Description, Categories)
         {
             _damageDices = dices;
