@@ -148,9 +148,7 @@
 			<TabItem Header="Профиль" IsSelected="{Binding IsChecked, ElementName=Profile, Mode=TwoWay}"/>
 			<TabItem Header="Главная" IsSelected="{Binding IsChecked, ElementName=HomePage, Mode=TwoWay}"/>
 			<TabItem Header="Справочник" IsSelected="{Binding #HandBook.IsChecked, Mode=TwoWay}">
-				<ContentControl>
-					<views:HandbookTab/>
-				</ContentControl>
+				<views:HandbookTab/>
 			</TabItem>
 			<TabItem Header="Персонажи" IsSelected="{Binding #Characters.IsChecked, Mode=TwoWay}">
 				<views:CharacterTab/>

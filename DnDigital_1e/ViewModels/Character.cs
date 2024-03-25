@@ -90,7 +90,6 @@ namespace DnDigital_1e.ViewModels
 
         private static readonly Random rnd = new();
 
-        public const string pattern = "^\\d+[кdКD]\\d+$"; // Паттерн: число'к'число
         private static readonly Predicate<string> isDice = (string str) => Regex.IsMatch(str, @"^\d+[кdКD]\d+$"); // Предикат, проверяющий удовлетворяет ли строка паттерну
         private static readonly Predicate<string> isMath = (string str) => Regex.IsMatch(str, @"^[\d\s\(\)\+\-\*\/]+$"); // Предикат, проверяющий удовлетворяет ли строка паттерну
 
