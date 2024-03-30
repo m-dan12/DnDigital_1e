@@ -110,17 +110,16 @@
 				<ToggleButton x:Name="Search" IsVisible="{Binding #LeftSubmenu.IsChecked}"/> <!-- Поиск -->
 				
 				<!-- Правая часть верхнего меню -->
-					<!-- Кнопки свернуть, развернуть на весь экран и закрыть-->
-					<Button Classes="WinButton" Margin="0,-5,-5,-5"/>
-					<Button Classes="WinButton" Margin="0,-5"/>
-					<Button Classes="WinButton" Margin="5,-5,0,-5"/>
-					<!-- Почему еще один таб? Да потому что мне так хочется! -->
+				<!-- Кнопки свернуть, развернуть на весь экран и закрыть-->
+				<Button Classes="WinButton" Margin="0,-5,-5,-5"/>
+				<Button Classes="WinButton" Margin="0,-5"/>
+				<Button Classes="WinButton" Margin="5,-5,0,-5"/>
 				
 				<ToggleButton x:Name="RightSubmenu" Classes="Right"/> <!-- Скрывает/открывает правое подменю -->
 				<ToggleButton x:Name="Structure" Classes="Right" IsVisible="{Binding #RightSubmenu.IsChecked}"/> <!-- Структура заметки (Онли приключение) -->
 				<ToggleButton x:Name="DiceRoller" Classes="Right" IsVisible="{Binding #RightSubmenu.IsChecked}"/> <!-- Дайс-роллер и история бросков -->
 				<ToggleButton x:Name="Initiative" Classes="Right" IsVisible="{Binding #RightSubmenu.IsChecked}"/> <!-- Трекер инициативы -->
-			</DockPanel>
+			</DockPanel>		
 		</Border>
 		
 		<!-- Левое меню -->

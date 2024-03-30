@@ -1,62 +1,113 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:vm="using:DnDigital_1e.ViewModels"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
 			 d:DesignWidth="1850" d:DesignHeight="1080"
-			 FontFamily="Roboto"
+			 FontFamily="Roboto" Background="#191B1F" FontSize="18"
              x:Class="DnDigital_1e.Views.HandbookTab">
-	<Panel>
-		<!-- Бургер-навигация по справочнику, остается на всех страницах -->
-		<ToggleButton Classes="Menu" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="15"/>
+	<Design.DataContext>
+		<vm:HandbookTabViewModel/>
+	</Design.DataContext>
+	<UserControl.Styles>
+		<Style Selector="ToggleButton">
+			<Setter Property="Background" Value="#20232A"/>
+			<Setter Property="CornerRadius" Value="5"/>
+			<Setter Property="Margin" Value="10"/>
+			<Setter Property="HorizontalAlignment" Value="Stretch"/>
+		</Style>
+		<Style Selector="TextBox.Search">
+			<Setter Property="Background" Value="#20232A"/>
+			<Setter Property="CornerRadius" Value="5"/>
+			<Setter Property="Margin" Value="100, 10"/>
+			<Setter Property="Padding" Value="20, 10"/>
+			<Setter Property="Height" Value="60"/>
+			<Setter Property="HorizontalAlignment" Value="Stretch"/>
+			<Setter Property="VerticalContentAlignment" Value="Center"/>
+		</Style>
+	</UserControl.Styles>
+	<UserControl.Resources>
+		<ImageBrush x:Key="ClassesImg" Source="/Assets/classes.jpeg" Stretch="UniformToFill"/>
+	</UserControl.Resources>
+	<DockPanel>
+		<Border VerticalAlignment="Stretch" Width="300" DockPanel.Dock="Left"/>
+		<Border VerticalAlignment="Stretch" Width="300" DockPanel.Dock="Right"/>
+		<TabControl DockPanel.Dock="Top" HorizontalAlignment="Stretch">
+			<TabItem Header="Главная">
+				<!-- Главная страница справочника -->
+				<Grid HorizontalAlignment="Stretch" RowDefinitions=" auto, auto, auto, auto">
 
-		<!-- Главная страница справочника -->
-		<StackPanel Spacing="30" HorizontalAlignment="Center" Margin="15,45">
-			<Border Width="1000" Height="60" Background="#20232A">
-				<TextBlock Text="Поиск"/>
-			</Border>
-			<StackPanel Spacing="30" Orientation="Horizontal">
-				<Border Width="720" Height="200" Background="#20232A">
-					<TextBlock Text="Класс"/>
-				</Border>
-				<Border Width="720" Height="200" Background="#20232A">
-					<TextBlock Text="Расы"/>
-				</Border>
-			</StackPanel>
-			<StackPanel Spacing="30" Orientation="Horizontal">
-				<Border Width="720" Height="200" Background="#20232A">
-					<TextBlock Text="Черты"/>
-				</Border>
-				<Border Width="720" Height="200" Background="#20232A">
-					<TextBlock Text="Преедыстории"/>
-				</Border>
-			</StackPanel>
-			<StackPanel Spacing="30" Orientation="Horizontal">
-				<Border Width="470" Height="200" Background="#20232A">
-					<TextBlock Text="Оружие"/>
-				</Border>
-				<Border Width="470" Height="200" Background="#20232A">
-					<TextBlock Text="Доспехи"/>
-				</Border>
-				<Border Width="470" Height="200" Background="#20232A">
-					<TextBlock Text="Заклинания"/>
-				</Border>
-			</StackPanel>
-			<StackPanel Spacing="30" Orientation="Horizontal">
-				<Border Width="345" Height="150" Background="#20232A">
-					<TextBlock Text="Снаряжение"/>
-				</Border>
-				<Border Width="345" Height="150" Background="#20232A">
-					<TextBlock Text="Магические предметы"/>
-				</Border>
-				<Border Width="345" Height="150" Background="#20232A">
-					<TextBlock Text="Бестиарий"/>
-				</Border>
-				<Border Width="345" Height="150" Background="#20232A">
-					<TextBlock Text="Правила"/>
-				</Border>
-			</StackPanel>
-		</StackPanel>
+					<TextBox Classes="Search" Text="Поиск" VerticalAlignment="Center" Foreground="LightGray"/>
+					
+					<Grid Grid.Row="1" ColumnDefinitions="*, *" RowDefinitions="*, *">					
+						<ToggleButton x:Name="MainClasses" Height="200"
+									  Grid.Row="0" Grid.Column="0"
+									  Background="{StaticResource ClassesImg}">
+							<TextBlock Text="Класс"/>
+						</ToggleButton>
+						<ToggleButton x:Name="MainRaces" Height="200"
+									  Grid.Row="0" Grid.Column="1">
+							<TextBlock Text="Расы"/>
+						</ToggleButton>
+						<ToggleButton x:Name="MainFits" Height="200"
+									  Grid.Row="1" Grid.Column="0">
+							<TextBlock Text="Черты"/>
+						</ToggleButton>
+						<ToggleButton x:Name="MainBackgrounds" Height="200"
+									  Grid.Row="1" Grid.Column="1">
+							<TextBlock Text="Предыстории"/>
+						</ToggleButton>
+					</Grid>
 
-	</Panel>
+					<Grid Grid.Row="2" ColumnDefinitions="*, *, *">
+						<ToggleButton x:Name="MainArms" Height="200"
+									  Grid.Column="0">
+							<TextBlock Text="Оружие"/>
+						</ToggleButton>
+						<ToggleButton x:Name="MainArmors" Height="200"
+									  Grid.Column="1">
+							<TextBlock Text="Доспехи"/>
+						</ToggleButton>
+						<ToggleButton x:Name="MainSpells" Height="200"
+									  Grid.Column="2">
+							<TextBlock Text="Заклинания"/>
+						</ToggleButton>
+					</Grid>
+
+					<Grid Grid.Row="3" ColumnDefinitions="*, *, *, *">
+						<ToggleButton x:Name="MainEquipments" Height="150"
+									  Grid.Column="0">
+							<TextBlock Text="Снаряжение"/>
+						</ToggleButton>
+						<ToggleButton x:Name="MainMagicItems" Height="150"
+									  Grid.Column="1">
+							<TextBlock Text="Магические предметы"/>
+						</ToggleButton>
+						<ToggleButton x:Name="MainMonsterManual" Height="150"
+									  Grid.Column="2">
+							<TextBlock Text="Бестиарий"/>
+						</ToggleButton>
+						<ToggleButton x:Name="MainRules" Height="150"
+									  Grid.Column="3">
+							<TextBlock Text="Правила"/>
+						</ToggleButton>
+					</Grid>
+					
+				</Grid>
+				
+			</TabItem>
+			<TabItem Header="Классы"				IsSelected="{Binding #MainClasses.IsChecked, Mode=TwoWay}"/>
+			<TabItem Header="Расы"					IsSelected="{Binding #MainRaces.IsChecked, Mode=TwoWay}"/>
+			<TabItem Header="Черты"					IsSelected="{Binding #MainFits.IsChecked, Mode=TwoWay}"/>
+			<TabItem Header="Предыстории"			IsSelected="{Binding #MainBackgrounds.IsChecked, Mode=TwoWay}"/>
+			<TabItem Header="Оружие"				IsSelected="{Binding #MainArms.IsChecked, Mode=TwoWay}"/>
+			<TabItem Header="Доспехи"				IsSelected="{Binding #MainArmors.IsChecked, Mode=TwoWay}"/>
+			<TabItem Header="Заклинания"			IsSelected="{Binding #MainSpells.IsChecked, Mode=TwoWay}"/>
+			<TabItem Header="Снаряжение"			IsSelected="{Binding #MainEquipments.IsChecked, Mode=TwoWay}"/>
+			<TabItem Header="Магические предметы"	IsSelected="{Binding #MainMagicItems.IsChecked, Mode=TwoWay}"/>
+			<TabItem Header="Бестиарий"				IsSelected="{Binding #MainMonsterManual.IsChecked, Mode=TwoWay}"/>
+			<TabItem Header="Правила"				IsSelected="{Binding #MainRules.IsChecked, Mode=TwoWay}"/>
+		</TabControl>
+	</DockPanel>
 </UserControl>
