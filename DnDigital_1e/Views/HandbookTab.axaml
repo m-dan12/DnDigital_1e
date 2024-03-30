@@ -26,20 +26,35 @@
 			<Setter Property="HorizontalAlignment" Value="Stretch"/>
 			<Setter Property="VerticalContentAlignment" Value="Center"/>
 		</Style>
+		<Style Selector="Border">
+			<Setter Property="Background" Value="#23272E"/>
+			<Setter Property="Padding" Value="5"/>
+			<Setter Property="CornerRadius" Value="5"/>
+			<Style Selector="^.Submenu">
+				<Setter Property="Background" Value="#23272E"/>
+				<Setter Property="DockPanel.Dock" Value="Left"/>
+				<Setter Property="CornerRadius" Value="0"/>
+				<Setter Property="Width" Value="300"/>
+			</Style>
+		</Style>
 	</UserControl.Styles>
 	<UserControl.Resources>
 		<ImageBrush x:Key="ClassesImg" Source="/Assets/classes.jpeg" Stretch="UniformToFill"/>
 	</UserControl.Resources>
 	<DockPanel>
-		<Border VerticalAlignment="Stretch" Width="300" DockPanel.Dock="Left"/>
-		<Border VerticalAlignment="Stretch" Width="300" DockPanel.Dock="Right"/>
+		<Border VerticalAlignment="Stretch" Width="300" DockPanel.Dock="Left"
+				IsVisible="True"/>
+		<Border VerticalAlignment="Stretch" Width="300" DockPanel.Dock="Right"
+				IsVisible="True"/>
 		<TabControl DockPanel.Dock="Top" HorizontalAlignment="Stretch">
 			<TabItem Header="Главная">
 				<!-- Главная страница справочника -->
-				<Grid HorizontalAlignment="Stretch" RowDefinitions=" auto, auto, auto, auto">
+				<Grid HorizontalAlignment="Stretch" RowDefinitions=" auto, auto, auto, auto" MaxWidth="1500">
 
+					<!-- Поиск -->
 					<TextBox Classes="Search" Text="Поиск" VerticalAlignment="Center" Foreground="LightGray"/>
-					
+
+					<!-- Классы, расы, черты, предыстории -->
 					<Grid Grid.Row="1" ColumnDefinitions="*, *" RowDefinitions="*, *">					
 						<ToggleButton x:Name="MainClasses" Height="200"
 									  Grid.Row="0" Grid.Column="0"
@@ -60,6 +75,7 @@
 						</ToggleButton>
 					</Grid>
 
+					<!-- Оружие, доспехи, снаряга -->
 					<Grid Grid.Row="2" ColumnDefinitions="*, *, *">
 						<ToggleButton x:Name="MainArms" Height="200"
 									  Grid.Column="0">
@@ -69,16 +85,17 @@
 									  Grid.Column="1">
 							<TextBlock Text="Доспехи"/>
 						</ToggleButton>
-						<ToggleButton x:Name="MainSpells" Height="200"
+						<ToggleButton x:Name="MainEquipments" Height="200"
 									  Grid.Column="2">
-							<TextBlock Text="Заклинания"/>
+							<TextBlock Text="Снаряжение"/>
 						</ToggleButton>
 					</Grid>
 
+					<!-- Заклинания, маг. итемы, монстрятник, правила -->
 					<Grid Grid.Row="3" ColumnDefinitions="*, *, *, *">
-						<ToggleButton x:Name="MainEquipments" Height="150"
+						<ToggleButton x:Name="MainSpells" Height="150"
 									  Grid.Column="0">
-							<TextBlock Text="Снаряжение"/>
+							<TextBlock Text="Заклинания"/>
 						</ToggleButton>
 						<ToggleButton x:Name="MainMagicItems" Height="150"
 									  Grid.Column="1">
@@ -95,9 +112,32 @@
 					</Grid>
 					
 				</Grid>
-				
 			</TabItem>
-			<TabItem Header="Классы"				IsSelected="{Binding #MainClasses.IsChecked, Mode=TwoWay}"/>
+			<TabItem Header="Классы"				IsSelected="True"> <!-- {Binding #MainClasses.IsChecked, Mode=TwoWay} -->
+				<Grid MaxWidth="1500" HorizontalAlignment="Stretch" ColumnDefinitions="*, auto">
+					<ScrollViewer>
+						
+						<WrapPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
+							<Border Margin="10" Background="#23272E" Height="100" MinWidth="300"/>
+							<Border Margin="10" Background="#23272E" Height="100" MinWidth="300"/>
+							<Border Margin="10" Background="#23272E" Height="100" MinWidth="300"/>
+							<Border Margin="10" Background="#23272E" Height="100" MinWidth="300"/>
+							<Border Margin="10" Background="#23272E" Height="100" MinWidth="300"/>
+							<Border Margin="10" Background="#23272E" Height="100" MinWidth="300"/>
+							<Border Margin="10" Background="#23272E" Height="100" MinWidth="300"/>
+							<Border Margin="10" Background="#23272E" Height="100" MinWidth="300"/>
+							<Border Margin="10" Background="#23272E" Height="100" MinWidth="300"/>
+							<Border Margin="10" Background="#23272E" Height="100" MinWidth="300"/>
+							<Border Margin="10" Background="#23272E" Height="100" MinWidth="300"/>
+							<Border Margin="10" Background="#23272E" Height="100" MinWidth="300"/>
+							<Border Margin="10" Background="#23272E" Height="100" MinWidth="300"/>
+						</WrapPanel>
+					</ScrollViewer>
+					<Border Margin="10" Background="#23272E" VerticalAlignment="Stretch" Width="720"
+							Grid.Column="1"
+							IsVisible="True"/>
+				</Grid>
+			</TabItem>
 			<TabItem Header="Расы"					IsSelected="{Binding #MainRaces.IsChecked, Mode=TwoWay}"/>
 			<TabItem Header="Черты"					IsSelected="{Binding #MainFits.IsChecked, Mode=TwoWay}"/>
 			<TabItem Header="Предыстории"			IsSelected="{Binding #MainBackgrounds.IsChecked, Mode=TwoWay}"/>
