@@ -1,6 +1,8 @@
-﻿namespace DnDigital_1e.ViewModels
+﻿using System.ComponentModel;
+
+namespace DnDigital_1e.ViewModels
 {
-    public class MainWindowViewModel : ViewModelBase
+    public class MainWindowViewModel : ViewModelBase, INotifyPropertyChanged
     {
 
     }
