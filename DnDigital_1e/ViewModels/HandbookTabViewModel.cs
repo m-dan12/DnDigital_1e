@@ -1,58 +1,52 @@
 ﻿using ReactiveUI;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Reactive.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Runtime.CompilerServices;
 
 namespace DnDigital_1e.ViewModels
 {
     public class HandbookTabViewModel : MainWindowViewModel
     {
-        public class QuestionAnswerPoints : ReactiveObject
+        public class Class(string name, string engName, byte hits, string source) : ReactiveObject
         {
-            private string _question;
-            public string Question
+            private byte _hits = hits;
+            private bool _isChecked = false;
+            public string Name { get; set; } = name;
+            public string EngName { get; set; } = engName;
+            public string Hits => "к" + _hits;
+            public string Source { get; set; } = source;
+            public bool IsChecked
             {
-                get => _question;
-                set => this.RaiseAndSetIfChanged(ref _question, value);
-            }
-
-            private bool _answer;
-            public bool Answer
-            {
-                get => _answer;
-                set => this.RaiseAndSetIfChanged(ref _answer, value);
-            }
-
-            private (double FirstType, double SecondType, double ThirdType) _points;
-            public (double FirstType, double SecondType, double ThirdType) Points
-            {
-                get => _points;
-                set => this.RaiseAndSetIfChanged(ref _points, value);
-            }
-
-            public QuestionAnswerPoints(string question, double firstType, double secondType, double thirdType)
-            {
-                _question = question;
-                _answer = false;
-                _points = (firstType, secondType, thirdType);
+                get => _isChecked;
+                set => this.RaiseAndSetIfChanged(ref _isChecked, value);
             }
         }
-        public static ObservableCollection<QuestionAnswerPoints> SellerQuestions = [
-            new QuestionAnswerPoints("предлагает товар энергично и напористо?",                     5,   0,   2.5),
-            new QuestionAnswerPoints("не настойчив с клиентом?",                                    0,   10,  0),
-            new QuestionAnswerPoints("не идет на уступки в вопросах цены?",                         10,  0,   0),
-            new QuestionAnswerPoints("старается избегать возможных осложнений при работе?",         0,   5,   0),
-            new QuestionAnswerPoints("уделяет полное внимание клиенту?",                            0,   2.5, 5),
-            new QuestionAnswerPoints("компетентен, знает многое предмете продаж?",                  2.5, 0,   10),
-            new QuestionAnswerPoints("испытываетчувство собственного преимущества перед клиентом?", 5,   0,   0),
-            new QuestionAnswerPoints("открыт и честен с клиентами и коллегами?",                    0,   0,   5),
-            new QuestionAnswerPoints("старается прислушиваться к мнению покупателя?",               0,   5,   2.5),
-            new QuestionAnswerPoints("можно назвать честолюбивым?",                                 2.5, 0,   0),
-            new QuestionAnswerPoints("во всем старается быть полезным покупателю?",                 0,   2.5, 0)
-        ];
+        public ObservableCollection<Class> ClassCollection { get; set; }
+        public bool IsAnyChecked => ClassCollection.Any(x => x.IsChecked);
+        public int ColumnSpanIfChecked => IsAnyChecked ? 1 : 3;
+
+        public HandbookTabViewModel()
+        {
+            ClassCollection = [
+                new Class("Бард", "Bard", 8, "PHB"),
+                new Class("Варвар", "Barbarian", 12, "PHB"),
+                new Class("Воин", "Fihter", 10, "PHB"),
+                new Class("Волшебник", "Wizard", 6, "PHB"),
+            ];
+            foreach (var item in ClassCollection)
+                item.PropertyChanged += (sender, args) => {
+                    if (args.PropertyName == nameof(Class.IsChecked))
+                    {
+                        OnPropertyChanged(nameof(IsAnyChecked));
+                        OnPropertyChanged(nameof(ColumnSpanIfChecked));
+                    }
+                };
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }

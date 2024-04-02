@@ -71,7 +71,7 @@ namespace DnDigital_1e.ViewModels
             this.pp = new Coin(pp, "пм");
         }
     }
-    public class Dice
+    public class Dice //Допилено
     {
         public class D20
         {
@@ -79,8 +79,8 @@ namespace DnDigital_1e.ViewModels
             public int Result => result[0]; // Первый
             public int Advantage => result.Max(); // Максимальный
             public int Disadvantage => result.Min(); // Минимальный
-            public D20() => result = new int[] { rnd.Next(20) + 1, rnd.Next(20) + 1 };
-            public D20(int i) => result = new int[] { rnd.Next(20) + 1 + i, rnd.Next(20) + 1 + i };
+            public D20() => result = [rnd.Next(20) + 1, rnd.Next(20) + 1];
+            public D20(int i) => result = [rnd.Next(20) + 1 + i, rnd.Next(20) + 1 + i];
 
             public static implicit operator int(D20 d20) => d20.Result;
         }
@@ -95,7 +95,7 @@ namespace DnDigital_1e.ViewModels
 
         public static (string expression, int result) Roll(string str) // Решаем выражение с дайсами (пример: "1к8 кол. + 3к6 псих. + 4")
         {
-            str = Regex.Replace(Regex.Replace(Regex.Replace(str, @"\++", "+"), @"\/+", "/"), @"\*+", "*");
+            str = Regex.Replace(Regex.Replace(Regex.Replace(Regex.Replace(str, @"\++", "+"), @"\/+", "/"), @"\*+", "*"), @"\-+", "-");
             string[] arrayOfWords = str.Split(' '); // Разделяем строку на слова
             List<string> a = arrayOfWords.Select(x => isDice(x) ? PerformanceRoll(x) : x).ToList(); // Обозначение дайсов перевели в результаты бросков
             string b = string.Join(" ", a); // Представление броска
@@ -136,7 +136,7 @@ namespace DnDigital_1e.ViewModels
         {
             "Легкий" => $"{ArmorClass} + ЛОВ",
             "Средний" => $"{ArmorClass} + ЛОВ (макс. 2)",
-            "Тяжелый" => $"{ArmorClass}",
+            "Тяжелый" => $"{ArmorClass}",   
             _ => throw new NotImplementedException()
         }; // Представление класса брони
         public bool DisadvantageToStealth { get; set; }     // Помеха на скрытность
