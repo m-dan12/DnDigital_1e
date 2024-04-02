@@ -115,7 +115,7 @@
 					
 				</Grid>
 			</TabItem>
-			<TabItem Header="Не главная" IsSelected="True"> <!-- {Binding #MainClasses.IsChecked, Mode=TwoWay} -->
+			<TabItem Header="Не главная" IsSelected="{Binding #MainClasses.IsChecked, Mode=TwoWay}">
 				<Grid MaxWidth="1500" ColumnDefinitions="*, *, *">
 					<ScrollViewer DockPanel.Dock="Left" Grid.ColumnSpan="{Binding ColumnSpanIfChecked}">
 						<ItemsRepeater ItemsSource="{Binding ItemsCollection}" Margin="10,0">
