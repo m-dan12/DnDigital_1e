@@ -3,20 +3,20 @@
 			 xmlns:vm="using:DnDigital_1e.ViewModels"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d"
-			 d:DesignWidth="1850" d:DesignHeight="1080"
+             mc:Ignorable="d" d:DesignWidth="1850" d:DesignHeight="1080"
 			 FontFamily="Roboto" Background="#191B1F" FontSize="18"
              x:Class="DnDigital_1e.Views.HandbookTab"
-			 x:DataType="vm:HandbookTabViewModel"
-			 xmlns:c="clr-namespace:CalcBinding;assembly=CalcBindingAva">
+			 x:DataType="vm:HandbookTabViewModel">
 	<Design.DataContext>
 		<vm:HandbookTabViewModel/>
 	</Design.DataContext>
+	<UserControl.DataContext>
+		<vm:HandbookTabViewModel/>
+	</UserControl.DataContext>
 	<UserControl.Styles>
 		<Style Selector="ToggleButton">
 			<Setter Property="Background" Value="#20232A"/>
 			<Setter Property="CornerRadius" Value="5"/>
-			<Setter Property="Margin" Value="10"/>
 			<Setter Property="HorizontalAlignment" Value="Stretch"/>
 		</Style>
 		<Style Selector="TextBox.Search">
@@ -115,12 +115,12 @@
 					
 				</Grid>
 			</TabItem>
-			<TabItem Header="Классы"				IsSelected="True"> <!-- {Binding #MainClasses.IsChecked, Mode=TwoWay} -->
+			<TabItem Header="Не главная" IsSelected="True"> <!-- {Binding #MainClasses.IsChecked, Mode=TwoWay} -->
 				<Grid MaxWidth="1500" ColumnDefinitions="*, *, *">
 					<ScrollViewer DockPanel.Dock="Left" Grid.ColumnSpan="{Binding ColumnSpanIfChecked}">
-						<ItemsRepeater ItemsSource="{Binding ClassCollection}" Margin="10,0">
+						<ItemsRepeater ItemsSource="{Binding ItemsCollection}" Margin="10,0">
 							<ItemsRepeater.Layout>
-								<UniformGridLayout ItemsStretch="Fill" Orientation="Horizontal"/>
+								<UniformGridLayout MinColumnSpacing="20" MinRowSpacing="20" ItemsStretch="Fill" Orientation="Horizontal"/>
 							</ItemsRepeater.Layout>
 							<ItemsRepeater.ItemTemplate>
 								<DataTemplate>
@@ -137,23 +137,12 @@
 									</ToggleButton>
 								</DataTemplate>
 							</ItemsRepeater.ItemTemplate>
-						</ItemsRepeater>
-						
+						</ItemsRepeater>	
 					</ScrollViewer>
 					<Border x:Name="x" Grid.Column="1" Grid.ColumnSpan="2" Margin="10, 0" Background="#23272E" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
 							IsVisible="{Binding IsAnyChecked}"/>
 				</Grid>
 			</TabItem>
-			<TabItem Header="Расы"					IsSelected="{Binding #MainRaces.IsChecked, Mode=TwoWay}"/>
-			<TabItem Header="Черты"					IsSelected="{Binding #MainFits.IsChecked, Mode=TwoWay}"/>
-			<TabItem Header="Предыстории"			IsSelected="{Binding #MainBackgrounds.IsChecked, Mode=TwoWay}"/>
-			<TabItem Header="Оружие"				IsSelected="{Binding #MainArms.IsChecked, Mode=TwoWay}"/>
-			<TabItem Header="Доспехи"				IsSelected="{Binding #MainArmors.IsChecked, Mode=TwoWay}"/>
-			<TabItem Header="Заклинания"			IsSelected="{Binding #MainSpells.IsChecked, Mode=TwoWay}"/>
-			<TabItem Header="Снаряжение"			IsSelected="{Binding #MainEquipments.IsChecked, Mode=TwoWay}"/>
-			<TabItem Header="Магические предметы"	IsSelected="{Binding #MainMagicItems.IsChecked, Mode=TwoWay}"/>
-			<TabItem Header="Бестиарий"				IsSelected="{Binding #MainMonsterManual.IsChecked, Mode=TwoWay}"/>
-			<TabItem Header="Правила"				IsSelected="{Binding #MainRules.IsChecked, Mode=TwoWay}"/>
 		</TabControl>
 	</DockPanel>
 </UserControl>
