@@ -13,6 +13,9 @@
     <Design.DataContext>
         <vm:MainWindowViewModel/>
     </Design.DataContext>
+	<Window.DataContext>
+		<vm:MainWindowViewModel/>
+	</Window.DataContext>
 
 	
 	<!-- Стили -->
@@ -105,7 +108,7 @@
 			<DockPanel>
 				<!-- Левая часть верхнего меню -->
 				<ToggleButton x:Name="LeftSubmenu" Margin="0,0,5,0"/> <!-- Скрывает/открывает левое подменю -->
-				<ToggleButton x:Name="BurgerOrCharacterOrFolder" IsVisible="{Binding #LeftSubmenu.IsChecked}"/> <!-- Бургер со вкладками справочника / Иконка перса со списком персонажей / Папка с папками и заметками приключения -->
+				<ToggleButton x:Name="Navigation" IsVisible="{Binding #LeftSubmenu.IsChecked}"/> <!-- Бургер со вкладками справочника / Иконка перса со списком персонажей / Папка с папками и заметками приключения -->
 				<ToggleButton x:Name="Bookmark" IsVisible="{Binding #LeftSubmenu.IsChecked}"/> <!-- Закладки -->
 				<ToggleButton x:Name="Search" IsVisible="{Binding #LeftSubmenu.IsChecked}"/> <!-- Поиск -->
 				
@@ -136,7 +139,19 @@
 		</Border>
 		
 		<!-- Левое подменю -->
-		<Border Classes="Submenu" IsVisible="{Binding #LeftSubmenu.IsChecked, Mode=TwoWay}"/>
+		<Border Classes="Submenu" IsVisible="{Binding #LeftSubmenu.IsChecked, Mode=TwoWay}">
+			<ItemsRepeater ItemsSource="{Binding SubmenuItems}" DataContext="">
+				<ItemsRepeater.Layout>
+					<StackLayout Orientation="Vertical" Spacing="5"/>
+				</ItemsRepeater.Layout>
+				<ItemsRepeater.ItemTemplate>
+					<DataTemplate>
+						<!--Шаблон-->
+						<ToggleButton Content="{Binding Name}"/>
+					</DataTemplate>
+				</ItemsRepeater.ItemTemplate>
+			</ItemsRepeater>
+		</Border>
 		
 		<!-- Правое подменю -->
 		<Border Classes="Submenu" DockPanel.Dock="Right" IsVisible="{Binding #RightSubmenu.IsChecked, Mode=TwoWay}"/>
