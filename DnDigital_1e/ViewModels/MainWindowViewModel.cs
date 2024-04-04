@@ -40,10 +40,9 @@ namespace DnDigital_1e.ViewModels
         public ObservableCollection<SubmenuItem> SubmenuItems { get; set; } = [];
         public MainWindowViewModel()
         {
-            
+
         }
-    }
-}
+            
 
 
 
@@ -95,8 +94,6 @@ namespace DnDigital_1e.ViewModels
         // Реализация интерфейса INotifyPropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-
-
 
     }
 }
