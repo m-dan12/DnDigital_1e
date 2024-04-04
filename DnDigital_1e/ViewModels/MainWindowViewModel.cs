@@ -16,7 +16,7 @@ namespace DnDigital_1e.ViewModels
 
         private ReactiveCommand<Unit, Unit> _closeCommand;
         private ReactiveCommand<Unit, Unit> _hideCommand;
-        private ReactiveCommand<Unit, Unit> _deployCommand;
+        private ReactiveCommand<Unit, Unit> _expandCommand;
 
         #endregion
 
@@ -28,8 +28,8 @@ namespace DnDigital_1e.ViewModels
             _closeCommand ?? (_closeCommand = ReactiveCommand.Create(CloseWindow));
         public ReactiveCommand<Unit, Unit> HideCommand =>
             _hideCommand ?? (_hideCommand = ReactiveCommand.Create(HideWindow));
-        public ReactiveCommand<Unit, Unit> DeployCommand =>
-            _deployCommand ?? (_deployCommand = ReactiveCommand.Create(DeployWindow));
+        public ReactiveCommand<Unit, Unit> ExpandCommand =>
+            _expandCommand ?? (_expandCommand = ReactiveCommand.Create(ExpandWindow));
 
         #endregion
 
@@ -47,7 +47,7 @@ namespace DnDigital_1e.ViewModels
             var window = (App.Current.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
             window.WindowState = WindowState.Minimized;
         }
-        private void DeployWindow()
+        private void ExpandWindow()
         {
             var window = (App.Current.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
             window.WindowState = window.WindowState == WindowState.Maximized ? WindowState.Normal : WindowState.Maximized;
