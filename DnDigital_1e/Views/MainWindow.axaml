@@ -7,6 +7,10 @@
 		xmlns:views="clr-namespace:DnDigital_1e.Views"
         x:Class="DnDigital_1e.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
+        ExtendClientAreaToDecorationsHint="True"
+		ExtendClientAreaTitleBarHeightHint="-1"
+        ExtendClientAreaChromeHints="NoChrome"
+		Padding="{Binding $self.OffScreenMargin}"
         Icon="/Assets/avalonia-logo.ico"
         Title="DnDigital_1e">
 
@@ -17,7 +21,6 @@
 		<vm:MainWindowViewModel/>
 	</Window.DataContext>
 
-	
 	<!-- Стили -->
     <Window.Styles>
 
@@ -25,7 +28,7 @@
 			<Setter Property="Background" Value="#191B1F"/>
 			<Setter Property="FontSize" Value="18"/>
 			<Setter Property="FontFamily" Value="Roboto"/>
-			<Setter Property="WindowState" Value="FullScreen"/>
+			<Setter Property="WindowState" Value="Maximized"/>
 		</Style>
 		
 		<Style Selector="Border">
@@ -114,9 +117,9 @@
 				
 				<!-- Правая часть верхнего меню -->
 				<!-- Кнопки свернуть, развернуть на весь экран и закрыть-->
-				<Button Classes="WinButton" Margin="0,-5,-5,-5"/>
-				<Button Classes="WinButton" Margin="0,-5"/>
-				<Button Classes="WinButton" Margin="5,-5,0,-5"/>
+				<Button Classes="WinButton" Margin="0,-5,-5,-5" Command="{Binding CloseCommand}"/>
+				<Button Classes="WinButton" Margin="0,-5" Command="{Binding DeployCommand}"/>
+				<Button Classes="WinButton" Margin="5,-5,0,-5" Command="{Binding HideCommand}"/>
 				
 				<ToggleButton x:Name="RightSubmenu" Classes="Right"/> <!-- Скрывает/открывает правое подменю -->
 				<ToggleButton x:Name="Structure" Classes="Right" IsVisible="{Binding #RightSubmenu.IsChecked}"/> <!-- Структура заметки (Онли приключение) -->
