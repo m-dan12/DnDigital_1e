@@ -1,4 +1,6 @@
 using Avalonia.Controls;
+using Avalonia.Markup.Xaml;
+using DnDigital_1e.ViewModels;
 
 namespace DnDigital_1e.Views
 {

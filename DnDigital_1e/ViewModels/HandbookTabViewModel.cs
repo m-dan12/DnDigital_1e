@@ -8,7 +8,7 @@ using System.Runtime.CompilerServices;
 
 namespace DnDigital_1e.ViewModels
 {
-    public class HandbookTabViewModel : MainWindowViewModel, INotifyPropertyChanged
+    public class HandbookTabViewModel : ViewModelBase, INotifyPropertyChanged
     {
         public class CharacterClass(string name, string engName, byte hits, string source) : ReactiveObject
         {

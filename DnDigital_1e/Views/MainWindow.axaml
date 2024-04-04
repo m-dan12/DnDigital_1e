@@ -7,6 +7,10 @@
 		xmlns:views="clr-namespace:DnDigital_1e.Views"
         x:Class="DnDigital_1e.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
+        ExtendClientAreaToDecorationsHint="True"
+		ExtendClientAreaTitleBarHeightHint="-1"
+        ExtendClientAreaChromeHints="NoChrome"
+		Padding="{Binding $self.OffScreenMargin}"
         Icon="/Assets/avalonia-logo.ico"
         Title="DnDigital_1e">
 
@@ -14,7 +18,6 @@
         <vm:MainWindowViewModel/>
     </Design.DataContext>
 
-	
 	<!-- Стили -->
     <Window.Styles>
 
@@ -22,7 +25,7 @@
 			<Setter Property="Background" Value="#191B1F"/>
 			<Setter Property="FontSize" Value="18"/>
 			<Setter Property="FontFamily" Value="Roboto"/>
-			<Setter Property="WindowState" Value="FullScreen"/>
+			<Setter Property="WindowState" Value="Maximized"/>
 		</Style>
 		
 		<Style Selector="Border">
@@ -105,15 +108,15 @@
 			<DockPanel>
 				<!-- Левая часть верхнего меню -->
 				<ToggleButton x:Name="LeftSubmenu" Margin="0,0,5,0"/> <!-- Скрывает/открывает левое подменю -->
-				<ToggleButton x:Name="BurgerOrCharacterOrFolder" IsVisible="{Binding #LeftSubmenu.IsChecked}"/> <!-- Бургер со вкладками справочника / Иконка перса со списком персонажей / Папка с папками и заметками приключения -->
+				<ToggleButton x:Name="Navigation" IsVisible="{Binding #LeftSubmenu.IsChecked}"/> <!-- Бургер со вкладками справочника / Иконка перса со списком персонажей / Папка с папками и заметками приключения -->
 				<ToggleButton x:Name="Bookmark" IsVisible="{Binding #LeftSubmenu.IsChecked}"/> <!-- Закладки -->
 				<ToggleButton x:Name="Search" IsVisible="{Binding #LeftSubmenu.IsChecked}"/> <!-- Поиск -->
 				
 				<!-- Правая часть верхнего меню -->
 				<!-- Кнопки свернуть, развернуть на весь экран и закрыть-->
-				<Button Classes="WinButton" Margin="0,-5,-5,-5"/>
-				<Button Classes="WinButton" Margin="0,-5"/>
-				<Button Classes="WinButton" Margin="5,-5,0,-5"/>
+				<Button Classes="WinButton" Margin="0,-5,-5,-5" Command="{Binding CloseCommand}"/>
+				<Button Classes="WinButton" Margin="0,-5" Command="{Binding DeployCommand}"/>
+				<Button Classes="WinButton" Margin="5,-5,0,-5" Command="{Binding HideCommand}"/>
 				
 				<ToggleButton x:Name="RightSubmenu" Classes="Right"/> <!-- Скрывает/открывает правое подменю -->
 				<ToggleButton x:Name="Structure" Classes="Right" IsVisible="{Binding #RightSubmenu.IsChecked}"/> <!-- Структура заметки (Онли приключение) -->
