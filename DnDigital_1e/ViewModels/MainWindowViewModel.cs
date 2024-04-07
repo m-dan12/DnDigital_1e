@@ -44,6 +44,24 @@ namespace DnDigital_1e.ViewModels
 
         #endregion
 
+        private bool _leftSubMenuIsChecked;
+        public bool LeftSubMenuIsChecked
+        {
+            get => _leftSubMenuIsChecked;
+            set => this.RaiseAndSetIfChanged(ref _leftSubMenuIsChecked, value);
+        }
+        private string _leftSubMenuToolTip;
+        public string LeftSubMenuToolTip
+        {
+            get => _leftSubMenuToolTip;
+            set => this.RaiseAndSetIfChanged(ref _leftSubMenuToolTip, value);
+        }
+        private bool _rightSubMenuIsChecked;
+        public bool RightSubMenuIsChecked
+        {
+            get => _rightSubMenuIsChecked;
+            set => this.RaiseAndSetIfChanged(ref _rightSubMenuIsChecked, value);
+        }
 
     }
 }
