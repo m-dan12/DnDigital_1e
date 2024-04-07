@@ -9,6 +9,5 @@ namespace DnDigital_1e.ViewModels
     {
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        public ObservableCollection<SubMenuItem> SubmenuItems { get; set; } = [];
     }
 }
