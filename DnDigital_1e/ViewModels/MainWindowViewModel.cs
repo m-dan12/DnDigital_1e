@@ -4,39 +4,28 @@ using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using System.Reactive;
 using Avalonia.Input;
+using System.Collections.ObjectModel;
 
 namespace DnDigital_1e.ViewModels
 {
-    public class MainWindowViewModel : ViewModelBase, INotifyPropertyChanged
+    public class MainWindowViewModel : ViewModelBase
     {
 
 
 
-        #region Объявление команд
+        #region Системные кнопки
 
-        private ReactiveCommand<Unit, Unit> _closeCommand;
-        private ReactiveCommand<Unit, Unit> _hideCommand;
-        private ReactiveCommand<Unit, Unit> _expandCommand;
+        // Объявление команд
+        private ReactiveCommand<Unit, Unit>? _closeCommand;
+        private ReactiveCommand<Unit, Unit>? _hideCommand;
+        private ReactiveCommand<Unit, Unit>? _expandCommand;
 
-        #endregion
+        // Инициализация команд
+        public ReactiveCommand<Unit, Unit> CloseCommand => _closeCommand ??= ReactiveCommand.Create(CloseWindow);
+        public ReactiveCommand<Unit, Unit> HideCommand => _hideCommand ??= ReactiveCommand.Create(HideWindow);
+        public ReactiveCommand<Unit, Unit> ExpandCommand => _expandCommand ??= ReactiveCommand.Create(ExpandWindow);
 
-
-
-        #region Инициализация команд
-
-        public ReactiveCommand<Unit, Unit> CloseCommand =>
-            _closeCommand ?? (_closeCommand = ReactiveCommand.Create(CloseWindow));
-        public ReactiveCommand<Unit, Unit> HideCommand =>
-            _hideCommand ?? (_hideCommand = ReactiveCommand.Create(HideWindow));
-        public ReactiveCommand<Unit, Unit> ExpandCommand =>
-            _expandCommand ?? (_expandCommand = ReactiveCommand.Create(ExpandWindow));
-
-        #endregion
-
-
-
-        #region Методы
-
+        // Методы
         private void CloseWindow()
         {
             var window = (App.Current.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
@@ -54,13 +43,6 @@ namespace DnDigital_1e.ViewModels
         }
 
         #endregion
-
-
-
-        // Реализация интерфейса INotifyPropertyChanged
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected virtual void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-
 
 
     }

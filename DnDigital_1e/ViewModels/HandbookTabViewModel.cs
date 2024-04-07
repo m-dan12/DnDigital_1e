@@ -8,7 +8,7 @@ using System.Runtime.CompilerServices;
 
 namespace DnDigital_1e.ViewModels
 {
-    public class HandbookTabViewModel : ViewModelBase, INotifyPropertyChanged
+    public class HandbookTabViewModel : MainWindowViewModel
     {
         public class CharacterClass(string name, string engName, byte hits, string source) : ReactiveObject
         {
@@ -45,8 +45,5 @@ namespace DnDigital_1e.ViewModels
                     }
                 };
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }

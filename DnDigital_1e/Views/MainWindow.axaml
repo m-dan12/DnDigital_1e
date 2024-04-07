@@ -28,6 +28,12 @@
 			<Setter Property="WindowState" Value="Maximized"/>
 		</Style>
 		
+		<Style Selector="ToolTip">
+			<Setter Property="Background" Value="#23272E"/>
+			<Setter Property="BorderThickness" Value="0"/>
+			<Setter Property="Padding" Value="0"/>
+		</Style>
+		
 		<Style Selector="Border">
 			<Setter Property="Background" Value="#23272E"/>
 			<Setter Property="CornerRadius" Value="5"/>
@@ -98,7 +104,7 @@
 				<!-- Левая часть верхнего меню -->
 				<StackPanel Orientation="Horizontal" Spacing="5" Grid.Column="0" Margin="5">
 					<ToggleButton x:Name="LeftSubmenu">
-						<Image Width="16">
+						<Image Width="18">
 							<Image.Source>
 								<SvgImage Source="/Assets/LeftSubmenuIcon.svg"/>
 							</Image.Source>
@@ -150,7 +156,7 @@
 						</Image>
 					</ToggleButton> <!-- Заклинания -->
 					<ToggleButton x:Name="RightSubmenu">
-						<Image Width="16">
+						<Image Width="18">
 							<Image.Source>
 								<SvgImage Source="/Assets/RightSubmenuIcon.svg"/>
 							</Image.Source>
@@ -197,21 +203,33 @@
 							</Image.Source>
 						</Image>
 					</ToggleButton>
-					<ToggleButton x:Name="HandBook">
+					<ToggleButton x:Name="HandBook" IsChecked="{Binding HandBookIsChecked}"
+								  ToolTip.Placement="Right" ToolTip.HorizontalOffset="10" ToolTip.VerticalOffset="0">
+						<ToolTip.Tip>
+							<TextBlock Text="Справочник" Margin="15, 5"/>
+						</ToolTip.Tip>
 						<Image Width="12">
 							<Image.Source>
 								<SvgImage Source="/Assets/HandbookIcon.svg"/>
 							</Image.Source>
 						</Image>
 					</ToggleButton>
-					<ToggleButton x:Name="Characters">
+					<ToggleButton x:Name="Characters"
+								  ToolTip.Placement="Right" ToolTip.HorizontalOffset="10" ToolTip.VerticalOffset="0">
+						<ToolTip.Tip>
+							<TextBlock Text="Персонажи" Margin="15, 5"/>
+						</ToolTip.Tip>
 						<Image Width="13">
 							<Image.Source>
 								<SvgImage Source="/Assets/CharacterIcon.svg"/>
 							</Image.Source>
 						</Image>
 					</ToggleButton>
-					<ToggleButton x:Name="Adventures">
+					<ToggleButton x:Name="Adventures"
+								  ToolTip.Placement="Right" ToolTip.HorizontalOffset="10" ToolTip.VerticalOffset="0">
+						<ToolTip.Tip>
+							<TextBlock Text="Приключения" Margin="15, 5"/>
+						</ToolTip.Tip>
 						<Image Width="16">
 							<Image.Source>
 								<SvgImage Source="/Assets/AdventureIcon.svg"/>
