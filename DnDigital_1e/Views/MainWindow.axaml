@@ -17,7 +17,8 @@
     <Design.DataContext>
         <vm:MainWindowViewModel/>
     </Design.DataContext>
-
+  
+  
 	<!-- Стили -->
     <Window.Styles>
 
@@ -27,7 +28,7 @@
 			<Setter Property="FontFamily" Value="Roboto"/>
 			<Setter Property="WindowState" Value="Maximized"/>
 		</Style>
-		
+    
 		<Style Selector="ToolTip">
 			<Setter Property="Background" Value="#23272E"/>
 			<Setter Property="BorderThickness" Value="0"/>
@@ -187,7 +188,6 @@
 						</Image>
 					</Button> <!-- Закрывает окно -->
 				</StackPanel>
-
 				
 			</Grid>		
 		</Border>
@@ -259,7 +259,9 @@
 		</Border>
 		
 		<!-- Левое подменю -->
-		<Border Classes="Submenu" IsVisible="{Binding #LeftSubmenu.IsChecked, Mode=TwoWay}"/>
+		<Border Classes="Submenu" IsVisible="{Binding #LeftSubmenu.IsChecked, Mode=TwoWay}">
+			<!--USER CONTROL, который дерево-->
+		</Border>
 		
 		<!-- Правое подменю -->
 		<Border Classes="Submenu" DockPanel.Dock="Right" IsVisible="{Binding #RightSubmenu.IsChecked, Mode=TwoWay}"/>
