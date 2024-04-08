@@ -103,7 +103,11 @@
 			<Grid ColumnDefinitions="*, auto, auto">
 				<!-- Левая часть верхнего меню -->
 				<StackPanel Orientation="Horizontal" Spacing="5" Grid.Column="0" Margin="5">
-					<ToggleButton x:Name="LeftSubmenu">
+					<ToggleButton x:Name="LeftSubmenu" IsChecked="{Binding LeftSubmenuIsChecked}"
+								  ToolTip.Placement="Right" ToolTip.HorizontalOffset="10" ToolTip.VerticalOffset="0">
+						<ToolTip.Tip>
+							<TextBlock Text="{Binding LeftSubmenuToolTip}" Margin="15, 5"/>
+						</ToolTip.Tip>
 						<Image Width="18">
 							<Image.Source>
 								<SvgImage Source="/Assets/LeftSubmenuIcon.svg"/>
@@ -134,28 +138,44 @@
 				</StackPanel>
 
 				<StackPanel Orientation="Horizontal" Spacing="5" Grid.Column="1" Margin="5">
-					<ToggleButton x:Name="Initiative" IsVisible="{Binding #RightSubmenu.IsChecked}">
+					<ToggleButton x:Name="Initiative" IsVisible="{Binding #RightSubmenu.IsChecked}"
+								  ToolTip.Placement="Bottom" ToolTip.HorizontalOffset="0" ToolTip.VerticalOffset="10">
+						<ToolTip.Tip>
+							<TextBlock Text="Инициатива" Margin="15, 5"/>
+						</ToolTip.Tip>
 						<Image Width="16">
 							<Image.Source>
 								<SvgImage Source="/Assets/InitiativeIcon.svg"/>
 							</Image.Source>
 						</Image>
 					</ToggleButton> <!-- Трекер инициативы -->
-					<ToggleButton x:Name="DiceRoller" IsVisible="{Binding #RightSubmenu.IsChecked}">
+					<ToggleButton x:Name="DiceRoller" IsVisible="{Binding #RightSubmenu.IsChecked}"
+								  ToolTip.Placement="Bottom" ToolTip.HorizontalOffset="0" ToolTip.VerticalOffset="10">
+						<ToolTip.Tip>
+							<TextBlock Text="Дайсы" Margin="15, 5"/>
+						</ToolTip.Tip>
 						<Image Width="15.59">
 							<Image.Source>
 								<SvgImage Source="/Assets/DiceRollerIcon.svg"/>
 							</Image.Source>
 						</Image>
 					</ToggleButton> <!-- Дайс-роллер -->
-					<ToggleButton x:Name="Spells" IsVisible="{Binding #RightSubmenu.IsChecked}">
+					<ToggleButton x:Name="Spells" IsVisible="{Binding #RightSubmenu.IsChecked}"
+								  ToolTip.Placement="Bottom" ToolTip.HorizontalOffset="0" ToolTip.VerticalOffset="10">
+						<ToolTip.Tip>
+							<TextBlock Text="Заклинания" Margin="15, 5"/>
+						</ToolTip.Tip>
 						<Image Width="16">
 							<Image.Source>
 								<SvgImage Source="/Assets/SpellsIcon.svg"/>
 							</Image.Source>
 						</Image>
 					</ToggleButton> <!-- Заклинания -->
-					<ToggleButton x:Name="RightSubmenu">
+					<ToggleButton x:Name="RightSubmenu" IsChecked="{Binding RightSubmenuIsChecked}"
+								  ToolTip.Placement="Left" ToolTip.HorizontalOffset="-10" ToolTip.VerticalOffset="0">
+						<ToolTip.Tip>
+							<TextBlock Text="{Binding RightSubmenuToolTip}" Margin="15, 5"/>
+						</ToolTip.Tip>
 						<Image Width="18">
 							<Image.Source>
 								<SvgImage Source="/Assets/RightSubmenuIcon.svg"/>
@@ -196,14 +216,18 @@
 		<Border Classes="VerticalMenu">
 			<Grid RowDefinitions="*, auto">
 				<StackPanel Orientation="Vertical" Spacing="10" Grid.Row="0" Margin="5">
-					<ToggleButton x:Name="HomePage">
+					<ToggleButton x:Name="HomePage"
+								  ToolTip.Placement="Right" ToolTip.HorizontalOffset="10" ToolTip.VerticalOffset="0">
+						<ToolTip.Tip>
+							<TextBlock Text="Главная" Margin="15, 5"/>
+						</ToolTip.Tip>
 						<Image Width="16">
 							<Image.Source>
 								<SvgImage Source="/Assets/HomePageIcon.svg"/>
 							</Image.Source>
 						</Image>
 					</ToggleButton>
-					<ToggleButton x:Name="HandBook" IsChecked="{Binding HandBookIsChecked}"
+					<ToggleButton x:Name="HandBook"
 								  ToolTip.Placement="Right" ToolTip.HorizontalOffset="10" ToolTip.VerticalOffset="0">
 						<ToolTip.Tip>
 							<TextBlock Text="Справочник" Margin="15, 5"/>
@@ -239,14 +263,22 @@
 				</StackPanel>
 
 				<StackPanel Orientation="Vertical" Spacing="10" Grid.Row="1" Margin="5,5,5,15">
-					<ToggleButton x:Name="LogOut">
+					<ToggleButton x:Name="Help"
+								  ToolTip.Placement="Right" ToolTip.HorizontalOffset="10" ToolTip.VerticalOffset="0">
+						<ToolTip.Tip>
+							<TextBlock Text="Справка" Margin="15, 5"/>
+						</ToolTip.Tip>
 						<Image Width="16">
 							<Image.Source>
 								<SvgImage Source="/Assets/LogOutIcon.svg"/>
 							</Image.Source>
 						</Image>
 					</ToggleButton>
-					<ToggleButton x:Name="Settings">
+					<ToggleButton x:Name="Settings"
+								  ToolTip.Placement="Right" ToolTip.HorizontalOffset="10" ToolTip.VerticalOffset="0">
+						<ToolTip.Tip>
+							<TextBlock Text="Настройки" Margin="15, 5"/>
+						</ToolTip.Tip>
 						<Image Height="18">
 							<Image.Source>
 								<SvgImage Source="/Assets/SettingsIcon.svg"/>

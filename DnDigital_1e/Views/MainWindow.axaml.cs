@@ -10,5 +10,9 @@ namespace DnDigital_1e.Views
         {
             InitializeComponent();
         }
+
+        private void Binding(object? sender, Avalonia.Input.PointerEventArgs e)
+        {
+        }
     }
 }
