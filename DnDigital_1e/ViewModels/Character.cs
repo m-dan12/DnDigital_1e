@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive.Joins;
+using System.Text;
+using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 using NCalc;
 
