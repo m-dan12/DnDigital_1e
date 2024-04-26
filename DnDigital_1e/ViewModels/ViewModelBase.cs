@@ -5,9 +5,8 @@ using static DnDigital_1e.ViewModels.MainWindowViewModel;
 
 namespace DnDigital_1e.ViewModels
 {
-    public abstract class ViewModelBase : ReactiveObject, INotifyPropertyChanged
+    public abstract class ViewModelBase : ReactiveObject
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected virtual void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+
     }
 }

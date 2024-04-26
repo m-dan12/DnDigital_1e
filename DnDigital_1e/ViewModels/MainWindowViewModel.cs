@@ -1,17 +1,35 @@
-﻿using System.ComponentModel;
+﻿using System.Reactive;
+using System.Reactive.Linq;
 using ReactiveUI;
+using ReactiveUI.Fody.Helpers;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
-using System.Reactive;
-using Avalonia.Input;
 using System.Collections.ObjectModel;
+using System.Collections.Generic;
+using System.Linq;
+using System;
+using AvaloniaEdit.Utils;
 
 namespace DnDigital_1e.ViewModels
 {
+    public class ViewResources : ReactiveObject
+    {
+        [Reactive] public Dictionary<string, int> FontSizes { get; set; } = new Dictionary<string, int>()
+        {
+            //{Binding Res.FontSizes.Title1}
+            ["Display"] = 42,   // Название приложения?? Крч вот прям на пол экрана название приложения типо
+            ["Header"] = 34,    // Заголовки страниц?? Если б мы их еще юзали
+            ["Title1"] = 28,    // Вкладки, заголовки, формы
+            ["Title2"] = 22,    // Кнопки, вкладки, заголовки, формы
+            ["Headline"] = 22,  // информационные абзацы
+            ["Body"] = 14,      // описания станций
+            ["Caption"] = 12,   // временная метка, нижние колонтитулы
+        };
+    }
+
     public class MainWindowViewModel : ViewModelBase
     {
-
-
+        [Reactive] public ViewResources Resources { get; set; } = new ViewResources();
 
         #region Системные кнопки
 
@@ -21,67 +39,88 @@ namespace DnDigital_1e.ViewModels
         private ReactiveCommand<Unit, Unit>? _expandCommand;
 
         // Инициализация команд
-        public ReactiveCommand<Unit, Unit> CloseCommand => _closeCommand ??= ReactiveCommand.Create(CloseWindow);
-        public ReactiveCommand<Unit, Unit> HideCommand => _hideCommand ??= ReactiveCommand.Create(HideWindow);
-        public ReactiveCommand<Unit, Unit> ExpandCommand => _expandCommand ??= ReactiveCommand.Create(ExpandWindow);
-
-        // Методы
-        private void CloseWindow()
-        {
-            var window = (App.Current.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
+        public ReactiveCommand<Unit, Unit> CloseCommand => _closeCommand ??= ReactiveCommand.Create(() => {
+            var window = (App.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
             window.Close();
-        }
-        private void HideWindow()
-        {
-            var window = (App.Current.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
+        });
+        public ReactiveCommand<Unit, Unit> HideCommand => _hideCommand ??= ReactiveCommand.Create(() => {
+            var window = (App.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
             window.WindowState = WindowState.Minimized;
-        }
-        private void ExpandWindow()
-        {
-            var window = (App.Current.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
+        });
+        public ReactiveCommand<Unit, Unit> ExpandCommand => _expandCommand ??= ReactiveCommand.Create(() => {
+            var window = (App.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
             window.WindowState = window.WindowState == WindowState.Maximized ? WindowState.Normal : WindowState.Maximized;
-        }
+        });
 
         #endregion
 
-        private bool _leftSubmenuIsChecked;
-        /*private bool _leftSubmenuToolTipIsVisible = true;*/
-        public string LeftSubmenuToolTip => _leftSubmenuIsChecked ? "Свернуть" : "Развернуть";
-        public bool LeftSubmenuIsChecked
+        #region Дерево навигации
+
+        public class Node : ReactiveObject
         {
-            get => _leftSubmenuIsChecked;
-            set
+            public ObservableCollection<Node>? SubNodes { get; }
+            [Reactive] public bool IsSelected { get; set; } = false;
+            public string Title { get; }
+            public Node(string title) => Title = title;
+            public Node(string title, ObservableCollection<Node> subNodes)
             {
-                _leftSubmenuIsChecked = value;
-                /*LeftSubmenuToolTipIsVisible = false;*/
-                OnPropertyChanged("LeftSubmenuIsChecked");
-                OnPropertyChanged("LeftSubmenuToolTip");
+                Title = title;
+                SubNodes = subNodes;
             }
         }
-        /*public bool LeftSubmenuToolTipIsVisible
+        public ObservableCollection<Node> Nodes { get; } = [
+                new Node("Главная"),
+                new Node("Справочник", [
+                        new Node("Классы",  [ new Node("Бард"), new Node("Варвар"), new Node("Воин"), new Node("Волшебник") ]),
+                        new Node("Расы",    [ new Node("Ааракокра"), new Node("Аасимар"), new Node("Автогном"), new Node("Багбир") ]),
+                        new Node("Черты",   [ new Node("Агент порядка"), new Node("Агрессия орков"), new Node("Адепт Белых одежд"), new Node("Адепт Красных одежд") ])
+                    ]),
+                new Node("Персонажи", [
+                        new Node("Гоблины", [ new Node("Боблин"), new Node("Воблин"), new Node("Моблин") ]),
+                        new Node("Кай"),
+                        new Node("Кас")
+                    ]),
+                new Node("Приключения", [
+                        new Node("Course of Strahd", [
+                                new Node("Баровия", [ new Node("Ирина Коляна"), new Node("Таверна"), new Node("Магазин") ]),
+                                new Node("Случайные столкновения")
+                            ])
+                    ])
+            ];
+        /*public ObservableCollection<string> getAllTiteles(ObservableCollection<Node> nodes)
         {
-            get => _leftSubmenuToolTipIsVisible;
-            set => this.RaiseAndSetIfChanged(ref _leftSubmenuToolTipIsVisible, value);
-        }
-
-        // ЕБАЛ Я В СРАКУ ЭТИ СОБЫТИЯ ПОИНТЕР ЭНТЕРЕД
-        private ReactiveCommand<Unit, Unit> _toggleButtonPointerEnterCommand;
-        public ReactiveCommand<Unit, Unit> ToggleButtonPointerEnterCommand => _toggleButtonPointerEnterCommand ??= ReactiveCommand.Create(ShowToolTip);
-        public void ShowToolTip() => LeftSubmenuToolTipIsVisible = true;*/
-
-
-        private bool _rightSubmenuIsChecked;
-        public bool RightSubmenuIsChecked
-        {
-            get => _rightSubmenuIsChecked;
-            set
+            ObservableCollection<string> titles = [];
+            foreach(Node node in nodes)
             {
-                _rightSubmenuIsChecked = value;
-                OnPropertyChanged("RightSubmenuIsChecked");
-                OnPropertyChanged("RightSubmenuToolTip");
+                titles.Add(node.Title);
+                if(node.SubNodes != null) titles.AddRange(getAllTiteles(node.SubNodes));
             }
+            return titles;
+        }*/
+        
+        [Reactive] public int SelectedTab { get; set; } = 0;
+        [ObservableAsProperty] public Node? SelectedTabNodes { get; }
+
+        #endregion
+
+        [Reactive] public bool LeftSubmenuIsChecked { get; set; } = true;
+        [Reactive] public bool RightSubmenuIsChecked { get; set; } = true;
+        [ObservableAsProperty] public string? LeftSubmenuToolTip { get; }
+        [ObservableAsProperty] public string? RightSubmenuToolTip { get; }
+        public MainWindowViewModel()
+        {
+            // Левое подменю
+            this.WhenAnyValue(vm => vm.LeftSubmenuIsChecked)
+                .Select(x => x ? "Свернуть" : "Развернуть")
+                .ToPropertyEx(this, vm => vm.LeftSubmenuToolTip);
+            // Правое подменю
+            this.WhenAnyValue(vm => vm.RightSubmenuIsChecked)
+                .Select(x => x ? "Свернуть" : "Развернуть")
+                .ToPropertyEx(this, vm => vm.RightSubmenuToolTip);
+            // Выбранная ветка страниц в зависимости от TabItems
+            this.WhenAnyValue(vm => vm.SelectedTab, vm => vm.Nodes, (index, nodes) => nodes[index])
+                .ToPropertyEx(this, vm => vm.SelectedTabNodes);
         }
-        public string RightSubmenuToolTip => _rightSubmenuIsChecked ? "Свернуть" : "Развернуть";
 
     }
 }

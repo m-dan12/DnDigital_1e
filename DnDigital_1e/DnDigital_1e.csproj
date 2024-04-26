@@ -10,12 +10,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="Controls\" />
     <Folder Include="Models\" />
     <AvaloniaResource Include="Assets\**" />
     <None Remove="Assets\classes.jpeg" />
     <None Remove="Assets\CloseWindow.svg" />
     <None Remove="Assets\ExpandWindow.svg" />
     <None Remove="Assets\HideWindow.svg" />
+    <None Remove="Assets\Icons\HelpIcon.svg" />
     <None Remove="Assets\Длительный-короткий отдых.svg" />
     <Folder Include="StylesAndDictionaries\" />
   </ItemGroup>
@@ -32,5 +34,6 @@
     <PackageReference Include="Avalonia.ReactiveUI" Version="11.0.10" />
     <PackageReference Include="Markdown.Avalonia" Version="11.0.2" />
     <PackageReference Include="ncalc" Version="1.3.8" />
+    <PackageReference Include="ReactiveUI.Fody" Version="19.5.41" />
   </ItemGroup>
 </Project>

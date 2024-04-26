@@ -1,0 +1,205 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+  <!-- Add Styles Here -->
+
+	<Style Selector="Button.WinButton">
+		<Setter Property="CornerRadius" Value="0"/>
+		<Setter Property="BorderThickness" Value="0"/>
+		<Setter Property="Width" Value="48"/>
+		<Setter Property="Height" Value="42"/>
+		<Setter Property="Background" Value="#242930"/>
+		
+		<Style Selector="^.Hide">
+			<Setter Property="ContentTemplate">
+				<DataTemplate>
+					<Svg Path="/Assets/Icons/HideWindow.svg" Width="12"/>
+				</DataTemplate>
+			</Setter>
+		</Style>
+		
+		<Style Selector="^.Expand">
+			<Setter Property="ContentTemplate">
+				<DataTemplate>
+					<Svg Path="/Assets/Icons/ExpandWindow.svg" Width="14"/>
+				</DataTemplate>
+			</Setter>
+		</Style>
+		
+		<Style Selector="^.Close">
+			<Setter Property="ContentTemplate">
+				<DataTemplate>
+					<Svg Path="/Assets/Icons/CloseWindow.svg" Width="10"/>
+				</DataTemplate>
+			</Setter>
+		</Style>
+	</Style>
+
+	<Style Selector="ToggleButton.Menu">
+		<Setter Property="Width" Value="38"/>
+		<Setter Property="Background" Value="Transparent"/>
+
+		<Style Selector="^.Vertical">
+			<Setter Property="HorizontalAlignment" Value="Center"/>
+			<Setter Property="Height" Value="38"/>
+			<Setter Property="IsEnabled" Value="{Binding !$self.IsChecked}"/>
+
+			<Setter Property="ToolTip.Placement" Value="Right"/>
+			<Setter Property="ToolTip.HorizontalOffset" Value="10"/>
+			<Setter Property="ToolTip.VerticalOffset" Value="0"/>
+
+			<Style Selector="^:disabled ContentPresenter">
+				<Setter Property="Background" Value="#DCB96D"/>
+			</Style>
+
+			<Style Selector="^.HomePage">
+				<Setter Property="ToolTip.Tip" Value="Главная"/>
+				<Setter Property="ContentTemplate">
+					<DataTemplate>
+						<Svg Path="/Assets/Icons/HomePageIcon.svg"/>
+					</DataTemplate>
+				</Setter>
+			</Style>
+
+			<Style Selector="^.HandBook">
+				<Setter Property="ToolTip.Tip" Value="Справочник"/>
+				<Setter Property="ContentTemplate">
+					<DataTemplate>
+						<Svg Path="/Assets/Icons/HandbookIcon.svg"/>
+					</DataTemplate>
+				</Setter>
+			</Style>
+
+			<Style Selector="^.Characters">
+				<Setter Property="ToolTip.Tip" Value="Персонажи"/>
+				<Setter Property="ContentTemplate">
+					<DataTemplate>
+						<Svg Path="/Assets/Icons/CharacterIcon.svg"/>
+					</DataTemplate>
+				</Setter>
+			</Style>
+
+			<Style Selector="^.Adventures">
+				<Setter Property="ToolTip.Tip" Value="Приключения"/>
+				<Setter Property="ContentTemplate">
+					<DataTemplate>
+						<Svg Path="/Assets/Icons/AdventureIcon.svg"/>
+					</DataTemplate>
+				</Setter>
+			</Style>
+
+			<Style Selector="^.Help">
+				<Setter Property="ToolTip.Tip" Value="Справка"/>
+				<Setter Property="IsEnabled" Value="True"/>
+				<Setter Property="ContentTemplate">
+					<DataTemplate>
+						<Svg Path="/Assets/Icons/HelpIcon.svg"/>
+					</DataTemplate>
+				</Setter>
+			</Style>
+
+			<Style Selector="^.Settings">
+				<Setter Property="ToolTip.Tip" Value="Настройки"/>
+				<Setter Property="IsEnabled" Value="True"/>
+				<Setter Property="ContentTemplate">
+					<DataTemplate>
+						<Svg Path="/Assets/Icons/SettingsIcon.svg"/>
+					</DataTemplate>
+				</Setter>
+			</Style>
+		</Style>
+
+		<Style Selector="^.Horizontal">
+			<Setter Property="VerticalAlignment" Value="Center"/>
+			<Setter Property="Height" Value="32"/>
+			<Setter Property="IsEnabled" Value="{Binding !$self.IsChecked}"/>
+
+			<Setter Property="ToolTip.Placement" Value="Bottom"/>
+			<Setter Property="ToolTip.HorizontalOffset" Value="0"/>
+			<Setter Property="ToolTip.VerticalOffset" Value="10"/>
+
+			<Style Selector="^:checked /template/ ContentPresenter#PART_ContentPresenter">
+				<Setter Property="Background" Value="#242930"/>
+			</Style>
+
+			<Style Selector="^.LeftSubmenu">
+				<Setter Property="ToolTip.Placement" Value="Right"/>
+				<Setter Property="ToolTip.HorizontalOffset" Value="10"/>
+				<Setter Property="ToolTip.VerticalOffset" Value="0"/>
+				<Setter Property="IsEnabled" Value="True"/>
+				<Setter Property="ContentTemplate">
+					<DataTemplate>
+						<Svg Path="/Assets/Icons/LeftSubmenuIcon.svg" Width="18"/>
+					</DataTemplate>
+				</Setter>
+			</Style>
+
+			<Style Selector="^.Navigation">
+				<Setter Property="ToolTip.Tip" Value="Навигация"/>
+				<Setter Property="ContentTemplate">
+					<DataTemplate>
+						<Svg Path="/Assets/Icons/FolderIcon.svg"/>
+					</DataTemplate>
+				</Setter>
+			</Style>
+
+			<Style Selector="^.Search">
+				<Setter Property="ToolTip.Tip" Value="Поиск"/>
+				<Setter Property="ContentTemplate">
+					<DataTemplate>
+						<Svg Path="/Assets/Icons/SearchIcon.svg"/>
+					</DataTemplate>
+				</Setter>
+			</Style>
+
+			<Style Selector="^.Bookmark">
+				<Setter Property="ToolTip.Tip" Value="Закладки"/>
+				<Setter Property="ContentTemplate">
+					<DataTemplate>
+						<Svg Path="/Assets/Icons/BookmarkIcon.svg"/>
+					</DataTemplate>
+				</Setter>
+			</Style>
+
+			<Style Selector="^.Initiative">
+				<Setter Property="ToolTip.Tip" Value="Инициатива"/>
+				<Setter Property="ContentTemplate">
+					<DataTemplate>
+						<Svg Path="/Assets/Icons/InitiativeIcon.svg"/>
+					</DataTemplate>
+				</Setter>
+			</Style>
+
+			<Style Selector="^.DiceRoller">
+				<Setter Property="ToolTip.Tip" Value="Дайсы"/>
+				<Setter Property="ContentTemplate">
+					<DataTemplate>
+						<Svg Path="/Assets/Icons/DiceRollerIcon.svg"/>
+					</DataTemplate>
+				</Setter>
+			</Style>
+
+			<Style Selector="^.Spells">
+				<Setter Property="ToolTip.Tip" Value="Заклинания"/>
+				<Setter Property="ContentTemplate">
+					<DataTemplate>
+						<Svg Path="/Assets/Icons/SpellsIcon.svg"/>
+					</DataTemplate>
+				</Setter>
+			</Style>
+
+			<Style Selector="^.RightSubmenu">
+				<Setter Property="ToolTip.Placement" Value="Left"/>
+				<Setter Property="ToolTip.HorizontalOffset" Value="-10"/>
+				<Setter Property="ToolTip.VerticalOffset" Value="0"/>
+				<Setter Property="IsEnabled" Value="True"/>
+				<Setter Property="ContentTemplate">
+					<DataTemplate>
+						<Svg Path="/Assets/Icons/RightSubmenuIcon.svg"/>
+					</DataTemplate>
+				</Setter>
+			</Style>
+		</Style>
+	</Style>
+
+</Styles>

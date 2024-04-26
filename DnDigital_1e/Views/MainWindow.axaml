@@ -18,74 +18,78 @@
         <vm:MainWindowViewModel/>
     </Design.DataContext>
 
+	<Window.Resources>
+		<SolidColorBrush x:Key="Accent" Color="#DCB96D"/>
+	</Window.Resources>
 	<!-- Стили -->
     <Window.Styles>
 
+		<StyleInclude Source="/Styles/MenuToggle.axaml"/>
+		
 		<Style Selector="Window">
 			<Setter Property="Background" Value="#191B1F"/>
 			<Setter Property="FontSize" Value="18"/>
 			<Setter Property="FontFamily" Value="Roboto"/>
 			<Setter Property="WindowState" Value="Maximized"/>
 		</Style>
+
+		<Style Selector="TextBlock">
+			<Setter Property="Foreground" Value="White"/>
+			<Setter Property="Margin" Value="15"/>
+		</Style>
+
+		<Style Selector="TabControl">
+			<Setter Property="Padding" Value="0"/>
+			<Setter Property="Margin" Value="0"/>
+			<Setter Property="BorderThickness" Value="0"/>
+			<Setter Property="CornerRadius" Value="0"/>
+			<Setter Property="TabStripPlacement" Value="Left"/>
+		</Style>
+				
+		<Style Selector="TreeViewItem">
+			<Setter Property="CornerRadius" Value="5"/>
+			<Setter Property="Margin" Value="0, 5, 0, 0"/>
+			<Setter Property="Foreground" Value="White"/>
+			<Style Selector="^.Folder">
+				<Setter Property="IsHitTestVisible" Value="False"/>
+			</Style>
+			<Style Selector="^:pointerover /template/ Border#PART_LayoutRoot">
+				<Setter Property="Background" Value="#242930" />
+			</Style>
+			<Style Selector="^:pressed /template/ Border#PART_LayoutRoot">
+				<Setter Property="Background" Value="#242930" />
+			</Style>
+			<Style Selector="^:selected /template/ Border#PART_LayoutRoot">
+				<Setter Property="Background" Value="#DCB96D" />
+			</Style>
+			<Style Selector="^:selected:pointerover /template/ Border#PART_LayoutRoot">
+				<Setter Property="Background" Value="#AC8E4C" />
+			</Style>
+		</Style>
 		
 		<Style Selector="ToolTip">
 			<Setter Property="Background" Value="#23272E"/>
 			<Setter Property="BorderThickness" Value="0"/>
 			<Setter Property="Padding" Value="0"/>
+			<Style Selector="^ TextBlock">
+				<Setter Property="Margin" Value="15, 3"/>
+			</Style>
 		</Style>
 		
 		<Style Selector="Border">
-			<Setter Property="Background" Value="#23272E"/>
-			<Setter Property="CornerRadius" Value="5"/>
-			
 			<Style Selector="^.VerticalMenu">
 				<Setter Property="DockPanel.Dock" Value="Left"/>
-				<Setter Property="Width" Value="44"/>
+				<Setter Property="Width" Value="48"/>
 				<Setter Property="CornerRadius" Value="0"/>
 				<Setter Property="Background" Value="#2E343C"/>
-				
-				<Style Selector="^ ToggleButton">
-					<Setter Property="HorizontalAlignment" Value="Center"/>
-					<Setter Property="Height" Value="34"/>
-					<Setter Property="IsEnabled" Value="{Binding !$self.IsChecked}"/>
-					<Setter Property="Width" Value="34"/>
-					<Setter Property="Background" Value="Transparent"/>
-				</Style>
 			</Style>
 			
 			<Style Selector="^.HorizontalMenu">
 				<Setter Property="DockPanel.Dock" Value="Top"/>
-				<Setter Property="Height" Value="36"/>
+				<Setter Property="Height" Value="42"/>
 				<Setter Property="CornerRadius" Value="0"/>
 				<Setter Property="Background" Value="#2E343C"/>
-				
-				<Style Selector="^ ToggleButton">
-					<Setter Property="VerticalAlignment" Value="Center"/>
-					<Setter Property="Height" Value="26"/>
-					<Setter Property="Width" Value="34"/>
-					<Setter Property="Background" Value="Transparent"/>
-				</Style>
 			</Style>
-
-			<Style Selector="^.Submenu">
-				<Setter Property="Background" Value="#23272E"/>
-				<Setter Property="DockPanel.Dock" Value="Left"/>
-				<Setter Property="CornerRadius" Value="0"/>
-				<Setter Property="Width" Value="300"/>
-			</Style>
-		</Style>
-		
-		<Style Selector="Button.WinButton">
-			<Setter Property="CornerRadius" Value="0"/>
-			<Setter Property="BorderThickness" Value="0"/>
-			<Setter Property="Width" Value="44"/>
-			<Setter Property="Height" Value="36"/>
-			<Setter Property="Background" Value="#242930"/>
-		</Style>
-
-		<Style Selector="TextBlock">
-			<Setter Property="Foreground" Value="White"/>
-			<Setter Property="Margin" Value="15"/>
 		</Style>
 
 		<Style Selector="TabItem">
@@ -101,113 +105,26 @@
 		<!-- Верхнее меню -->
 		<Border Classes="HorizontalMenu">
 			<Grid ColumnDefinitions="*, auto, auto">
-				<!-- Левая часть верхнего меню -->
+				
 				<StackPanel Orientation="Horizontal" Spacing="5" Grid.Column="0" Margin="5">
-					<ToggleButton x:Name="LeftSubmenu" IsChecked="{Binding LeftSubmenuIsChecked}"
-								  ToolTip.Placement="Right" ToolTip.HorizontalOffset="10" ToolTip.VerticalOffset="0">
-						<ToolTip.Tip>
-							<TextBlock Text="{Binding LeftSubmenuToolTip}" Margin="15, 5"/>
-						</ToolTip.Tip>
-						<Image Width="18">
-							<Image.Source>
-								<SvgImage Source="/Assets/LeftSubmenuIcon.svg"/>
-							</Image.Source>
-						</Image>
-					</ToggleButton> <!-- Скрывает/открывает левое подменю -->
-					<ToggleButton x:Name="Navigation" IsVisible="{Binding #LeftSubmenu.IsChecked}">
-						<Image Width="16">
-							<Image.Source>
-								<SvgImage Source="/Assets/FolderIcon.svg"/>
-							</Image.Source>
-						</Image>
-					</ToggleButton> <!-- Бургер со вкладками справочника / Иконка перса со списком персонажей / Папка с папками и заметками приключения -->
-					<ToggleButton x:Name="Bookmark" IsVisible="{Binding #LeftSubmenu.IsChecked}">
-						<Image Width="12">
-							<Image.Source>
-								<SvgImage Source="/Assets/BookmarkIcon.svg"/>
-							</Image.Source>
-						</Image>
-					</ToggleButton> <!-- Закладки -->
-					<ToggleButton x:Name="Search" IsVisible="{Binding #LeftSubmenu.IsChecked}">
-						<Image Width="15.24">
-							<Image.Source>
-								<SvgImage Source="/Assets/SearchIcon.svg"/>
-							</Image.Source>
-						</Image>
-					</ToggleButton> <!-- Поиск -->
+					<ToggleButton x:Name="LeftSubmenu" Classes="Menu Horizontal LeftSubmenu" IsChecked="{Binding LeftSubmenuIsChecked}"/>
+					<ToggleButton x:Name="Navigation" Classes="Menu Horizontal Navigation" IsVisible="{Binding #LeftSubmenu.IsChecked}" IsChecked="True"/>
+					<ToggleButton x:Name="Search" Classes="Menu Horizontal Search" IsVisible="{Binding #LeftSubmenu.IsChecked}"/>
+					<ToggleButton x:Name="Bookmark" Classes="Menu Horizontal Bookmark" IsVisible="{Binding #LeftSubmenu.IsChecked}" ToolTip.Tip="{Binding LeftSubmenuToolTip}"/>
 				</StackPanel>
 
 				<StackPanel Orientation="Horizontal" Spacing="5" Grid.Column="1" Margin="5">
-					<ToggleButton x:Name="Initiative" IsVisible="{Binding #RightSubmenu.IsChecked}"
-								  ToolTip.Placement="Bottom" ToolTip.HorizontalOffset="0" ToolTip.VerticalOffset="10">
-						<ToolTip.Tip>
-							<TextBlock Text="Инициатива" Margin="15, 5"/>
-						</ToolTip.Tip>
-						<Image Width="16">
-							<Image.Source>
-								<SvgImage Source="/Assets/InitiativeIcon.svg"/>
-							</Image.Source>
-						</Image>
-					</ToggleButton> <!-- Трекер инициативы -->
-					<ToggleButton x:Name="DiceRoller" IsVisible="{Binding #RightSubmenu.IsChecked}"
-								  ToolTip.Placement="Bottom" ToolTip.HorizontalOffset="0" ToolTip.VerticalOffset="10">
-						<ToolTip.Tip>
-							<TextBlock Text="Дайсы" Margin="15, 5"/>
-						</ToolTip.Tip>
-						<Image Width="15.59">
-							<Image.Source>
-								<SvgImage Source="/Assets/DiceRollerIcon.svg"/>
-							</Image.Source>
-						</Image>
-					</ToggleButton> <!-- Дайс-роллер -->
-					<ToggleButton x:Name="Spells" IsVisible="{Binding #RightSubmenu.IsChecked}"
-								  ToolTip.Placement="Bottom" ToolTip.HorizontalOffset="0" ToolTip.VerticalOffset="10">
-						<ToolTip.Tip>
-							<TextBlock Text="Заклинания" Margin="15, 5"/>
-						</ToolTip.Tip>
-						<Image Width="16">
-							<Image.Source>
-								<SvgImage Source="/Assets/SpellsIcon.svg"/>
-							</Image.Source>
-						</Image>
-					</ToggleButton> <!-- Заклинания -->
-					<ToggleButton x:Name="RightSubmenu" IsChecked="{Binding RightSubmenuIsChecked}"
-								  ToolTip.Placement="Left" ToolTip.HorizontalOffset="-10" ToolTip.VerticalOffset="0">
-						<ToolTip.Tip>
-							<TextBlock Text="{Binding RightSubmenuToolTip}" Margin="15, 5"/>
-						</ToolTip.Tip>
-						<Image Width="18">
-							<Image.Source>
-								<SvgImage Source="/Assets/RightSubmenuIcon.svg"/>
-							</Image.Source>
-						</Image>
-					</ToggleButton> <!-- Скрывает/открывает правое подменю -->
+					<ToggleButton x:Name="Initiative" Classes="Menu Horizontal Initiative" IsVisible="{Binding #RightSubmenu.IsChecked}"/>
+					<ToggleButton x:Name="DiceRoller" Classes="Menu Horizontal DiceRoller" IsVisible="{Binding #RightSubmenu.IsChecked}"/>
+					<ToggleButton x:Name="Spells" Classes="Menu Horizontal Spells" IsVisible="{Binding #RightSubmenu.IsChecked}"/>
+					<ToggleButton x:Name="RightSubmenu" Classes="Menu Horizontal RightSubmenu" IsChecked="{Binding RightSubmenuIsChecked}" ToolTip.Tip="{Binding RightSubmenuToolTip}"/>
 				</StackPanel>
 				
 				<StackPanel Orientation="Horizontal" Grid.Column="2">
-					<Button Classes="WinButton" Command="{Binding HideCommand}">
-						<Image Width="12">
-							<Image.Source>
-								<SvgImage Source="/Assets/HideWindow.svg"/>
-							</Image.Source>
-						</Image>
-					</Button> <!-- Скрывает окно в панель задач -->
-					<Button Classes="WinButton" Command="{Binding ExpandCommand}">
-						<Image Width="14">
-							<Image.Source>
-								<SvgImage Source="/Assets/ExpandWindow.svg"/>
-							</Image.Source>
-						</Image>
-					</Button> <!-- Максимизирует/нормализирует размер окна -->
-					<Button Classes="WinButton" Command="{Binding CloseCommand}">
-						<Image Width="10">
-							<Image.Source>
-								<SvgImage Source="/Assets/CloseWindow.svg"/>
-							</Image.Source>
-						</Image>
-					</Button> <!-- Закрывает окно -->
+					<Button Classes="WinButton Hide" Command="{Binding HideCommand}"/>
+					<Button Classes="WinButton Expand" Command="{Binding ExpandCommand}"/>
+					<Button Classes="WinButton Close" Command="{Binding CloseCommand}"/>
 				</StackPanel>
-
 				
 			</Grid>		
 		</Border>
@@ -215,91 +132,91 @@
 		<!-- Левое меню -->
 		<Border Classes="VerticalMenu">
 			<Grid RowDefinitions="*, auto">
+				
 				<StackPanel Orientation="Vertical" Spacing="10" Grid.Row="0" Margin="5">
-					<ToggleButton x:Name="HomePage"
-								  ToolTip.Placement="Right" ToolTip.HorizontalOffset="10" ToolTip.VerticalOffset="0">
-						<ToolTip.Tip>
-							<TextBlock Text="Главная" Margin="15, 5"/>
-						</ToolTip.Tip>
-						<Image Width="16">
-							<Image.Source>
-								<SvgImage Source="/Assets/HomePageIcon.svg"/>
-							</Image.Source>
-						</Image>
-					</ToggleButton>
-					<ToggleButton x:Name="HandBook"
-								  ToolTip.Placement="Right" ToolTip.HorizontalOffset="10" ToolTip.VerticalOffset="0">
-						<ToolTip.Tip>
-							<TextBlock Text="Справочник" Margin="15, 5"/>
-						</ToolTip.Tip>
-						<Image Width="12">
-							<Image.Source>
-								<SvgImage Source="/Assets/HandbookIcon.svg"/>
-							</Image.Source>
-						</Image>
-					</ToggleButton>
-					<ToggleButton x:Name="Characters"
-								  ToolTip.Placement="Right" ToolTip.HorizontalOffset="10" ToolTip.VerticalOffset="0">
-						<ToolTip.Tip>
-							<TextBlock Text="Персонажи" Margin="15, 5"/>
-						</ToolTip.Tip>
-						<Image Width="13">
-							<Image.Source>
-								<SvgImage Source="/Assets/CharacterIcon.svg"/>
-							</Image.Source>
-						</Image>
-					</ToggleButton>
-					<ToggleButton x:Name="Adventures"
-								  ToolTip.Placement="Right" ToolTip.HorizontalOffset="10" ToolTip.VerticalOffset="0">
-						<ToolTip.Tip>
-							<TextBlock Text="Приключения" Margin="15, 5"/>
-						</ToolTip.Tip>
-						<Image Width="16">
-							<Image.Source>
-								<SvgImage Source="/Assets/AdventureIcon.svg"/>
-							</Image.Source>
-						</Image>
-					</ToggleButton>
+					<ToggleButton x:Name="HomePage" Classes="Menu Vertical HomePage" IsChecked="True"/>
+					<ToggleButton x:Name="HandBook" Classes="Menu Vertical HandBook"/>
+					<ToggleButton x:Name="Characters" Classes="Menu Vertical Characters"/>
+					<ToggleButton x:Name="Adventures" Classes="Menu Vertical Adventures"/>
 				</StackPanel>
 
 				<StackPanel Orientation="Vertical" Spacing="10" Grid.Row="1" Margin="5,5,5,15">
-					<ToggleButton x:Name="Help"
-								  ToolTip.Placement="Right" ToolTip.HorizontalOffset="10" ToolTip.VerticalOffset="0">
-						<ToolTip.Tip>
-							<TextBlock Text="Справка" Margin="15, 5"/>
-						</ToolTip.Tip>
-						<Image Width="16">
-							<Image.Source>
-								<SvgImage Source="/Assets/LogOutIcon.svg"/>
-							</Image.Source>
-						</Image>
-					</ToggleButton>
-					<ToggleButton x:Name="Settings"
-								  ToolTip.Placement="Right" ToolTip.HorizontalOffset="10" ToolTip.VerticalOffset="0">
-						<ToolTip.Tip>
-							<TextBlock Text="Настройки" Margin="15, 5"/>
-						</ToolTip.Tip>
-						<Image Height="18">
-							<Image.Source>
-								<SvgImage Source="/Assets/SettingsIcon.svg"/>
-							</Image.Source>
-						</Image>
-					</ToggleButton>
+					<ToggleButton x:Name="Help" Classes="Menu Vertical Help"/>
+					<ToggleButton x:Name="Settings" Classes="Menu Vertical Settings"/>
 				</StackPanel>
 				
 			</Grid>
 		</Border>
 		
 		<!-- Левое подменю -->
-		<Border Classes="Submenu" IsVisible="{Binding #LeftSubmenu.IsChecked, Mode=TwoWay}"/>
+		<Border x:Name="LeftSubmenuBorder" IsVisible="{Binding #LeftSubmenu.IsChecked, Mode=TwoWay}"
+				Width="350" CornerRadius="0" Background="#23272E">
+			<DockPanel>
+				<TabControl DockPanel.Dock="Top" Margin="10">
+					<TabItem Header="Навигация" IsSelected="{Binding #Navigation.IsChecked, Mode=TwoWay}">
+						<StackPanel Orientation="Vertical" HorizontalAlignment="Stretch">
+							<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="5">
+								<!-- Новая заметка //Нет в справочнике -->
+								<Button Height="26" Width="30"/>
+								<!-- Новая папка //Нет в справочнике -->
+								<Button Height="26" Width="30"/>
+								<!-- Порядок сортировки -->
+								<Button Height="26" Width="30"/>
+								<!-- Свернуть все -->
+								<Button Height="26" Width="30"/>
+							</StackPanel>
+						</StackPanel>
+					</TabItem>
+					<TabItem Header="Поиск" IsSelected="{Binding #Search.IsChecked, Mode=TwoWay}">
+						<Grid ColumnDefinitions="*, auto">
+							<Border Height="36" Background="#10FFFFFF" Margin="0,0,5,0" CornerRadius="5">
+								<Grid ColumnDefinitions="auto, *, auto">
+									<Svg Path="/Assets/Icons/SearchIcon.svg" Width="16" Margin="10,0"/>
+									<AutoCompleteBox Grid.Column="1" Background="Transparent" CornerRadius="0" BorderThickness="0"/>
+									<ToggleButton Width="30" Height="26" Grid.Column="2" Margin="5"/>
+								</Grid>
+							</Border>
+							<ToggleButton Height="36" Width="36" Grid.Column="1"/>
+						</Grid>
+					</TabItem>
+					<TabItem Header="Избранное" IsSelected="{Binding #Bookmark.IsChecked, Mode=TwoWay}">
+						<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="5">
+							<!-- Добавить в закладки текущую вкладку -->
+							<Button Height="26" Width="30"/>
+							<!-- Новая группа закладок -->
+							<Button Height="26" Width="30"/>
+							<!-- Свернуть все -->
+							<Button Height="26" Width="30"/>
+						</StackPanel>
+					</TabItem>
+				</TabControl>
+				<ScrollViewer>
+					<StackPanel Orientation="Vertical">
+						<Button HorizontalAlignment="Stretch" Content="{Binding SelectedTabNodes.Title}" FontWeight="Bold" FontSize="{Binding Resources.FontSizes[Body]}" Background="Transparent" Margin="0,5"/>
+						<TreeView ItemsSource="{Binding SelectedTabNodes.SubNodes}" Background="{Binding #LeftSubmenuBorder.Background}">
+							<TreeView.ItemsPanel>
+								<ItemsPanelTemplate>
+									<StackPanel Orientation="Vertical" Spacing="5"/>
+								</ItemsPanelTemplate>
+							</TreeView.ItemsPanel>
+							<TreeView.ItemTemplate>
+								<TreeDataTemplate ItemsSource="{Binding SubNodes}">
+									<TextBlock Text="{Binding Title}" FontSize="14" Padding="0" Margin="0"/>
+								</TreeDataTemplate>
+							</TreeView.ItemTemplate>
+						</TreeView>
+					</StackPanel>
+				</ScrollViewer>
+			</DockPanel>
+		</Border>
 		
 		<!-- Правое подменю -->
 		<Border Classes="Submenu" DockPanel.Dock="Right" IsVisible="{Binding #RightSubmenu.IsChecked, Mode=TwoWay}"/>
 
 		<!-- Страницы -->
-		<TabControl Padding="0" Margin="0" BorderThickness="0" CornerRadius="0" TabStripPlacement="Left">
+		<TabControl SelectedIndex="{Binding SelectedTab}">
 
-			<TabItem Header="Главная" IsSelected="{Binding IsChecked, ElementName=HomePage, Mode=TwoWay}"/>
+			<TabItem Header="Главная" IsSelected="{Binding #HomePage.IsChecked, Mode=TwoWay}"/>
 			<TabItem Header="Справочник" IsSelected="{Binding #HandBook.IsChecked, Mode=TwoWay}">
 				<views:HandbookTab/>
 			</TabItem>
