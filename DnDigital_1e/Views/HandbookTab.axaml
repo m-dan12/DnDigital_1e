@@ -161,7 +161,7 @@
 								<ToggleButton Content="Галерея"/>
 							</StackPanel>
 							<Grid ColumnDefinitions="*, *">
-								<TextBox Text="" x:Name="MdTest"/>
+								<TextBox x:Name="MdTest"/>
 								<md:MarkdownScrollViewer xml:space="preserve" Grid.Column="1"
 													 Markdown="{Binding #MdTest.Text}"/>
 							</Grid>

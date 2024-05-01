@@ -29,11 +29,12 @@ namespace DnDigital_1e.ViewModels
         public HandbookTabViewModel()
         {
             this.WhenAnyValue(vm => vm.ItemsCollection)
-                .Select(items => items.Any(item => item.IsChecked))
+                .SelectMany(collection => collection.Select(item => item.WhenAnyValue(x => x.IsChecked)))
+                .Merge()
+                .Select(_ => ItemsCollection.Any(item => item.IsChecked))
                 .ToPropertyEx(this, vm => vm.IsAnyChecked);
 
-            this.WhenAnyValue(vm => vm.ItemsCollection)
-                .Select(items => items.Any(item => item.IsChecked))
+            this.WhenAnyValue(vm => vm.IsAnyChecked)
                 .Select(x => x ? 1 : 3)
                 .ToPropertyEx(this, vm => vm.ColumnSpanIfChecked);
         }

@@ -2,7 +2,22 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
   <!-- Add Styles Here -->
-
+	<Styles.Resources>
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceInclude Source="/Styles/Colors.axaml"/>
+			</ResourceDictionary.MergedDictionaries>
+		</ResourceDictionary>
+	</Styles.Resources>
+	<Design.PreviewWith>
+		<Border Background="{DynamicResource Dark}" Width="150" Padding="10">
+			<StackPanel Spacing="10">
+				<ToggleButton Classes="Menu Horizontal Navigation" HorizontalAlignment="Left"/>
+				<ToggleButton Classes="Menu Vertical HandBook" HorizontalAlignment="Left"/>
+			</StackPanel>
+		</Border>
+	</Design.PreviewWith>
+	
 	<Style Selector="Button.WinButton">
 		<Setter Property="CornerRadius" Value="0"/>
 		<Setter Property="BorderThickness" Value="0"/>
@@ -48,8 +63,8 @@
 			<Setter Property="ToolTip.HorizontalOffset" Value="10"/>
 			<Setter Property="ToolTip.VerticalOffset" Value="0"/>
 
-			<Style Selector="^:disabled ContentPresenter">
-				<Setter Property="Background" Value="#DCB96D"/>
+			<Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter, ^:pressed /template/ ContentPresenter#PART_ContentPresenter, ^:disabled /template/ ContentPresenter#PART_ContentPresenter">
+				<Setter Property="Background" Value="{DynamicResource Accent}"/>
 			</Style>
 
 			<Style Selector="^.HomePage">
@@ -59,6 +74,13 @@
 						<Svg Path="/Assets/Icons/HomePageIcon.svg"/>
 					</DataTemplate>
 				</Setter>
+				<Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter, ^:pressed /template/ ContentPresenter#PART_ContentPresenter, ^:disabled /template/ ContentPresenter#PART_ContentPresenter">
+					<Setter Property="ContentTemplate">
+						<DataTemplate>
+							<Svg Path="/Assets/SelectedIcons/HomePageIcon.svg" Width="18"/>
+						</DataTemplate>
+					</Setter>
+				</Style>
 			</Style>
 
 			<Style Selector="^.HandBook">
@@ -68,6 +90,13 @@
 						<Svg Path="/Assets/Icons/HandbookIcon.svg"/>
 					</DataTemplate>
 				</Setter>
+				<Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter, ^:pressed /template/ ContentPresenter#PART_ContentPresenter, ^:disabled /template/ ContentPresenter#PART_ContentPresenter">
+					<Setter Property="ContentTemplate">
+						<DataTemplate>
+							<Svg Path="/Assets/SelectedIcons/HandbookIcon.svg" Width="18"/>
+						</DataTemplate>
+					</Setter>
+				</Style>
 			</Style>
 
 			<Style Selector="^.Characters">
@@ -77,6 +106,13 @@
 						<Svg Path="/Assets/Icons/CharacterIcon.svg"/>
 					</DataTemplate>
 				</Setter>
+				<Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter, ^:pressed /template/ ContentPresenter#PART_ContentPresenter, ^:disabled /template/ ContentPresenter#PART_ContentPresenter">
+					<Setter Property="ContentTemplate">
+						<DataTemplate>
+							<Svg Path="/Assets/SelectedIcons/CharacterIcon.svg" Width="18"/>
+						</DataTemplate>
+					</Setter>
+				</Style>
 			</Style>
 
 			<Style Selector="^.Adventures">
@@ -86,6 +122,13 @@
 						<Svg Path="/Assets/Icons/AdventureIcon.svg"/>
 					</DataTemplate>
 				</Setter>
+				<Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter, ^:pressed /template/ ContentPresenter#PART_ContentPresenter, ^:disabled /template/ ContentPresenter#PART_ContentPresenter">
+					<Setter Property="ContentTemplate">
+						<DataTemplate>
+							<Svg Path="/Assets/SelectedIcons/AdventureIcon.svg" Width="18"/>
+						</DataTemplate>
+					</Setter>
+				</Style>
 			</Style>
 
 			<Style Selector="^.Help">
@@ -96,6 +139,13 @@
 						<Svg Path="/Assets/Icons/HelpIcon.svg"/>
 					</DataTemplate>
 				</Setter>
+				<Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter, ^:pressed /template/ ContentPresenter#PART_ContentPresenter, ^:disabled /template/ ContentPresenter#PART_ContentPresenter">
+					<Setter Property="ContentTemplate">
+						<DataTemplate>
+							<Svg Path="/Assets/SelectedIcons/HelpIcon.svg" Width="18"/>
+						</DataTemplate>
+					</Setter>
+				</Style>
 			</Style>
 
 			<Style Selector="^.Settings">
@@ -106,6 +156,13 @@
 						<Svg Path="/Assets/Icons/SettingsIcon.svg"/>
 					</DataTemplate>
 				</Setter>
+				<Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter, ^:pressed /template/ ContentPresenter#PART_ContentPresenter, ^:disabled /template/ ContentPresenter#PART_ContentPresenter">
+					<Setter Property="ContentTemplate">
+						<DataTemplate>
+							<Svg Path="/Assets/SelectedIcons/SettingsIcon.svg" Width="18"/>
+						</DataTemplate>
+					</Setter>
+				</Style>
 			</Style>
 		</Style>
 
@@ -118,8 +175,13 @@
 			<Setter Property="ToolTip.HorizontalOffset" Value="0"/>
 			<Setter Property="ToolTip.VerticalOffset" Value="10"/>
 
+			<Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter, ^:pressed /template/ ContentPresenter#PART_ContentPresenter, ^:disabled /template/ ContentPresenter#PART_ContentPresenter">
+				<Setter Property="BorderBrush" Value="{DynamicResource Accent}"/>
+				<Setter Property="BorderThickness" Value="1"/>
+				<Setter Property="Background" Value="Transparent"/>
+			</Style>
 			<Style Selector="^:checked /template/ ContentPresenter#PART_ContentPresenter">
-				<Setter Property="Background" Value="#242930"/>
+				<Setter Property="Background" Value="Transparent"/>
 			</Style>
 
 			<Style Selector="^.LeftSubmenu">
@@ -132,6 +194,13 @@
 						<Svg Path="/Assets/Icons/LeftSubmenuIcon.svg" Width="18"/>
 					</DataTemplate>
 				</Setter>
+				<Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter, ^:pressed /template/ ContentPresenter#PART_ContentPresenter, ^:disabled /template/ ContentPresenter#PART_ContentPresenter">
+					<Setter Property="ContentTemplate">
+						<DataTemplate>
+							<Svg Path="/Assets/SelectedIcons/LeftSubmenuIcon.svg" Width="18"/>
+						</DataTemplate>
+					</Setter>
+				</Style>
 			</Style>
 
 			<Style Selector="^.Navigation">
@@ -141,6 +210,13 @@
 						<Svg Path="/Assets/Icons/FolderIcon.svg"/>
 					</DataTemplate>
 				</Setter>
+				<Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter, ^:pressed /template/ ContentPresenter#PART_ContentPresenter, ^:disabled /template/ ContentPresenter#PART_ContentPresenter">
+					<Setter Property="ContentTemplate">
+						<DataTemplate>
+							<Svg Path="/Assets/SelectedIcons/FolderIcon.svg" Width="18"/>
+						</DataTemplate>
+					</Setter>
+				</Style>
 			</Style>
 
 			<Style Selector="^.Search">
@@ -150,6 +226,13 @@
 						<Svg Path="/Assets/Icons/SearchIcon.svg"/>
 					</DataTemplate>
 				</Setter>
+				<Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter, ^:pressed /template/ ContentPresenter#PART_ContentPresenter, ^:disabled /template/ ContentPresenter#PART_ContentPresenter">
+					<Setter Property="ContentTemplate">
+						<DataTemplate>
+							<Svg Path="/Assets/SelectedIcons/SearchIcon.svg" Width="18"/>
+						</DataTemplate>
+					</Setter>
+				</Style>
 			</Style>
 
 			<Style Selector="^.Bookmark">
@@ -159,6 +242,13 @@
 						<Svg Path="/Assets/Icons/BookmarkIcon.svg"/>
 					</DataTemplate>
 				</Setter>
+				<Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter, ^:pressed /template/ ContentPresenter#PART_ContentPresenter, ^:disabled /template/ ContentPresenter#PART_ContentPresenter">
+					<Setter Property="ContentTemplate">
+						<DataTemplate>
+							<Svg Path="/Assets/SelectedIcons/BookmarkIcon.svg" Width="18"/>
+						</DataTemplate>
+					</Setter>
+				</Style>
 			</Style>
 
 			<Style Selector="^.Initiative">
@@ -168,6 +258,13 @@
 						<Svg Path="/Assets/Icons/InitiativeIcon.svg"/>
 					</DataTemplate>
 				</Setter>
+				<Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter, ^:pressed /template/ ContentPresenter#PART_ContentPresenter, ^:disabled /template/ ContentPresenter#PART_ContentPresenter">
+					<Setter Property="ContentTemplate">
+						<DataTemplate>
+							<Svg Path="/Assets/SelectedIcons/InitiativeIcon.svg" Width="18"/>
+						</DataTemplate>
+					</Setter>
+				</Style>
 			</Style>
 
 			<Style Selector="^.DiceRoller">
@@ -177,6 +274,13 @@
 						<Svg Path="/Assets/Icons/DiceRollerIcon.svg"/>
 					</DataTemplate>
 				</Setter>
+				<Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter, ^:pressed /template/ ContentPresenter#PART_ContentPresenter, ^:disabled /template/ ContentPresenter#PART_ContentPresenter">
+					<Setter Property="ContentTemplate">
+						<DataTemplate>
+							<Svg Path="/Assets/SelectedIcons/DiceRollerIcon.svg" Width="18"/>
+						</DataTemplate>
+					</Setter>
+				</Style>
 			</Style>
 
 			<Style Selector="^.Spells">
@@ -186,6 +290,13 @@
 						<Svg Path="/Assets/Icons/SpellsIcon.svg"/>
 					</DataTemplate>
 				</Setter>
+				<Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter, ^:pressed /template/ ContentPresenter#PART_ContentPresenter, ^:disabled /template/ ContentPresenter#PART_ContentPresenter">
+					<Setter Property="ContentTemplate">
+						<DataTemplate>
+							<Svg Path="/Assets/SelectedIcons/SpellsIcon.svg" Width="18"/>
+						</DataTemplate>
+					</Setter>
+				</Style>
 			</Style>
 
 			<Style Selector="^.RightSubmenu">
@@ -198,6 +309,13 @@
 						<Svg Path="/Assets/Icons/RightSubmenuIcon.svg"/>
 					</DataTemplate>
 				</Setter>
+				<Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter, ^:pressed /template/ ContentPresenter#PART_ContentPresenter, ^:disabled /template/ ContentPresenter#PART_ContentPresenter">
+					<Setter Property="ContentTemplate">
+						<DataTemplate>
+							<Svg Path="/Assets/SelectedIcons/RightSubmenuIcon.svg" Width="18"/>
+						</DataTemplate>
+					</Setter>
+				</Style>
 			</Style>
 		</Style>
 	</Style>

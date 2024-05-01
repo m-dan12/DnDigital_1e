@@ -9,12 +9,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System;
 using AvaloniaEdit.Utils;
+using Avalonia.Media;
+
 
 namespace DnDigital_1e.ViewModels
 {
     public class ViewResources : ReactiveObject
     {
-        [Reactive] public Dictionary<string, int> FontSizes { get; set; } = new Dictionary<string, int>()
+        public Dictionary<string, int> FontSizes { get; } = new Dictionary<string, int>()
         {
             //{Binding Res.FontSizes.Title1}
             ["Display"] = 42,   // Название приложения?? Крч вот прям на пол экрана название приложения типо
@@ -25,11 +27,15 @@ namespace DnDigital_1e.ViewModels
             ["Body"] = 14,      // описания станций
             ["Caption"] = 12,   // временная метка, нижние колонтитулы
         };
+        public Dictionary<string, SolidColorBrush> Colors { get; } = new Dictionary<string, SolidColorBrush>()
+        {
+            ["Accent"] = new SolidColorBrush(Color.FromRgb(255,255,255)),
+        };
     }
 
     public class MainWindowViewModel : ViewModelBase
     {
-        [Reactive] public ViewResources Resources { get; set; } = new ViewResources();
+        public ViewResources Resources { get; } = new ViewResources();
 
         #region Системные кнопки
 
@@ -71,9 +77,17 @@ namespace DnDigital_1e.ViewModels
         public ObservableCollection<Node> Nodes { get; } = [
                 new Node("Главная"),
                 new Node("Справочник", [
-                        new Node("Классы",  [ new Node("Бард"), new Node("Варвар"), new Node("Воин"), new Node("Волшебник") ]),
-                        new Node("Расы",    [ new Node("Ааракокра"), new Node("Аасимар"), new Node("Автогном"), new Node("Багбир") ]),
-                        new Node("Черты",   [ new Node("Агент порядка"), new Node("Агрессия орков"), new Node("Адепт Белых одежд"), new Node("Адепт Красных одежд") ])
+                        new Node("Классы", [ new Node("Бард"), new Node("Варвар"), new Node("Воин"), new Node("Волшебник") ]),
+                        new Node("Расы", [ new Node("Ааракокра"), new Node("Аасимар"), new Node("Автогном"), new Node("Багбир") ]),
+                        new Node("Черты", [ new Node("Агент порядка"), new Node("Агрессия орков"), new Node("Адепт Белых одежд"), new Node("Адепт Красных одежд") ]),
+                        new Node("Предыстроии", []),
+                        new Node("Оружие", []),
+                        new Node("Доспехи", []),
+                        new Node("Снаряжение", []),
+                        new Node("Заклинания", []),
+                        new Node("Магические предметы", []),
+                        new Node("Бестиарий", []),
+                        new Node("Правила", []),
                     ]),
                 new Node("Персонажи", [
                         new Node("Гоблины", [ new Node("Боблин"), new Node("Воблин"), new Node("Моблин") ]),
@@ -87,16 +101,6 @@ namespace DnDigital_1e.ViewModels
                             ])
                     ])
             ];
-        /*public ObservableCollection<string> getAllTiteles(ObservableCollection<Node> nodes)
-        {
-            ObservableCollection<string> titles = [];
-            foreach(Node node in nodes)
-            {
-                titles.Add(node.Title);
-                if(node.SubNodes != null) titles.AddRange(getAllTiteles(node.SubNodes));
-            }
-            return titles;
-        }*/
         
         [Reactive] public int SelectedTab { get; set; } = 0;
         [ObservableAsProperty] public Node? SelectedTabNodes { get; }
@@ -109,6 +113,7 @@ namespace DnDigital_1e.ViewModels
         [ObservableAsProperty] public string? RightSubmenuToolTip { get; }
         public MainWindowViewModel()
         {
+            var a = Nodes[1].SubNodes[0];
             // Левое подменю
             this.WhenAnyValue(vm => vm.LeftSubmenuIsChecked)
                 .Select(x => x ? "Свернуть" : "Развернуть")
