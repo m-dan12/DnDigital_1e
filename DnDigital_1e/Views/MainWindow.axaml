@@ -212,9 +212,11 @@
 									<StackPanel Orientation="Vertical" Spacing="5"/>
 								</ItemsPanelTemplate>
 							</TreeView.ItemsPanel>
+
 							<TreeView.ItemTemplate>
 								<TreeDataTemplate ItemsSource="{Binding SubNodes}">
-									<TextBlock Text="{Binding Title}" FontSize="14" Padding="0" Margin="0"/>
+									<TreeViewItem FontSize="14" Padding="0" Margin="0"
+												  Header="{Binding Title}" IsSelected="{Binding IsSelected, Mode=TwoWay}"/>
 								</TreeDataTemplate>
 							</TreeView.ItemTemplate>
 						</TreeView>

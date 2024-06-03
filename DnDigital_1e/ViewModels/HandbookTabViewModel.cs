@@ -3,35 +3,27 @@ using ReactiveUI.Fody.Helpers;
 using System.Reactive.Linq;
 using System.Linq;
 using System.Collections.ObjectModel;
+using Svg;
 
 namespace DnDigital_1e.ViewModels
 {
     public class HandbookTabViewModel : MainWindowViewModel
     {
-        public class CharacterClass(string name, string engName, byte hits, string source) : ReactiveObject
-        {
-            private readonly byte _hits = hits;
-            public string Name { get; set; } = name;
-            public string EngName { get; set; } = engName;
-            public string Hits => "к" + _hits;
-            public string Source { get; set; } = source;
-            [Reactive] public bool IsChecked { get; set; }
-        }
-        public ObservableCollection<CharacterClass> ItemsCollection { get; set; } = [
-                new CharacterClass("Бард",      "Bard",         8,  "PHB"),
-                new CharacterClass("Варвар",    "Barbarian",    12, "PHB"),
-                new CharacterClass("Воин",      "Fihter",       10, "PHB"),
-                new CharacterClass("Волшебник", "Wizard",       6,  "PHB")
-            ];
-        [ObservableAsProperty] public bool IsAnyChecked { get; }
-        [ObservableAsProperty] public int ColumnSpanIfChecked { get; }
+
+        public ObservableCollection<Node> SelectedNodes { get; set; } = [
+             new Node("Классы", [ new ("Бард", "Bard", "PHB", 8), new ("Варвар", "Barbarian", "PHB", 12), new ("Воин", "Fighter", "PHB", 10), new ("Волшебник", "Wizard", "PHB", 6) ]),
+        ];
+        [Reactive] public bool IsAnyChecked { get; set; } = false;
+        [Reactive] public int ColumnSpanIfChecked { get; set; } = 3;
 
         public HandbookTabViewModel()
         {
-            this.WhenAnyValue(vm => vm.ItemsCollection)
-                .SelectMany(collection => collection.Select(item => item.WhenAnyValue(x => x.IsChecked)))
+
+
+            this.WhenAnyValue(vm => vm.SelectedNodes)
+                .SelectMany(collection => collection.Select(item => item.WhenAnyValue(x => x.IsSelected)))
                 .Merge()
-                .Select(_ => ItemsCollection.Any(item => item.IsChecked))
+                .Select(_ => SelectedNodes.Any(item => item.IsSelected))
                 .ToPropertyEx(this, vm => vm.IsAnyChecked);
 
             this.WhenAnyValue(vm => vm.IsAnyChecked)

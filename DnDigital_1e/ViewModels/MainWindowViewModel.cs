@@ -27,10 +27,6 @@ namespace DnDigital_1e.ViewModels
             ["Body"] = 14,      // описания станций
             ["Caption"] = 12,   // временная метка, нижние колонтитулы
         };
-        public Dictionary<string, SolidColorBrush> Colors { get; } = new Dictionary<string, SolidColorBrush>()
-        {
-            ["Accent"] = new SolidColorBrush(Color.FromRgb(255,255,255)),
-        };
     }
 
     public class MainWindowViewModel : ViewModelBase
@@ -66,38 +62,59 @@ namespace DnDigital_1e.ViewModels
         {
             public ObservableCollection<Node>? SubNodes { get; }
             [Reactive] public bool IsSelected { get; set; } = false;
-            public string Title { get; }
+            [Reactive] public string Title { get; set; }
+
+            #region Справочные штучки
+            public string? EngTitle { get; }
+            public string? Source { get; }
+            private byte? _hitDice { get; }
+            public string? HitDice => _hitDice != null ? "к" + _hitDice : null;
+            #endregion
+
             public Node(string title) => Title = title;
             public Node(string title, ObservableCollection<Node> subNodes)
             {
                 Title = title;
                 SubNodes = subNodes;
             }
+            public Node(string title, string engTitle, string source) // Справочник
+            {
+                Title = title;
+                EngTitle = engTitle;
+                Source = source;
+            }
+            public Node(string title, string engTitle, string source, byte hitDice) // Справочник -> Классы
+            {
+                Title = title;
+                EngTitle = engTitle;
+                Source = source;
+                _hitDice = hitDice;
+            }
         }
         public ObservableCollection<Node> Nodes { get; } = [
-                new Node("Главная"),
-                new Node("Справочник", [
-                        new Node("Классы", [ new Node("Бард"), new Node("Варвар"), new Node("Воин"), new Node("Волшебник") ]),
-                        new Node("Расы", [ new Node("Ааракокра"), new Node("Аасимар"), new Node("Автогном"), new Node("Багбир") ]),
-                        new Node("Черты", [ new Node("Агент порядка"), new Node("Агрессия орков"), new Node("Адепт Белых одежд"), new Node("Адепт Красных одежд") ]),
-                        new Node("Предыстроии", []),
-                        new Node("Оружие", []),
-                        new Node("Доспехи", []),
-                        new Node("Снаряжение", []),
-                        new Node("Заклинания", []),
-                        new Node("Магические предметы", []),
-                        new Node("Бестиарий", []),
-                        new Node("Правила", []),
+                new ("Главная"),
+                new ("Справочник", [
+                        new ("Классы", [ new ("Бард", "Bard", "PHB", 8), new ("Варвар", "Barbarian", "PHB", 12), new ("Воин", "Fighter", "PHB", 10), new ("Волшебник", "Wizard", "PHB", 6) ]),
+                        new ("Расы", [ new ("Ааракокра"), new ("Аасимар"), new ("Автогном"), new ("Багбир") ]),
+                        new ("Черты", [ new ("Агент порядка"), new ("Агрессия орков"), new ("Адепт Белых одежд"), new ("Адепт Красных одежд") ]),
+                        new ("Предыстроии", []),
+                        new ("Оружие", []),
+                        new ("Доспехи", []),
+                        new ("Снаряжение", []),
+                        new ("Заклинания", []),
+                        new ("Магические предметы", []),
+                        new ("Бестиарий", []),
+                        new ("Правила", []),
                     ]),
-                new Node("Персонажи", [
-                        new Node("Гоблины", [ new Node("Боблин"), new Node("Воблин"), new Node("Моблин") ]),
-                        new Node("Кай"),
-                        new Node("Кас")
+                new ("Персонажи", [
+                        new ("Гоблины", [ new ("Боблин"), new ("Воблин"), new ("Моблин") ]),
+                        new ("Кай"),
+                        new ("Кас")
                     ]),
-                new Node("Приключения", [
-                        new Node("Course of Strahd", [
-                                new Node("Баровия", [ new Node("Ирина Коляна"), new Node("Таверна"), new Node("Магазин") ]),
-                                new Node("Случайные столкновения")
+                new ("Приключения", [
+                        new ("Course of Strahd", [
+                                new ("Баровия", [ new ("Ирина Коляна"), new ("Таверна"), new ("Магазин") ]),
+                                new ("Случайные столкновения")
                             ])
                     ])
             ];
@@ -113,7 +130,6 @@ namespace DnDigital_1e.ViewModels
         [ObservableAsProperty] public string? RightSubmenuToolTip { get; }
         public MainWindowViewModel()
         {
-            var a = Nodes[1].SubNodes[0];
             // Левое подменю
             this.WhenAnyValue(vm => vm.LeftSubmenuIsChecked)
                 .Select(x => x ? "Свернуть" : "Развернуть")

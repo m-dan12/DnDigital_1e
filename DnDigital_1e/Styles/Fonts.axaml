@@ -1,0 +1,79 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <Design.PreviewWith>
+    <Border Padding="20" Width="1920" Height="1080">
+		<StackPanel>
+			<TextBlock Classes="Title" Text="Text 100"/>
+			<TextBlock Classes="Text" Text="Text 100"/>
+			<Button Classes="Dice D20">
+				<TextBlock Classes="Num Mod" Text="+10"/>
+			</Button>
+			<Button Classes="Dice Other">
+				<TextBlock Classes="Num Dam" Text="1d12+1d8+4"/>
+			</Button>
+			<TextBlock Classes="Num" FontSize="18" Text="+10" FontWeight="Medium"/>
+			<TextBlock Classes="Text H1" Text="Text H1"/>
+			<TextBlock Classes="Text H2" Text="Text H2"/>
+			<TextBlock Classes="Text H3" Text="Text H3"/>
+			<TextBlock Classes="Text H4" Text="Text H4"/>
+			<TextBlock Classes="Text H5" Text="Text H5"/>
+		</StackPanel>
+    </Border>
+  </Design.PreviewWith>
+	<Style Selector="Button">
+		<Style Selector="^.Dice">
+			<Setter Property="Height" Value="35"/>
+			<Setter Property="Background" Value="#22272E"/>
+			<Setter Property="CornerRadius" Value="5"/>
+			<Setter Property="BorderThickness" Value="1"/>
+			<Setter Property="HorizontalContentAlignment" Value="Center"/>
+			<Setter Property="VerticalContentAlignment" Value="Center"/>
+			<Setter Property="Padding" Value="0"/>
+			<Style Selector="^.D20">
+				<Setter Property="Width" Value="35"/>
+				<Setter Property="Padding" Value="0"/>
+				<Setter Property="BorderBrush" Value="#DE4A2A"/>
+			</Style>
+			<Style Selector="^.Other">
+				<Setter Property="Padding" Value="15 0"/>
+				<Setter Property="BorderBrush" Value="#6F7580"/>
+			</Style>
+		</Style>
+	</Style>
+	<Style Selector="TextBlock">
+		<Setter Property="HorizontalAlignment" Value="Left"/>
+		<Style Selector="^.Title">
+			<Setter Property="FontFamily" Value="Rostov"/>
+		</Style>
+		<Style Selector="^.Text">
+			<Setter Property="FontFamily" Value="Vladivostok"/>
+		</Style>
+		<Style Selector="^.Num">
+			<Setter Property="FontFamily" Value="Fira Mono"/>
+			<Style Selector="^.Mod">
+				<Setter Property="FontSize" Value="18"/>
+				<Setter Property="FontWeight" Value="Medium"/>
+				<Setter Property="LetterSpacing" Value="-1"/>
+				<Setter Property="Margin" Value="0,0,2,0"/>
+			</Style>
+			<Style Selector="^.Dam">
+				<Setter Property="FontSize" Value="14"/>
+			</Style>
+		</Style>
+		<Style Selector="^.H1">
+			<Setter Property="FontSize" Value="60"/>
+		</Style>
+		<Style Selector="^.H2">
+			<Setter Property="FontSize" Value="48"/>
+		</Style>
+		<Style Selector="^.H3">
+			<Setter Property="FontSize" Value="34"/>
+		</Style>
+		<Style Selector="^.H4">
+			<Setter Property="FontSize" Value="24"/>
+		</Style>
+		<Style Selector="^.H5">
+			<Setter Property="FontSize" Value="20"/>
+		</Style>
+	</Style>
+</Styles>

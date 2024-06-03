@@ -38,137 +38,68 @@
 			</Style>
 		</Style>
 	</UserControl.Styles>
-	<UserControl.Resources>
-		<ImageBrush x:Key="ClassesImg" Source="/Assets/classes.jpeg" Stretch="UniformToFill"/>
-	</UserControl.Resources>
-	<DockPanel>
-		<Border VerticalAlignment="Stretch" Width="300" DockPanel.Dock="Left"
-				IsVisible="False"/>
-		<Border VerticalAlignment="Stretch" Width="300" DockPanel.Dock="Right"
-				IsVisible="False"/>
-		<TabControl DockPanel.Dock="Top" HorizontalAlignment="Stretch">
-			<TabItem Header="Главная">
-				<!-- Главная страница справочника -->
-				<Grid HorizontalAlignment="Stretch" RowDefinitions=" auto, auto, auto, auto" MaxWidth="1500">
+	<Grid RowDefinitions="auto, *" ColumnDefinitions="*, *, *" MaxWidth="1500" HorizontalAlignment="Center" Margin="10">
 
-					<!-- Поиск -->
-					<TextBox Classes="Search" Text="Поиск" VerticalAlignment="Center" Foreground="LightGray"/>
+		<AutoCompleteBox Grid.Column="0" Grid.ColumnSpan="{Binding ColumnSpanIfChecked}" Margin="0, 10"/>
 
-					<!-- Классы, расы, черты, предыстории -->
-					<Grid Grid.Row="1" ColumnDefinitions="*, *" RowDefinitions="*, *">					
-						<ToggleButton x:Name="MainClasses" Height="200"
-									  Grid.Row="0" Grid.Column="0"
-									  Background="{StaticResource ClassesImg}">
-							<TextBlock Text="Класс"/>
-						</ToggleButton>
-						<ToggleButton x:Name="MainRaces" Height="200"
-									  Grid.Row="0" Grid.Column="1">
-							<TextBlock Text="Расы"/>
-						</ToggleButton>
-						<ToggleButton x:Name="MainFits" Height="200"
-									  Grid.Row="1" Grid.Column="0">
-							<TextBlock Text="Черты"/>
-						</ToggleButton>
-						<ToggleButton x:Name="MainBackgrounds" Height="200"
-									  Grid.Row="1" Grid.Column="1">
-							<TextBlock Text="Предыстории"/>
-						</ToggleButton>
-					</Grid>
+		<ScrollViewer Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="{Binding ColumnSpanIfChecked}">
 
-					<!-- Оружие, доспехи, снаряга -->
-					<Grid Grid.Row="2" ColumnDefinitions="*, *, *">
-						<ToggleButton x:Name="MainArms" Height="200"
-									  Grid.Column="0">
-							<TextBlock Text="Оружие"/>
-						</ToggleButton>
-						<ToggleButton x:Name="MainArmors" Height="200"
-									  Grid.Column="1">
-							<TextBlock Text="Доспехи"/>
-						</ToggleButton>				
-						<ToggleButton x:Name="MainEquipments" Height="200"
-									  Grid.Column="2">
-							<TextBlock Text="Снаряжение"/>
-						</ToggleButton>
-					</Grid>
+			<ItemsRepeater ItemsSource="{Binding Nodes[1].SubNodes}">
 
-					<!-- Заклинания, маг. итемы, монстрятник, правила -->
-					<Grid Grid.Row="3" ColumnDefinitions="*, *, *, *">
-						<ToggleButton x:Name="MainSpells" Height="150"
-									  Grid.Column="0">
-							<TextBlock Text="Заклинания"/>
-						</ToggleButton>
-						<ToggleButton x:Name="MainMagicItems" Height="150"
-									  Grid.Column="1">
-							<TextBlock Text="Магические предметы"/>
-						</ToggleButton>
-						<ToggleButton x:Name="MainMonsterManual" Height="150"
-									  Grid.Column="2">
-							<TextBlock Text="Бестиарий"/>
-						</ToggleButton>
-						<ToggleButton x:Name="MainRules" Height="150"
-									  Grid.Column="3">
-							<TextBlock Text="Правила"/>
-						</ToggleButton>
-					</Grid>
-					
-				</Grid>
-			</TabItem>
-			<TabItem Header="Не главная" IsSelected="{Binding #MainClasses.IsChecked, Mode=TwoWay}">
-				<Grid MaxWidth="1500" ColumnDefinitions="*, *, *">
-					<ScrollViewer DockPanel.Dock="Left" Grid.ColumnSpan="{Binding ColumnSpanIfChecked}">
-						<ItemsRepeater ItemsSource="{Binding ItemsCollection}">
-							<ItemsRepeater.Layout>
-								<UniformGridLayout MinColumnSpacing="10" MinRowSpacing="10" ItemsStretch="Fill" Orientation="Horizontal"/>
-							</ItemsRepeater.Layout>
-							<ItemsRepeater.ItemTemplate>
-								<DataTemplate>
-									<ToggleButton Height="100" MinWidth="300" Padding="20, 0" IsChecked="{Binding IsChecked, Mode=TwoWay}">
-										<StackPanel Orientation="Vertical" VerticalAlignment="Center">
-											<RadioButton GroupName="Group" IsChecked="{Binding IsChecked, Mode=TwoWay}" IsVisible="False"/>
-											<TextBlock Text="{Binding Name}"/>
-											<TextBlock Text="{Binding EngName}"/>
-											<StackPanel Orientation="Horizontal">
-												<TextBlock Text="{Binding Hits}"/>
-												<TextBlock Text="{Binding Source}"/>
-											</StackPanel>
-										</StackPanel>
-									</ToggleButton>
-								</DataTemplate>
-							</ItemsRepeater.ItemTemplate>
-						</ItemsRepeater>	
-					</ScrollViewer>
-					<Border x:Name="x" Padding="20" Grid.Column="1" Grid.ColumnSpan="2" Margin="10,0" Background="#23272E" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
-							IsVisible="{Binding IsAnyChecked}">
-						<StackPanel Orientation="Vertical" Spacing="20">
-							<Grid ColumnDefinitions="auto, *" VerticalAlignment="Top">
-								<StackPanel Spacing="10" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
-									<TextBlock FontWeight="Black"
-											   Text="Бард"/>
-									<TextBlock Text="Bard"/>
+				<ItemsRepeater.Layout>
+					<UniformGridLayout MinColumnSpacing="10" MinRowSpacing="10" ItemsStretch="Fill" Orientation="Horizontal"/>
+				</ItemsRepeater.Layout>
+
+				<ItemsRepeater.ItemTemplate>
+					<DataTemplate>
+						<ToggleButton Height="100" MinWidth="300" Padding="20, 0" IsChecked="{Binding IsSelected, Mode=TwoWay}">
+							<StackPanel VerticalAlignment="Center">
+								<RadioButton GroupName="Group" IsChecked="{Binding IsSelected, Mode=TwoWay}" IsVisible="False"/>
+								<TextBlock Text="{Binding Title}"/>
+								<TextBlock Text="{Binding EngTitle}"/>
+								<StackPanel Orientation="Horizontal">
+									<TextBlock Text="{Binding HitDice}"/>
+									<TextBlock Text="{Binding Source}"/>
 								</StackPanel>
-								<StackPanel Spacing="10" Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center">
-									<!-- Заменить контент с текста на иконки -->
-									<ToggleButton Content="Избранное"/>
-									<Button Content="Печать"/>
-									<ToggleButton Content="Раскрыть"/>
-									<Button Content="Закрыть"/>
-								</StackPanel>
-							</Grid>
-							<StackPanel Orientation="Horizontal" Spacing="10">
-								<ToggleButton Content="Механика"/>
-								<ToggleButton Content="Описание"/>
-								<ToggleButton Content="Заклинания"/>
-								<ToggleButton Content="Галерея"/>
 							</StackPanel>
-							<Grid ColumnDefinitions="*, *">
-								<TextBox x:Name="MdTest"/>
-								<md:MarkdownScrollViewer xml:space="preserve" Grid.Column="1"
-													 Markdown="{Binding #MdTest.Text}"/>
-							</Grid>
-						</StackPanel>
-					</Border>
+						</ToggleButton>
+					</DataTemplate>
+				</ItemsRepeater.ItemTemplate>
+
+			</ItemsRepeater>
+
+		</ScrollViewer>
+
+		<Border x:Name="x" Padding="20" Grid.Column="1" Grid.ColumnSpan="2" Margin="10,0" Background="#23272E" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+						IsVisible="{Binding IsAnyChecked}">
+
+			<StackPanel Orientation="Vertical" Spacing="20">
+				<Grid ColumnDefinitions="auto, *" VerticalAlignment="Top">
+					<StackPanel Spacing="10" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+						<TextBlock FontWeight="Black"
+								   Text="Бард"/>
+						<TextBlock Text="Bard"/>
+					</StackPanel>
+					<StackPanel Spacing="10" Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center">
+						<!-- Заменить контент с текста на иконки -->
+						<ToggleButton Content="Избранное"/>
+						<Button Content="Печать"/>
+						<ToggleButton Content="Раскрыть"/>
+						<Button Content="Закрыть"/>
+					</StackPanel>
 				</Grid>
-			</TabItem>
-		</TabControl>
-	</DockPanel>
+				<StackPanel Orientation="Horizontal" Spacing="10">
+					<ToggleButton Content="Механика"/>
+					<ToggleButton Content="Описание"/>
+					<ToggleButton Content="Заклинания"/>
+					<ToggleButton Content="Галерея"/>
+				</StackPanel>
+				<Grid ColumnDefinitions="*, *">
+					<TextBox x:Name="MdTest"/>
+					<md:MarkdownScrollViewer xml:space="preserve" Grid.Column="1"
+										 Markdown="{Binding #MdTest.Text}"/>
+				</Grid>
+			</StackPanel>
+		</Border>
+	</Grid>
 </UserControl>
