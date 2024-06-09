@@ -1,0 +1,44 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="300" d:DesignHeight="400"
+			 xmlns:vm="using:DnDigital_1e.ViewModels"
+			 x:DataType="vm:MainWindowViewModel"
+             x:Class="DnDigital_1e.Controls.RightSubmenu">
+	
+	<Design.DataContext>
+		<vm:MainWindowViewModel/>
+	</Design.DataContext>
+
+	<UserControl.DataContext>
+		<vm:MainWindowViewModel/>
+	</UserControl.DataContext>
+
+	<UserControl.Styles>
+		<Style Selector="Border">
+			<Style Selector="^.Submenu">
+				<Setter Property="HorizontalAlignment" Value="Stretch"/>
+				<Setter Property="CornerRadius" Value="0"/>
+				<Setter Property="Background" Value="{DynamicResource B2}"/>
+				<Style Selector="^.Left">
+					<Setter Property="DockPanel.Dock" Value="Left"/>
+				</Style>
+				<Style Selector="^.Right">
+					<Setter Property="DockPanel.Dock" Value="Right"/>
+				</Style>
+			</Style>
+		</Style>
+		<Style Selector="TabItem">
+			<Setter Property="IsVisible" Value="False"/>
+		</Style>
+	</UserControl.Styles>
+	
+	<Border x:Name="RightSubmenuBorder" Classes="Submenu Right"> <!-- IsVisible="{Binding #RightSubmenu.IsChecked, Mode=TwoWay}" -->
+		<TabControl>
+			<TabItem Header="Трекер инициативы"/> <!-- IsSelected="{Binding #Initiative.IsChecked, Mode=TwoWay}" -->
+			<TabItem Header="Дайсы"/> <!-- IsSelected="{Binding #DiceRoller.IsChecked, Mode=TwoWay}" -->
+			<TabItem Header="Заклинания"/> <!-- IsSelected="{Binding #Spells.IsChecked, Mode=TwoWay}" -->
+		</TabControl>
+	</Border>
+</UserControl>

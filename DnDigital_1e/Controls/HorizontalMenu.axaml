@@ -1,0 +1,48 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="42"
+			 xmlns:vm="using:DnDigital_1e.ViewModels"
+			 x:DataType="vm:MainWindowViewModel"
+             x:Class="DnDigital_1e.Controls.HorizontalMenu">
+	<Design.DataContext>
+		<vm:MainWindowViewModel/>
+	</Design.DataContext>
+	<UserControl.DataContext>
+		<vm:MainWindowViewModel/>
+	</UserControl.DataContext>
+	<UserControl.Styles>
+		<Style Selector="Border.HorizontalMenu">
+			<Setter Property="Height" Value="42"/>
+			<Setter Property="CornerRadius" Value="0"/>
+			<Setter Property="Background" Value="{DynamicResource B3}"/>
+		</Style>
+	</UserControl.Styles>
+	<Border Classes="HorizontalMenu">
+		<Grid ColumnDefinitions="*, auto, auto">
+
+			<StackPanel Orientation="Horizontal" Spacing="5" Grid.Column="0" Margin="5">
+				<ToggleButton x:Name="LeftSubmenu" Classes="Menu Horizontal LeftSubmenu" IsChecked="{Binding LeftSubmenuIsChecked}" ToolTip.Tip="{Binding LeftSubmenuToolTip}"/>
+				<ToggleButton x:Name="Navigation" Classes="Menu Horizontal Navigation" IsVisible="{Binding #LeftSubmenu.IsChecked}" IsChecked="True"/>
+				<ToggleButton x:Name="Search" Classes="Menu Horizontal Search" IsVisible="{Binding #LeftSubmenu.IsChecked}"/>
+				<ToggleButton x:Name="Bookmark" Classes="Menu Horizontal Bookmark" IsVisible="{Binding #LeftSubmenu.IsChecked}"/>
+			</StackPanel>
+
+			<StackPanel Orientation="Horizontal" Spacing="5" Grid.Column="1" Margin="5">
+				<ToggleButton x:Name="Initiative" Classes="Menu Horizontal Initiative" IsVisible="{Binding #RightSubmenu.IsChecked}" IsChecked="True"/>
+				<ToggleButton x:Name="DiceRoller" Classes="Menu Horizontal DiceRoller" IsVisible="{Binding #RightSubmenu.IsChecked}"/>
+				<ToggleButton x:Name="Spells" Classes="Menu Horizontal Spells" IsVisible="{Binding #RightSubmenu.IsChecked}"/>
+				<ToggleButton x:Name="RightSubmenu" Classes="Menu Horizontal RightSubmenu" IsChecked="{Binding RightSubmenuIsChecked}" ToolTip.Tip="{Binding RightSubmenuToolTip}"/>
+			</StackPanel>
+
+			<StackPanel Orientation="Horizontal" Grid.Column="2">
+				<Button Classes="WinButton Hide" Command="{Binding HideCommand}"/>
+				<Button Classes="WinButton Expand" Command="{Binding ExpandCommand}"/>
+				<Button Classes="WinButton Close" Command="{Binding CloseCommand}"/>
+			</StackPanel>
+
+		</Grid>
+	</Border>
+	
+</UserControl>

@@ -1,7 +1,25 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-	<SolidColorBrush x:Key="Accent" Color="#DCB96D"/>
-	<SolidColorBrush x:Key="Dark" Color="#191B1F"/>
+	
+	<!-- Задники -->
+	<SolidColorBrush x:Key="B1" Color="#191B1F"/>
+	<SolidColorBrush x:Key="B2" Color="#242930"/>
+	<SolidColorBrush x:Key="B3" Color="#2E343C"/>
+
+	<!-- Границы -->
+	<SolidColorBrush x:Key="S1" Color="#242930"/>
+	<SolidColorBrush x:Key="S2" Color="#6F7580"/>
+	<SolidColorBrush x:Key="S3" Color="#DE4A2A"/>
+
+	<!-- Акценты -->
+	<SolidColorBrush x:Key="A1" Color="#DCB96D"/>
+	<SolidColorBrush x:Key="A2" Color="#4E5F81"/>
+
+	<!-- +- статические цвета -->
+	<SolidColorBrush x:Key="White" Color="#FFFFFF"/>
+	<SolidColorBrush x:Key="Green" Color="#59AC89"/>
+	<SolidColorBrush x:Key="Yellow" Color="#FE9B01"/>
+	<SolidColorBrush x:Key="Red" Color="#DE4A2A"/>
 	
 	
 	

@@ -1,0 +1,110 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="300" d:DesignHeight="400"
+			 xmlns:vm="using:DnDigital_1e.ViewModels"
+			 x:DataType="vm:MainWindowViewModel"
+             x:Class="DnDigital_1e.Controls.LeftSubmenu">
+	
+	<Design.DataContext>
+		<vm:MainWindowViewModel/>
+	</Design.DataContext>
+	
+	<UserControl.DataContext>
+		<vm:MainWindowViewModel/>
+	</UserControl.DataContext>
+
+	<UserControl.Styles>
+		<Style Selector="Border">
+			<Style Selector="^.Submenu">
+				<Setter Property="HorizontalAlignment" Value="Stretch"/>
+				<Setter Property="CornerRadius" Value="0"/>
+				<Setter Property="Background" Value="{DynamicResource B2}"/>
+				<Style Selector="^.Left">
+					<Setter Property="DockPanel.Dock" Value="Left"/>
+				</Style>
+				<Style Selector="^.Right">
+					<Setter Property="DockPanel.Dock" Value="Right"/>
+				</Style>
+			</Style>
+		</Style>
+		<Style Selector="TabItem">
+			<Setter Property="IsVisible" Value="False"/>
+		</Style>
+	</UserControl.Styles>
+	
+	<Border x:Name="LeftSubmenuBorder" Classes="Submenu Left">
+		<!--  IsVisible="{Binding #LeftSubmenu.IsChecked, Mode=TwoWay}" -->
+		<DockPanel>
+			<TabControl DockPanel.Dock="Top" Margin="10">
+				<TabItem Header="Навигация"> <!-- IsSelected="{Binding #Navigation.IsChecked, Mode=TwoWay}" -->
+					<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="5">
+						<Button Height="26" Width="30"/> <!-- IsVisible="{Binding !#HandBook.IsChecked}" -->
+						<!-- Новая заметка или персонаж //Нет в справочнике -->
+						<Button Height="26" Width="30"/> <!-- IsVisible="{Binding !#HandBook.IsChecked}" -->
+						<!-- Новая папка //Нет в справочнике -->
+						<ToggleButton x:Name="SortOrderButton" Height="26" Width="30" ToolTip.Tip="Порядок сортировки" ToolTip.Placement="Bottom" ToolTip.VerticalOffset="10"/>
+						<!-- Порядок сортировки -->
+						<Popup x:Name="SortOrderPopup" PlacementTarget="{Binding #SortOrderButton}" Placement="BottomEdgeAlignedRight" IsOpen="{Binding #SortOrderButton.IsChecked}">
+							<Border Background="#23272E" CornerRadius="5" BorderBrush="#2E343C" BorderThickness="1" Padding="10">
+								<StackPanel>
+									<ToggleButton Content="По имени файла (A -> Z)" HorizontalAlignment="Stretch" Background="Transparent"/>
+									<ToggleButton Content="По имени файла (Z -> A)" HorizontalAlignment="Stretch" Background="Transparent"/>
+									<Separator Background="#2E343C" Margin="0,5"/>
+									<ToggleButton Content="По времени последнего изменения (от новых к старым)" HorizontalAlignment="Stretch" Background="Transparent"/>
+									<ToggleButton Content="По времени последнего изменения (от старых к новым)" HorizontalAlignment="Stretch" Background="Transparent"/>
+									<Separator Background="#2E343C" Margin="0,5"/>
+									<ToggleButton Content="По времени создания (от новых к старым)" HorizontalAlignment="Stretch" Background="Transparent"/>
+									<ToggleButton Content="По времени создания (от старых к новым)" HorizontalAlignment="Stretch" Background="Transparent"/>
+								</StackPanel>
+							</Border>
+						</Popup>
+						<ToggleButton Height="26" Width="30"/>
+						<!-- Свернуть все -->
+					</StackPanel>
+				</TabItem>
+				<TabItem Header="Поиск"> <!-- IsSelected="{Binding #Search.IsChecked, Mode=TwoWay}" -->
+					<Grid ColumnDefinitions="*, auto">
+						<Border Height="36" Background="#10FFFFFF" Margin="0,0,5,0" CornerRadius="5">
+							<Grid ColumnDefinitions="auto, *, auto">
+								<Svg Path="/Assets/Icons/SearchIcon.svg" Width="16" Margin="10,0"/>
+								<AutoCompleteBox Grid.Column="1" Background="Transparent" CornerRadius="0" BorderThickness="0"/>
+								<ToggleButton Width="30" Height="26" Grid.Column="2" Margin="5"/>
+							</Grid>
+						</Border>
+						<ToggleButton Height="36" Width="36" Grid.Column="1"/>
+					</Grid>
+				</TabItem>
+				<TabItem Header="Избранное"> <!-- IsSelected="{Binding #Bookmark.IsChecked, Mode=TwoWay}" -->
+					<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="5">
+						<Button Height="26" Width="30"/>
+						<!-- Добавить в закладки текущую вкладку -->
+						<Button Height="26" Width="30"/>
+						<!-- Новая группа закладок -->
+						<Button Height="26" Width="30"/>
+						<!-- Свернуть все -->
+					</StackPanel>
+				</TabItem>
+			</TabControl>
+			<ScrollViewer>
+				<StackPanel Orientation="Vertical">
+					<Button HorizontalAlignment="Stretch" Content="{Binding SelectedTabNodes.Title}" FontWeight="Bold" FontSize="{Binding Resources.FontSizes[Body]}" Background="Transparent" Margin="0,5"/>
+					<TreeView ItemsSource="{Binding SelectedTabNodes.SubNodes}" Background="{Binding #LeftSubmenuBorder.Background}">
+						<TreeView.ItemsPanel>
+							<ItemsPanelTemplate>
+								<StackPanel Spacing="5"/>
+							</ItemsPanelTemplate>
+						</TreeView.ItemsPanel>
+						<TreeView.ItemTemplate>
+							<TreeDataTemplate ItemsSource="{Binding SubNodes}">
+								<TreeViewItem FontSize="14" Padding="0" Margin="0"
+											  Header="{Binding Title}" IsSelected="{Binding IsSelected, Mode=TwoWay}"/>
+							</TreeDataTemplate>
+						</TreeView.ItemTemplate>
+					</TreeView>
+				</StackPanel>
+			</ScrollViewer>
+		</DockPanel>
+	</Border>
+</UserControl>

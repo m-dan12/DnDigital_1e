@@ -12,42 +12,49 @@
 				<TextBlock Classes="Num Dam" Text="1d12+1d8+4"/>
 			</Button>
 			<TextBlock Classes="Num" FontSize="18" Text="+10" FontWeight="Medium"/>
-			<TextBlock Classes="Text H1" Text="Text H1"/>
-			<TextBlock Classes="Text H2" Text="Text H2"/>
-			<TextBlock Classes="Text H3" Text="Text H3"/>
-			<TextBlock Classes="Text H4" Text="Text H4"/>
-			<TextBlock Classes="Text H5" Text="Text H5"/>
+			<TextBlock Classes="H1" Text="Text H1"/>
+			<TextBlock Classes="H2" Text="Text H2"/>
+			<TextBlock Classes="H3" Text="Text H3"/>
+			<TextBlock Classes="H4" Text="Text H4"/>
+			<TextBlock Classes="H5" Text="Text H5"/>
 		</StackPanel>
     </Border>
   </Design.PreviewWith>
+	
 	<Style Selector="Button">
 		<Style Selector="^.Dice">
 			<Setter Property="Height" Value="35"/>
-			<Setter Property="Background" Value="#22272E"/>
+			<Setter Property="Background" Value="{DynamicResource B2}"/>
 			<Setter Property="CornerRadius" Value="5"/>
 			<Setter Property="BorderThickness" Value="1"/>
 			<Setter Property="HorizontalContentAlignment" Value="Center"/>
 			<Setter Property="VerticalContentAlignment" Value="Center"/>
 			<Setter Property="Padding" Value="0"/>
+			
 			<Style Selector="^.D20">
 				<Setter Property="Width" Value="35"/>
 				<Setter Property="Padding" Value="0"/>
-				<Setter Property="BorderBrush" Value="#DE4A2A"/>
+				<Setter Property="BorderBrush" Value="{DynamicResource S3}"/>
 			</Style>
 			<Style Selector="^.Other">
 				<Setter Property="Padding" Value="15 0"/>
-				<Setter Property="BorderBrush" Value="#6F7580"/>
+				<Setter Property="BorderBrush" Value="{DynamicResource S2}"/>
 			</Style>
 		</Style>
 	</Style>
+	
 	<Style Selector="TextBlock">
-		<Setter Property="HorizontalAlignment" Value="Left"/>
+		<!-- Стандартный текст -->
+		<Setter Property="FontSize" Value="14"/>
+		<Setter Property="FontFamily" Value="Vladivostok"/>
+		<Setter Property="Foreground" Value="{DynamicResource White}"/>
+
+		<!-- Заголовки -->
 		<Style Selector="^.Title">
 			<Setter Property="FontFamily" Value="Rostov"/>
 		</Style>
-		<Style Selector="^.Text">
-			<Setter Property="FontFamily" Value="Vladivostok"/>
-		</Style>
+
+		<!-- Цифры -->
 		<Style Selector="^.Num">
 			<Setter Property="FontFamily" Value="Fira Mono"/>
 			<Style Selector="^.Mod">
@@ -57,23 +64,51 @@
 				<Setter Property="Margin" Value="0,0,2,0"/>
 			</Style>
 			<Style Selector="^.Dam">
-				<Setter Property="FontSize" Value="14"/>
+				<Setter Property="FontSize" Value="16"/>
 			</Style>
 		</Style>
+
+		<!-- Размеры заголовков -->
 		<Style Selector="^.H1">
-			<Setter Property="FontSize" Value="60"/>
+			<Setter Property="FontSize" Value="38"/>
 		</Style>
 		<Style Selector="^.H2">
-			<Setter Property="FontSize" Value="48"/>
+			<Setter Property="FontSize" Value="30"/>
 		</Style>
 		<Style Selector="^.H3">
-			<Setter Property="FontSize" Value="34"/>
-		</Style>
-		<Style Selector="^.H4">
 			<Setter Property="FontSize" Value="24"/>
 		</Style>
-		<Style Selector="^.H5">
+		<Style Selector="^.H4">
 			<Setter Property="FontSize" Value="20"/>
+		</Style>
+		<Style Selector="^.H5">
+			<Setter Property="FontSize" Value="16"/>
+		</Style>
+		
+		<Style Selector="^.F1"> <!-- Ну там 'H' типа Header, а тут 'F' типа Footer -->
+			<Setter Property="FontSize" Value="10"/>
+		</Style>
+
+		<!-- Выравнивание -->
+		<Style Selector="^.Left">
+			<Setter Property="HorizontalAlignment" Value="Left"/>
+		</Style>
+		<Style Selector="^.Right">
+			<Setter Property="HorizontalAlignment" Value="Right"/>
+		</Style>
+		<Style Selector="^.Center">
+			<Setter Property="HorizontalAlignment" Value="Center"/>
+		</Style>
+		
+		<!-- Цвета -->
+		<Style Selector="^.Green">
+			<Setter Property="Foreground" Value="{DynamicResource Green}"/>
+		</Style>
+		<Style Selector="^.Yellow">
+			<Setter Property="Foreground" Value="{DynamicResource Yellow}"/>
+		</Style>
+		<Style Selector="^.Red">
+			<Setter Property="Foreground" Value="{DynamicResource Red}"/>
 		</Style>
 	</Style>
 </Styles>

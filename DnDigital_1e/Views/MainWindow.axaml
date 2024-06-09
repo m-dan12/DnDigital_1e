@@ -7,6 +7,7 @@
         x:DataType="vm:MainWindowViewModel"
         x:Class="DnDigital_1e.Views.MainWindow"
 		xmlns:views="clr-namespace:DnDigital_1e.Views"
+		xmlns:controls="clr-namespace:DnDigital_1e.Controls"
         Icon="/Assets/avalonia-logo.ico"
         Title="DnDigital_1e">
 
@@ -17,8 +18,6 @@
 	<!-- Стили -->
     <Window.Styles>
 
-		<StyleInclude Source="/Styles/MenuToggle.axaml"/>
-		
 		<Style Selector="Window">
 			<Setter Property="Background" Value="#191B1F"/>
 			<Setter Property="FontSize" Value="18"/>
@@ -28,11 +27,6 @@
 			<Setter Property="ExtendClientAreaTitleBarHeightHint" Value="-1"/>
 			<Setter Property="ExtendClientAreaChromeHints" Value="NoChrome"/>
 			<Setter Property="Padding" Value="{Binding $self.OffScreenMargin}"/>
-		</Style>
-
-		<Style Selector="TextBlock">
-			<Setter Property="Foreground" Value="White"/>
-			<Setter Property="Margin" Value="15"/>
 		</Style>
 
 		<Style Selector="TabControl">
@@ -46,63 +40,31 @@
 		<Style Selector="TreeViewItem">
 			<Setter Property="CornerRadius" Value="5"/>
 			<Setter Property="Margin" Value="0, 5, 0, 0"/>
-			<Setter Property="Foreground" Value="White"/>
 			<Style Selector="^.Folder">
 				<Setter Property="IsHitTestVisible" Value="False"/>
 			</Style>
 			<Style Selector="^:pointerover /template/ Border#PART_LayoutRoot">
-				<Setter Property="Background" Value="{DynamicResource Accent}" />
+				<Setter Property="Background" Value="{DynamicResource A1}" />
 			</Style>
 			<Style Selector="^:pressed /template/ Border#PART_LayoutRoot">
-				<Setter Property="Background" Value="{DynamicResource Accent}" />
+				<Setter Property="Background" Value="{DynamicResource A1}" />
 			</Style>
 			<Style Selector="^:selected /template/ Border#PART_LayoutRoot">
-				<Setter Property="Background" Value="{DynamicResource Accent}" />
+				<Setter Property="Background" Value="{DynamicResource A1}" />
 			</Style>
 			<Style Selector="^:selected:pointerover /template/ Border#PART_LayoutRoot">
-				<Setter Property="Background" Value="{DynamicResource Accent}" />
+				<Setter Property="Background" Value="{DynamicResource A1}" />
 			</Style>
 		</Style>
 		
 		<Style Selector="ToolTip">
-			<Setter Property="Background" Value="{DynamicResource Accent}"/>
+			<Setter Property="Background" Value="{DynamicResource A1}"/>
 			<Setter Property="BorderThickness" Value="0"/>
 			<Setter Property="Padding" Value="0"/>
 			<Style Selector="^ TextBlock">
 				<Setter Property="Margin" Value="15, 3"/>
-				<Setter Property="Foreground" Value="{DynamicResource Dark}"/>
+				<Setter Property="Foreground" Value="{DynamicResource B1}"/>
 			</Style>
-		</Style>
-		
-		<Style Selector="Border">
-			<Style Selector="^.Submenu">
-				<Setter Property="Width" Value="350"/>
-				<Setter Property="CornerRadius" Value="0"/>
-				<Setter Property="Background" Value="#23272E"/>
-				<Style Selector="^.Left">
-					<Setter Property="DockPanel.Dock" Value="Left"/>
-				</Style>
-				<Style Selector="^.Right">
-					<Setter Property="DockPanel.Dock" Value="Right"/>
-				</Style>
-			</Style>
-			<Style Selector="^.VerticalMenu">
-				<Setter Property="DockPanel.Dock" Value="Left"/>
-				<Setter Property="Width" Value="48"/>
-				<Setter Property="CornerRadius" Value="0"/>
-				<Setter Property="Background" Value="#2E343C"/>
-			</Style>
-			
-			<Style Selector="^.HorizontalMenu">
-				<Setter Property="DockPanel.Dock" Value="Top"/>
-				<Setter Property="Height" Value="42"/>
-				<Setter Property="CornerRadius" Value="0"/>
-				<Setter Property="Background" Value="#2E343C"/>
-			</Style>
-		</Style>
-
-		<Style Selector="TabItem">
-			<Setter Property="IsVisible" Value="False"/>
 		</Style>
 	
 	</Window.Styles>
@@ -112,144 +74,11 @@
 	<DockPanel>
 		
 		<!-- Верхнее меню -->
-		<Border Classes="HorizontalMenu">
-			<Grid ColumnDefinitions="*, auto, auto">
-				
-				<StackPanel Orientation="Horizontal" Spacing="5" Grid.Column="0" Margin="5">
-					<ToggleButton x:Name="LeftSubmenu" Classes="Menu Horizontal LeftSubmenu" IsChecked="{Binding LeftSubmenuIsChecked}" ToolTip.Tip="{Binding LeftSubmenuToolTip}"/>
-					<ToggleButton x:Name="Navigation" Classes="Menu Horizontal Navigation" IsVisible="{Binding #LeftSubmenu.IsChecked}" IsChecked="True"/>
-					<ToggleButton x:Name="Search" Classes="Menu Horizontal Search" IsVisible="{Binding #LeftSubmenu.IsChecked}"/>
-					<ToggleButton x:Name="Bookmark" Classes="Menu Horizontal Bookmark" IsVisible="{Binding #LeftSubmenu.IsChecked}"/>
-				</StackPanel>
-
-				<StackPanel Orientation="Horizontal" Spacing="5" Grid.Column="1" Margin="5">
-					<ToggleButton x:Name="Initiative" Classes="Menu Horizontal Initiative" IsVisible="{Binding #RightSubmenu.IsChecked}" IsChecked="True"/>
-					<ToggleButton x:Name="DiceRoller" Classes="Menu Horizontal DiceRoller" IsVisible="{Binding #RightSubmenu.IsChecked}"/>
-					<ToggleButton x:Name="Spells" Classes="Menu Horizontal Spells" IsVisible="{Binding #RightSubmenu.IsChecked}"/>
-					<ToggleButton x:Name="RightSubmenu" Classes="Menu Horizontal RightSubmenu" IsChecked="{Binding RightSubmenuIsChecked}" ToolTip.Tip="{Binding RightSubmenuToolTip}"/>
-				</StackPanel>
-				
-				<StackPanel Orientation="Horizontal" Grid.Column="2">
-					<Button Classes="WinButton Hide" Command="{Binding HideCommand}"/>
-					<Button Classes="WinButton Expand" Command="{Binding ExpandCommand}"/>
-					<Button Classes="WinButton Close" Command="{Binding CloseCommand}"/>
-				</StackPanel>
-				
-			</Grid>		
-		</Border>
-		
-		<!-- Левое меню -->
-		<Border Classes="VerticalMenu">
-			<Grid RowDefinitions="*, auto">
-				
-				<StackPanel Orientation="Vertical" Spacing="10" Grid.Row="0" Margin="5">
-					<ToggleButton x:Name="HomePage" Classes="Menu Vertical HomePage"/>
-					<ToggleButton x:Name="HandBook" Classes="Menu Vertical HandBook" IsChecked="True"/>
-					<ToggleButton x:Name="Characters" Classes="Menu Vertical Characters"/>
-					<ToggleButton x:Name="Adventures" Classes="Menu Vertical Adventures"/>
-				</StackPanel>
-
-				<StackPanel Orientation="Vertical" Spacing="10" Grid.Row="1" Margin="5,5,5,15">
-					<ToggleButton x:Name="Help" Classes="Menu Vertical Help"/>
-					<ToggleButton x:Name="Settings" Classes="Menu Vertical Settings"/>
-				</StackPanel>
-				
-			</Grid>
-		</Border>
-		
-		<!-- Левое подменю -->
-		<Border x:Name="LeftSubmenuBorder" Classes="Submenu Left" IsVisible="{Binding #LeftSubmenu.IsChecked, Mode=TwoWay}">
-			<DockPanel>
-				<TabControl DockPanel.Dock="Top" Margin="10">
-					<TabItem Header="Навигация" IsSelected="{Binding #Navigation.IsChecked, Mode=TwoWay}">
-						<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="5">
-							<Button Height="26" Width="30" IsVisible="{Binding !#HandBook.IsChecked}"/> <!-- Новая заметка или персонаж //Нет в справочнике -->
-							<Button Height="26" Width="30" IsVisible="{Binding !#HandBook.IsChecked}"/> <!-- Новая папка //Нет в справочнике -->
-							<ToggleButton x:Name="SortOrderButton" Height="26" Width="30" ToolTip.Tip="Порядок сортировки" ToolTip.Placement="Bottom" ToolTip.VerticalOffset="10"/> <!-- Порядок сортировки -->
-							<Popup x:Name="SortOrderPopup" PlacementTarget="{Binding #SortOrderButton}" Placement="BottomEdgeAlignedRight" IsOpen="{Binding #SortOrderButton.IsChecked}">
-								<Border Background="#23272E" CornerRadius="5" BorderBrush="#2E343C" BorderThickness="1" Padding="10">
-									<StackPanel>
-										<ToggleButton Content="По имени файла (A -> Z)" HorizontalAlignment="Stretch" Background="Transparent"/>
-										<ToggleButton Content="По имени файла (Z -> A)" HorizontalAlignment="Stretch" Background="Transparent"/>
-										<Separator Background="#2E343C" Margin="0,5"/>
-										<ToggleButton Content="По времени последнего изменения (от новых к старым)" HorizontalAlignment="Stretch" Background="Transparent"/>
-										<ToggleButton Content="По времени последнего изменения (от старых к новым)" HorizontalAlignment="Stretch" Background="Transparent"/>
-										<Separator Background="#2E343C" Margin="0,5"/>
-										<ToggleButton Content="По времени создания (от новых к старым)" HorizontalAlignment="Stretch" Background="Transparent"/>
-										<ToggleButton Content="По времени создания (от старых к новым)" HorizontalAlignment="Stretch" Background="Transparent"/>
-									</StackPanel>
-								</Border>
-							</Popup>
-							<ToggleButton Height="26" Width="30"/> <!-- Свернуть все -->
-						</StackPanel>
-					</TabItem>
-					<TabItem Header="Поиск" IsSelected="{Binding #Search.IsChecked, Mode=TwoWay}">
-						<Grid ColumnDefinitions="*, auto">
-							<Border Height="36" Background="#10FFFFFF" Margin="0,0,5,0" CornerRadius="5">
-								<Grid ColumnDefinitions="auto, *, auto">
-									<Svg Path="/Assets/Icons/SearchIcon.svg" Width="16" Margin="10,0"/>
-									<AutoCompleteBox Grid.Column="1" Background="Transparent" CornerRadius="0" BorderThickness="0"/>
-									<ToggleButton Width="30" Height="26" Grid.Column="2" Margin="5"/>
-								</Grid>
-							</Border>
-							<ToggleButton Height="36" Width="36" Grid.Column="1"/>
-						</Grid>
-					</TabItem>
-					<TabItem Header="Избранное" IsSelected="{Binding #Bookmark.IsChecked, Mode=TwoWay}">
-						<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="5">
-							<Button Height="26" Width="30"/> <!-- Добавить в закладки текущую вкладку -->
-							<Button Height="26" Width="30"/> <!-- Новая группа закладок -->
-							<Button Height="26" Width="30"/> <!-- Свернуть все -->
-						</StackPanel>
-					</TabItem>
-				</TabControl>
-				<ScrollViewer>
-					<StackPanel Orientation="Vertical">
-						<Button HorizontalAlignment="Stretch" Content="{Binding SelectedTabNodes.Title}" FontWeight="Bold" FontSize="{Binding Resources.FontSizes[Body]}" Background="Transparent" Margin="0,5"/>
-						<TreeView ItemsSource="{Binding SelectedTabNodes.SubNodes}" Background="{Binding #LeftSubmenuBorder.Background}">
-							<TreeView.ItemsPanel>
-								<ItemsPanelTemplate>
-									<StackPanel Orientation="Vertical" Spacing="5"/>
-								</ItemsPanelTemplate>
-							</TreeView.ItemsPanel>
-
-							<TreeView.ItemTemplate>
-								<TreeDataTemplate ItemsSource="{Binding SubNodes}">
-									<TreeViewItem FontSize="14" Padding="0" Margin="0"
-												  Header="{Binding Title}" IsSelected="{Binding IsSelected, Mode=TwoWay}"/>
-								</TreeDataTemplate>
-							</TreeView.ItemTemplate>
-						</TreeView>
-					</StackPanel>
-				</ScrollViewer>
-			</DockPanel>
-		</Border>
-		
-		<!-- Правое подменю -->
-		<Border x:Name="RightSubmenuBorder" Classes="Submenu Right" IsVisible="{Binding #RightSubmenu.IsChecked, Mode=TwoWay}">
-			<TabControl>
-				<TabItem Header="Трекер инициативы" IsSelected="{Binding #Initiative.IsChecked, Mode=TwoWay}"/>
-				<TabItem Header="Дайсы" IsSelected="{Binding #DiceRoller.IsChecked, Mode=TwoWay}"/>
-				<TabItem Header="Заклинания" IsSelected="{Binding #Spells.IsChecked, Mode=TwoWay}"/>
-			</TabControl>
-		</Border>
-
-		<!-- Страницы -->
-		<TabControl SelectedIndex="{Binding SelectedTab}">
-
-			<TabItem Header="Главная" IsSelected="{Binding #HomePage.IsChecked, Mode=TwoWay}"/>
-			<TabItem Header="Справочник" IsSelected="{Binding #HandBook.IsChecked, Mode=TwoWay}">
-				<views:HandbookTab/>
-			</TabItem>
-			<TabItem Header="Персонажи" IsSelected="{Binding #Characters.IsChecked, Mode=TwoWay}">
-				<views:CharacterTab/>
-			</TabItem>
-			<TabItem Header="Приключения" IsSelected="{Binding #Adventures.IsChecked, Mode=TwoWay}">
-				<views:AdvanturesTab/>
-			</TabItem>
-			
-		</TabControl>
-		
+		<controls:HorizontalMenu DockPanel.Dock="Top"/>
+		<controls:VerticalMenu DockPanel.Dock="Left"/>
+		<controls:LeftSubmenu DockPanel.Dock="Left" Width="300"/>
+		<controls:RightSubmenu DockPanel.Dock="Right" Width="300"/>
+		<ContentPresenter/>
 		
 	</DockPanel>
 
