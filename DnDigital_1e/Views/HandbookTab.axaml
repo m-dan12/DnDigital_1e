@@ -38,6 +38,7 @@
 			</Style>
 		</Style>
 	</UserControl.Styles>
+	<!--
 	<Grid RowDefinitions="auto, *" ColumnDefinitions="*, *, *" MaxWidth="1500" HorizontalAlignment="Center" Margin="10">
 
 		<AutoCompleteBox Grid.Column="0" Grid.ColumnSpan="{Binding ColumnSpanIfChecked}" Margin="0, 10"/>
@@ -81,7 +82,7 @@
 						<TextBlock Text="Bard"/>
 					</StackPanel>
 					<StackPanel Spacing="10" Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center">
-						<!-- Заменить контент с текста на иконки -->
+						
 						<ToggleButton Content="Избранное"/>
 						<Button Content="Печать"/>
 						<ToggleButton Content="Раскрыть"/>
@@ -102,4 +103,5 @@
 			</StackPanel>
 		</Border>
 	</Grid>
+	-->
 </UserControl>

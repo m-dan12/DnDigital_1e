@@ -1,4 +1,6 @@
-﻿using System;
+﻿using DynamicData;
+using ReactiveUI;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -8,35 +10,151 @@ using System.Threading.Tasks;
 
 namespace DnDigital_1e.Models
 {
-    public class Node(string title, Node? parent)
+    #region Один класс с object Content, несколько типов контентов
+    /*public class Node
     {
-        public string Title { get; set; } = title;
-        public Node? Parent { get; set; } = parent;
+        public string Title { get; set; }
+        public Node? Parent { get; set; }
         public bool IsSelected { get; set; }
+        public object Content { get; set; }
+        public Node(string title, Node? parent, HandbookItem content) // Узел справочника
+        {
+            Title = title;
+            Parent = parent;
+            Content = content;
+        }
+        public Node(string title, Node? parent, CharacterSheet content) // Узел чарника
+        {
+            Title = title;
+            Parent = parent;
+            Content = content;
+        }
+        public Node(string title, Node? parent, AdventureNote content) // Узел приключения
+        {
+            Title = title;
+            Parent = parent;
+            Content = content;
+        }
+        public Node(string title, Node? parent) // Узел папки
+        {
+            Title = title;
+            Parent = parent;
+            Content = new NodeCollection(this);
+        }
     }
-    public class Folder(string title, Node? parent) : Node(title, parent)
+    public class NodeCollection(Node parent)
     {
-        public ObservableCollection<Node> Content { get; set; } = [];
-        public void Add(string title) => Content.Add(new Node(title, this));
+        private readonly Node parent = parent;
+        ObservableCollection<Node> Nodes { get; set; } = [];
+        public void Add(string title, HandbookItem node) => Nodes.Add(new Node(title, parent, node));
+        public void Add(string title, CharacterSheet node) => Nodes.Add(new Node(title, parent, node));
+        public void Add(string title, AdventureNote node) => Nodes.Add(new Node(title, parent, node));
+        public void Add(string title) => Nodes.Add(new Node(title, parent));
+        public Node this[int index] => Nodes[index];
+        public Node this[string title] => Nodes.Single(x => x.Title == title);
 
-        #region Делаем папки приятными для использования
-        public Node? this[int index] => Content[index];
-        public Node? this[string title] => Content.Single(x => x.Title == title);
-        #endregion
     }
-    public class HBItemNode(string title, Node? parent, HBItem content) : Node(title, parent)
-    {
-        public HBItem Content { get; set; } = content;
-    }
-    public class ChNode(string title, Node? parent, CharacterSheet content) : Node(title, parent)
-    {
-        public CharacterSheet Content { get; set; } = content;
-    }
-    public class NoteNode(string title, Node? parent, Note content) : Node(title, parent)
-    { 
-        public Note Content { get; set; } = content;
-    }
-    public class HBItem{ }
+    public class HandbookItem{ }
     public class CharacterSheet{ }
-    public class Note{ }
+    public class AdventureNote{ }*/
+    #endregion
+
+    #region Несколько классов узлов, наследуемых от Node. Каждый со своим типом контента
+    /*public abstract class Node
+    {
+        public string Title { get; set; }
+        public Node? Parent { get; set; } = null;
+        public bool IsSelected { get; set; }
+
+        public Node(string title) => Title = title;
+        public Node(string title, Node? parent)
+        {
+            Title = title;
+            Parent = parent;
+        }
+    }
+    public class HandbookNode : Node
+    {
+        public HandbookItem Content { get; set; }
+
+        public HandbookNode(string title, HandbookItem content) : base(title) => Content = content;
+        public HandbookNode(string title, Node parent, HandbookItem content) : base(title, parent) => Content = content;
+    }
+    public class CharacterNode : Node
+    {
+        public CharacterSheet Content { get; set; }
+
+        public CharacterNode(string title, CharacterSheet content) : base(title) => Content = content;
+        public CharacterNode(string title, Node parent, CharacterSheet content) : base(title, parent) => Content = content;
+    }
+    public class AdventureNode : Node
+    {
+        public AdventureNote Content { get; set; }
+
+        public AdventureNode(string title, AdventureNote content) : base(title) => Content = content;
+        public AdventureNode(string title, Node parent, AdventureNote content) : base(title, parent) => Content = content;
+    }
+    public class FolderNode : Node
+    {
+        ObservableCollection<Node> Content { get; set; } = [];
+
+        public FolderNode(string title) : base(title) { }
+        public FolderNode(string title, Node parent) : base(title, parent) { }
+
+        public void Add(string title, HandbookItem node) => Content.Add(new HandbookNode(title, this, node));
+        public void Add(string title, CharacterSheet node) => Content.Add(new CharacterNode(title, this, node));
+        public void Add(string title, AdventureNote node) => Content.Add(new AdventureNode(title, this, node));
+        public void Add(string title) => Content.Add(new FolderNode(title, this));
+        public Node this[int index] => Content[index];
+        public Node this[string title] => Content.Single(x => x.Title == title);
+
+    }
+    public class HandbookItem{ }
+    public class CharacterSheet{ }
+    public class AdventureNote{ }*/
+    #endregion
+
+    #region Один обобщенный класс с несколькими типами контента
+    public interface INodeContent { }
+    public class HandbookItem : INodeContent { }
+    public class CharacterSheet : INodeContent { }
+    public class AdventureNote : INodeContent { }
+    public class NodeFolder : ObservableCollection<Node<INodeContent>>, INodeContent
+    {
+        public void Add(string title, Node<INodeContent> parent, INodeContent content)
+        {
+            Add(new Node<INodeContent>(title, parent, content));
+        }
+    }
+    public class Node<T> where T : INodeContent
+    {
+        public string Title { get; set; }
+        public Node<T>? Parent { get; set; } = null;
+        public bool IsSelected { get; set; }
+        public T Content { get; set; }
+        public Node(string title, T content)
+        {
+            Title = title;
+            Content = content;
+        }
+        public Node(string title, Node<T> parent, T content)
+        {
+            Title = title;
+            Parent = parent;
+            Content = content;
+        }
+    }
+    #endregion
+
+    #region Один обобщенный класс с несколькими типами контента
+    /*public interface INodeContent { }
+    public class HandbookItem : INodeContent { }
+    public class CharacterSheet : INodeContent { }
+    public class AdventureNote : INodeContent { }
+    public class NodeFolder<T> : ObservableCollection<Node<T>>, INodeContent { }
+    public class Node<T>(T content) where T : INodeContent
+    {
+        public T Content { get; set; } = content;
+    }*/
+    #endregion
 }

@@ -87,9 +87,12 @@
 					</StackPanel>
 				</TabItem>
 			</TabControl>
+			<!--
 			<ScrollViewer>
 				<StackPanel Orientation="Vertical">
-					<Button HorizontalAlignment="Stretch" Content="{Binding SelectedTabNodes.Title}" FontWeight="Bold" FontSize="{Binding Resources.FontSizes[Body]}" Background="Transparent" Margin="0,5"/>
+					<Button HorizontalAlignment="Stretch" Background="Transparent" Margin="0,5">
+						<TextBlock Classes="H5" Text="{Binding SelectedTabNodes.Title}"/>
+					</Button>
 					<TreeView ItemsSource="{Binding SelectedTabNodes.SubNodes}" Background="{Binding #LeftSubmenuBorder.Background}">
 						<TreeView.ItemsPanel>
 							<ItemsPanelTemplate>
@@ -105,6 +108,7 @@
 					</TreeView>
 				</StackPanel>
 			</ScrollViewer>
+			-->
 		</DockPanel>
 	</Border>
 </UserControl>

@@ -4,10 +4,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="1920" d:DesignHeight="1080"
         xmlns:vm="using:DnDigital_1e.ViewModels"
-        x:DataType="vm:MainWindowViewModel"
-        x:Class="DnDigital_1e.Views.MainWindow"
 		xmlns:views="clr-namespace:DnDigital_1e.Views"
 		xmlns:controls="clr-namespace:DnDigital_1e.Controls"
+		xmlns:model="clr-namespace:DnDigital_1e.Models"
+        x:DataType="vm:MainWindowViewModel"
+        x:Class="DnDigital_1e.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
         Title="DnDigital_1e">
 
@@ -36,26 +37,40 @@
 			<Setter Property="CornerRadius" Value="0"/>
 			<Setter Property="TabStripPlacement" Value="Left"/>
 		</Style>
-				
-		<Style Selector="TreeViewItem">
-			<Setter Property="CornerRadius" Value="5"/>
-			<Setter Property="Margin" Value="0, 5, 0, 0"/>
-			<Style Selector="^.Folder">
-				<Setter Property="IsHitTestVisible" Value="False"/>
+
+		<Style Selector="TreeView">
+			<Style Selector="^.Navigation">
+				<Style Selector="^ TreeViewItem">
+					<Setter Property="CornerRadius" Value="5"/>
+					<Setter Property="Margin" Value="0, 5, 0, 0"/>
+					<Style Selector="^.Folder">
+						<Setter Property="IsHitTestVisible" Value="False"/>
+					</Style>
+					<Style Selector="^:pointerover /template/ Border#PART_LayoutRoot">
+						<Setter Property="Background" Value="{DynamicResource A1}" />
+					</Style>
+					<Style Selector="^:pressed /template/ Border#PART_LayoutRoot">
+						<Setter Property="Background" Value="{DynamicResource A1}" />
+					</Style>
+					<Style Selector="^:selected /template/ Border#PART_LayoutRoot">
+						<Setter Property="Background" Value="{DynamicResource A1}" />
+					</Style>
+					<Style Selector="^:selected:pointerover /template/ Border#PART_LayoutRoot">
+						<Setter Property="Background" Value="{DynamicResource A1}" />
+					</Style>
+				</Style>
 			</Style>
-			<Style Selector="^:pointerover /template/ Border#PART_LayoutRoot">
-				<Setter Property="Background" Value="{DynamicResource A1}" />
-			</Style>
-			<Style Selector="^:pressed /template/ Border#PART_LayoutRoot">
-				<Setter Property="Background" Value="{DynamicResource A1}" />
-			</Style>
-			<Style Selector="^:selected /template/ Border#PART_LayoutRoot">
-				<Setter Property="Background" Value="{DynamicResource A1}" />
-			</Style>
-			<Style Selector="^:selected:pointerover /template/ Border#PART_LayoutRoot">
-				<Setter Property="Background" Value="{DynamicResource A1}" />
+			<Style Selector="^.Content">
+				<Style Selector="^ TreeViewItem">
+					<Setter Property="CornerRadius" Value="5"/>
+					<Setter Property="Margin" Value="5"/>
+					<Setter Property="MinHeight" Value="100"/>
+					<Setter Property="Background" Value="{DynamicResource B2}"/>
+				</Style>
 			</Style>
 		</Style>
+				
+		
 		
 		<Style Selector="ToolTip">
 			<Setter Property="Background" Value="{DynamicResource A1}"/>
@@ -78,7 +93,33 @@
 		<controls:VerticalMenu DockPanel.Dock="Left"/>
 		<controls:LeftSubmenu DockPanel.Dock="Left" Width="300"/>
 		<controls:RightSubmenu DockPanel.Dock="Right" Width="300"/>
-		<ContentPresenter/>
+		<ContentPresenter DataContext="{Binding ContentDataContext}" Content="{Binding Treetop}" Padding="5">
+			<ContentPresenter.DataTemplates>
+				<DataTemplate x:DataType="model:FolderNode">
+					<TreeView Classes="Content" ItemsSource="{Binding Content}">
+						<ItemsControl.ItemsPanel>
+							<ItemsPanelTemplate>
+								<UniformGrid Columns="3" VerticalAlignment="Top"/>
+							</ItemsPanelTemplate>
+						</ItemsControl.ItemsPanel>
+						<ItemsControl.ItemTemplate>
+							<DataTemplate>
+								<TextBlock Text="{Binding Title}"/>
+							</DataTemplate>
+						</ItemsControl.ItemTemplate>
+					</TreeView>
+				</DataTemplate>
+				<DataTemplate x:DataType="model:HandbookNode">
+					
+				</DataTemplate>
+				<DataTemplate x:DataType="model:CharacterNode">
+					
+				</DataTemplate>
+				<DataTemplate x:DataType="model:AdventureNode">
+					
+				</DataTemplate>
+			</ContentPresenter.DataTemplates>
+		</ContentPresenter>
 		
 	</DockPanel>
 
