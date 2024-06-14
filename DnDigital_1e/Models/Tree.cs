@@ -115,7 +115,7 @@ namespace DnDigital_1e.Models
     #endregion
 
     #region Один обобщенный класс с несколькими типами контента
-    public interface INodeContent { }
+    /*public interface INodeContent { }
     public class HandbookItem : INodeContent { }
     public class CharacterSheet : INodeContent { }
     public class AdventureNote : INodeContent { }
@@ -143,7 +143,7 @@ namespace DnDigital_1e.Models
             Parent = parent;
             Content = content;
         }
-    }
+    }*/
     #endregion
 
     #region Один обобщенный класс с несколькими типами контента
@@ -151,10 +151,56 @@ namespace DnDigital_1e.Models
     public class HandbookItem : INodeContent { }
     public class CharacterSheet : INodeContent { }
     public class AdventureNote : INodeContent { }
-    public class NodeFolder<T> : ObservableCollection<Node<T>>, INodeContent { }
+    public class NodeFolder<T> : ObservableCollection<T>, INodeContent where T : Node<INodeContent>
+    {
+        public T this[int index] => this[index];
+    }
     public class Node<T>(T content) where T : INodeContent
     {
         public T Content { get; set; } = content;
+    }
+    public static class TExtension
+    {
+        public static void Add(this Node<NodeFolder<Node<INodeContent>>> collection, Node<INodeContent> node) => collection.Content.Add(node);
     }*/
+    #endregion
+
+    #region Один обобщенный класс с несколькими типами контента
+    /*public interface INodeContent { }
+    public class HandbookItem : INodeContent { }
+    public class CharacterSheet : INodeContent { }
+    public class AdventureNote : INodeContent { }
+    public class Node
+    {
+        public dynamic Content { get; set; }
+        public Node() => Content = new ObservableCollection<Node>();
+        public Node(INodeContent content) => Content = content;
+    }*/
+    #endregion
+
+    #region Один обобщенный класс с несколькими типами контента
+    public interface IContent { }
+    public class HandbookItem : IContent { }
+    public class CharacterSheet : IContent { }
+    public class AdventureNote : IContent { }
+
+    public interface INode { }
+    public class Node(string title, INode parent, IContent content) : INode
+    {
+        public string Title { get; set; } = title;
+        public INode Parent { get; set; } = parent;
+        public bool IsSelected { get; set; } = false;
+        public IContent Content { get; set; } = content;
+    }
+    public class Folder : INode
+    {
+        public string Title { get; set; }
+        public INode? Parent { get; set; }
+        public bool IsSelected { get; set; }
+
+        public dynamic Content { get; set; }
+        public Node() => Content = new ObservableCollection<Node>();
+        public Node() => Content = new ObservableCollection<Node>();
+    }
     #endregion
 }

@@ -76,14 +76,15 @@ public class MainWindowViewModel : ViewModelBase
 }
 public interface ITreeViewModel
 {
-    [Reactive] public Node<INodeContent> Treetop { get; set; }
+    [Reactive] public Node Treetop { get; set; }
 }
 public class HandbookDataContext : ITreeViewModel
 {
-    [Reactive] public Node<INodeContent> Treetop { get; set; } = new("Справочик", new NodeFolder());
+    [Reactive] public Node Treetop { get; set; } = new();
     public HandbookDataContext()
     {
-        ((NodeFolder)Treetop.Content).Add(new("Классы", new NodeFolder()));
+        Treetop.Content.Add(new Node());
+        Treetop.Content[0].Add(new Node());
     }
 }
 /*public class CharactersDataContext : ITreeViewModel
