@@ -8,6 +8,7 @@
 			<Button Classes="Dice D20">
 				<TextBlock Classes="Num Mod" Text="+10"/>
 			</Button>
+			<Button Classes="Dice D20 Prof Num Mod" Content="+10"/>
 			<Button Classes="Dice Other">
 				<TextBlock Classes="Num Dam" Text="1d12+1d8+4"/>
 			</Button>
@@ -16,7 +17,7 @@
 			<TextBlock Classes="H2" Text="Text H2"/>
 			<TextBlock Classes="H3" Text="Text H3"/>
 			<TextBlock Classes="H4" Text="Text H4"/>
-			<TextBlock Classes="H5" Text="Text H5"/>
+			<TextBlock Classes="H5 Yellow" Text="Text H5"/>
 		</StackPanel>
     </Border>
   </Design.PreviewWith>
@@ -35,6 +36,9 @@
 				<Setter Property="Width" Value="35"/>
 				<Setter Property="Padding" Value="0"/>
 				<Setter Property="BorderBrush" Value="{DynamicResource S3}"/>
+				<Style Selector="^.Prof">
+					<Setter Property="Background" Value="{DynamicResource S3}"/>
+				</Style>
 			</Style>
 			<Style Selector="^.Other">
 				<Setter Property="Padding" Value="15 0"/>

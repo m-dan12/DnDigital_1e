@@ -17,6 +17,7 @@
     <None Remove="Assets\HideWindow.svg" />
     <None Remove="Assets\Icons\HelpIcon.svg" />
     <None Remove="Assets\Длительный-короткий отдых.svg" />
+    <Folder Include="Controls\" />
     <Folder Include="StylesAndDictionaries\" />
   </ItemGroup>
 

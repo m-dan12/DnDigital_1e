@@ -9,6 +9,8 @@ using System.Linq;
 using System;
 using DnDigital_1e.Models;
 using System.Collections.ObjectModel;
+using System.Net;
+using Avalonia.Data;
 
 
 namespace DnDigital_1e.ViewModels;
@@ -38,9 +40,19 @@ public class MainWindowViewModel : ViewModelBase
 
     #endregion
 
+    #region Кнопки навигации
+
+    [Reactive] public ToggleButtonDataContext ToggleButtonDC { get; set; }
+
+    #endregion
+
     #region Дерево навигации
 
-    [Reactive] public TreeDataContext TreeDC { get; set; } = new();
+    [Reactive] public HomePageDataContext HomePageDC { get; set; } = new();
+    [Reactive] public HandbookDataContext HandbookDC { get; set; } = new();
+    [Reactive] public CharactersDataContext CharactersDC { get; set; } = new();
+    [Reactive] public AdventuresDataContext AdventuresDC { get; set; } = new();
+    [Reactive] public TreeDataContext TreeDC { get; set; }
 
     #endregion
 
@@ -50,6 +62,9 @@ public class MainWindowViewModel : ViewModelBase
     [ObservableAsProperty] public string? RightSubmenuToolTip { get; }
     public MainWindowViewModel()
     {
+        TreeDC = HandbookDC;
+        ToggleButtonDC = new(this);
+
         // Левое подменю
         this.WhenAnyValue(vm => vm.LeftSubmenuIsChecked)
             .Select(x => x ? "Свернуть" : "Развернуть")
@@ -59,79 +74,44 @@ public class MainWindowViewModel : ViewModelBase
         this.WhenAnyValue(vm => vm.RightSubmenuIsChecked)
             .Select(x => x ? "Свернуть" : "Развернуть")
             .ToPropertyEx(this, vm => vm.RightSubmenuToolTip);
-
-
-        // Выбранная ветка страниц в зависимости от TabItems
-        /*this.WhenAnyValue(vm => vm.SelectedTab, vm => vm.Nodes, (index, nodes) => nodes[index])
-            .ToPropertyEx(this, vm => vm.SelectedTabNodes);*/
     }
 }
-/*public class FolderCollection
+public abstract class TreeDataContext : ViewModelBase
 {
-    public ObservableCollection<HandbookFolder> Nodes { get; set; } = [];
-    public void Add(string title) => Nodes.Add(new(title));
-    public HandbookFolder this[int index] => Nodes[index];
-    public HandbookFolder this[string title] => Nodes.Single(x => x.Title == title);
-}
-public class TreeDataContext : ViewModelBase
-{
-    *//*public void CreateTree()
-    {
-        switch (Treetop.Title)
-        {
-            case "Справочник":
-                ((FolderNode)Treetop).Add("Классы");
-                List<string> ClassNames = ["Бард", "Варвар", "Воин", "Волшебник", "Друид", "Жрец", "Колдун", "Монах", "Паладин", "Плут", "Следопыт", "Чародей"];
-                foreach (string name in ClassNames)
-                    ((FolderNode)((FolderNode)Treetop)["Классы"]).Add(new HandbookItem(name));
+    public abstract Node TreeGenerate();
+    [Reactive] public Node Treetop { get; set; }
+    [Reactive] public Node? SelectedNode { get; set; }
+    [ObservableAsProperty] public Node Content { get; }
+    [ObservableAsProperty] public Node? ContentContent { get; }
+    [Reactive] public Node? SelectedContent { get; set; }
 
-                break;
-
-
-            case "Персонажи":
-                List<string> CharacterNames = ["Кай", "Кас", "Люциан", "Афелий", "Сол", "Пайк", "Арчи", "Хада Джин", "Владимир", "Джерико Свейн", "Анахорус", "Найло"];
-                foreach (string name in CharacterNames)
-                    ((FolderNode)Treetop).Add(new CharacterSheet(name));
-
-                break;
-
-
-            case "Приключения":
-                ((FolderNode)Treetop).Add("Проклятие Страда");
-                List<string> AdventureNames = ["Жители Баровии", "Гадание", "Характер Страда", "Деревня Баровия", "Валлаки", "Креск", "Ветряная мельница", "Янтарный храм", "Безумный маг", "Ириена Коляна"];
-                foreach (string name in AdventureNames)
-                    ((FolderNode)((FolderNode)Treetop)["Проклятие Страда"]).Add(new AdventureNote(name));
-
-                ((FolderNode)Treetop).Add("Низвержение в Авернус");
-
-                ((FolderNode)Treetop).Add("А кто, все-таки, главный?");
-
-                break;
-        }
-    }*//*
-    [Reactive] FolderCollection HandbookTree { get; set; } = new();
-    [Reactive] ObservableCollection<CharacterNode> CharactersTree { get; set; } = [];
-    [Reactive] ObservableCollection<AdventuresFolder> AdventuresTree { get; set; } = [];
-    [Reactive] object Treetop { get; set; }
-    [Reactive] public object SelectedNode { get; set; }
     public TreeDataContext()
     {
-        HandbookTree.Add("Классы");
-        HandbookTree[0].Add("Бард");
-        HandbookTree[0].Add("Варвар");
-        HandbookTree[0].Add("Воин");
-        HandbookTree[0].Add("Волшебник");
+        Treetop = TreeGenerate();
 
-        Treetop = HandbookTree;
-        SelectedNode = Treetop;
+        this.WhenAnyValue(vm => vm.SelectedNode)
+            .Select(node => node ?? Treetop)
+            .ToPropertyEx(this, vm => vm.Content);
+
+        this.WhenAnyValue(vm => vm.SelectedContent)
+            .Where(x => x != null)
+            .Subscribe(_ => { SelectedNode = SelectedContent; });
+
+
     }
-}*/
-public class TreeTop : ObservableCollection<Node> { }
-public class TreeDataContext : ViewModelBase
+}
+public class HomePageDataContext : TreeDataContext
 {
-    public Node HandbookTreeGenerate()
+    public override Node TreeGenerate()
     {
-        Treetop = new FolderNode("Справочник");
+        return new FolderNode("Домашняя страница");
+    }
+}
+public class HandbookDataContext : TreeDataContext
+{
+    public override Node TreeGenerate()
+    {
+        Node TreeTop = new FolderNode("Справочник");
 
         List<string> HandbookTitles = ["Классы", "Расы", "Черты", "Предыстории", "Снаряжение", "Оружие", "Доспехи"];
 
@@ -139,38 +119,99 @@ public class TreeDataContext : ViewModelBase
         {
             ["Классы"] = ["Бард", "Варвар", "Воин", "Волшебник"],
         };
+
         foreach (string title in HandbookTitles)
-            ((FolderNode)Treetop).Add(title);
+            ((FolderNode)TreeTop).Add(title);
 
         foreach ((string key, List<string> value) in HandbookContents)
-            ((FolderNode)((FolderNode)Treetop)[key]).AddRange(value.Select(x => new HandbookItem(x)).ToList());
-        
-        return Treetop;
+            ((FolderNode)((FolderNode)TreeTop)[key]).AddRange(value.Select(x => new HandbookItem(x)).ToList());
+
+        return TreeTop;
     }
-    [Reactive] public Node Treetop { get; set; }
-    [Reactive] public Node? SelectedNode { get; set; }
-    [Reactive] public Node Content { get; set; }
-    [Reactive] public Node? SelectedContent { get; set; }
-
-    public TreeDataContext()
+}
+public class CharactersDataContext : TreeDataContext
+{
+    public override Node TreeGenerate()
     {
-        Treetop = HandbookTreeGenerate();
+        Node TreeTop = new FolderNode("Персонажи");
 
-        this.WhenAnyValue(vm => vm.Content)
-            .Where(content => content == null)
-            .Subscribe(_ => { Content = Treetop; });
-        
-        this.WhenAnyValue(vm => vm.SelectedContent)
-            .Where(content => content != null)
-            .Subscribe(_ => {
-                SelectedNode = SelectedContent;
-                Content = SelectedContent;
+        List<string> CharacterNames = ["Кай", "Кас", "Афелий", "Заск", "Пайк", "Арчи", "Владимир", "Каин"];
+
+        ((FolderNode)TreeTop).AddRange(CharacterNames.Select(x => new CharacterSheet(x)).ToList());
+
+        return TreeTop;
+    }
+}
+public class AdventuresDataContext : TreeDataContext
+{
+    public override Node TreeGenerate()
+    {
+        Node TreeTop = new FolderNode("Приключения");
+
+        List<string> AdventureTitles = ["Проклятие Страда", "Низвержение в Авернус"];
+
+        Dictionary<string, List<string>> AdventureContents = new()
+        {
+            ["Проклятие Страда"] = ["Деревня Баровия", "Валлаки", "Креск", "Янтарный храм", "Страд фон Зарович", "Гадание"],
+        };
+
+        foreach (string title in AdventureTitles)
+            ((FolderNode)TreeTop).Add(title);
+
+        foreach ((string key, List<string> value) in AdventureContents)
+            ((FolderNode)((FolderNode)TreeTop)[key]).AddRange(value.Select(x => new AdventureNote(x)).ToList());
+
+        return TreeTop;
+    }
+}
+
+public class ToggleButtonDataContext : ViewModelBase
+{
+    private readonly MainWindowViewModel _mainWindowVM;
+    [Reactive] public bool HomePageIsSelected { get; set; }
+    [Reactive] public bool HandbookIsSelected { get; set; } = true;
+    [Reactive] public bool CharactersIsSelected { get; set; }
+    [Reactive] public bool AdventuresIsSelected { get; set; }
+
+    public ToggleButtonDataContext(MainWindowViewModel mainWindowVM)
+    {
+        _mainWindowVM = mainWindowVM;
+
+        this.WhenAnyValue(vm => vm.HomePageIsSelected)
+            .Where(x => x)
+            .Subscribe(_ =>
+            {
+                _mainWindowVM.TreeDC = _mainWindowVM.HomePageDC;
+                HandbookIsSelected = false;
+                CharactersIsSelected = false;
+                AdventuresIsSelected = false;
             });
-        
-        this.WhenAnyValue(vm => vm.SelectedNode)
-            .Where(content => content != null)
-            .Subscribe(_ => {
-                Content = SelectedNode;
+        this.WhenAnyValue(vm => vm.HandbookIsSelected)
+            .Where(x => x)
+            .Subscribe(_ =>
+            {
+                _mainWindowVM.TreeDC = _mainWindowVM.HandbookDC;
+                HomePageIsSelected = false;
+                CharactersIsSelected = false;
+                AdventuresIsSelected = false;
+            });
+        this.WhenAnyValue(vm => vm.CharactersIsSelected)
+            .Where(x => x)
+            .Subscribe(_ =>
+            {
+                _mainWindowVM.TreeDC = _mainWindowVM.CharactersDC;
+                HomePageIsSelected = false;
+                HandbookIsSelected = false;
+                AdventuresIsSelected = false;
+            });
+        this.WhenAnyValue(vm => vm.AdventuresIsSelected)
+            .Where(x => x)
+            .Subscribe(_ =>
+            {
+                _mainWindowVM.TreeDC = _mainWindowVM.AdventuresDC;
+                HomePageIsSelected = false;
+                HandbookIsSelected = false;
+                CharactersIsSelected = false;
             });
     }
 }
