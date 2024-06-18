@@ -6,18 +6,19 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 using NCalc;
+using DnDigital_1e.Models;
 
 namespace DnDigital_1e.ViewModels
 {
     public abstract class HandbooksElement(string name, string engName, string source)
     {
-        public readonly string Name;
+        public readonly string Name = name;
         public string MdName => $"#{Name}";
 
-        public readonly string EngName;
+        public readonly string EngName = engName;
         public string MdEngName => $"*{EngName}*";
 
-        public readonly string Source;
+        public readonly string Source = source;
         public string MdSource => $"_**Источник:**{Source}_";
     }
     public class Money(int cp, int sp, int ep, int gp, int pp) //Допилено

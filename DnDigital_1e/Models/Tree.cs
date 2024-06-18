@@ -7,11 +7,13 @@ using System.Linq;
 using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace DnDigital_1e.Models
 {
     #region Один класс с object Content, несколько типов контентов
-    /*public class Node
+    /*
+    public class Node
     {
         public string Title { get; set; }
         public Node? Parent { get; set; }
@@ -56,7 +58,8 @@ namespace DnDigital_1e.Models
     }
     public class HandbookItem{ }
     public class CharacterSheet{ }
-    public class AdventureNote{ }*/
+    public class AdventureNote{ }
+    */
     #endregion
 
     #region Несколько классов узлов, наследуемых от Node. Каждый со своим типом контента
@@ -179,12 +182,24 @@ namespace DnDigital_1e.Models
     #endregion
 
     #region Один обобщенный класс с несколькими типами контента
-    public interface IContent { }
+    /*public interface IContent { }
     public class HandbookItem : IContent { }
     public class CharacterSheet : IContent { }
     public class AdventureNote : IContent { }
 
-    public interface INode { }
+    public interface INode
+    {
+        public string Title { get; set; }
+    }
+    public class TreeTop(string title) : INode
+    {
+        public string Title { get; set; } = title;
+        public ObservableCollection<INode> Content { get; set; } = [];
+        public void Add(string title, IContent content) => Content.Add(new Node(title, this, content));
+        public void Add(string title) => Content.Add(new Folder(title, this));
+        public INode this[int index] => Content[index];
+        public INode this[string title] => Content.Single(x => x.Title == title);
+    }
     public class Node(string title, INode parent, IContent content) : INode
     {
         public string Title { get; set; } = title;
@@ -192,15 +207,237 @@ namespace DnDigital_1e.Models
         public bool IsSelected { get; set; } = false;
         public IContent Content { get; set; } = content;
     }
-    public class Folder : INode
+    public class Folder(string title, INode parent) : INode
+    {
+        public string Title { get; set; } = title;
+        public INode Parent { get; set; } = parent;
+        public bool IsSelected { get; set; } = false;
+        public ObservableCollection<INode> Content { get; set; } = [];
+        public void Add(string title, IContent content) => Content.Add(new Node(title, this, content));
+        public void Add(string title) => Content.Add(new Folder(title, this));
+        public INode this[int index] => Content[index];
+        public INode this[string title] => Content.Single(x => x.Title == title);
+    }*/
+    #endregion
+
+    #region Почти гуд
+    /*public class Nodes<T> where T : IContent
     {
         public string Title { get; set; }
-        public INode? Parent { get; set; }
-        public bool IsSelected { get; set; }
-
-        public dynamic Content { get; set; }
-        public Node() => Content = new ObservableCollection<Node>();
-        public Node() => Content = new ObservableCollection<Node>();
+        public Nodes<T>? Parent { get; set; }
+        public ObservableCollection<Nodes<T>>? Subnodes { get; set; }
+        public T? Content { get; set; }
+        public Nodes(IContent content)
+        {
+            Content = (T)content;
+            Title = Content.Title;
+        }
+        public Nodes(string title)
+        {
+            Title = title;
+            Subnodes = [];
+        }
+        public void Add(string title)
+        {
+            if (Subnodes != null)
+                Subnodes.Add(new(title));
+        }
+        public void Add(IContent content)
+        {
+            if (Subnodes != null)
+                Subnodes.Add(new(content));
+        }
+        public Nodes<T> this[int index] => Subnodes[index];
+        public Nodes<T> this[string title] => Subnodes.Single(x => x.Title == title);
     }
+
+    public interface IContent
+    {
+        public string Title { get; set; }
+    }
+    public class HandbookItem(string title) : IContent
+    {
+        public string Title { get; set; } = title;
+
+    }
+    public class CharacterSheet(string name) : IContent
+    {
+        public string Title { get => Name; set => Name = Title; }
+        public string Name { get; set; } = name;
+    }
+    public class AdventureNote(string title) : IContent
+    {
+        public string Title { get; set; } = title;
+    }
+    public interface INode
+    {
+        public string Title { get; set; }
+        public bool IsSelected { get; set; }
+    }
+    public interface IFolder
+    {
+        public ObservableCollection<INode> Content { get; set; }
+    }
+    public class TreeTop(string title) : IFolder
+    {
+        public string Title { get; set; } = title;
+        public ObservableCollection<INode> Content { get; set; } = [];
+
+        public void Add(IContent content) => Content.Add(new Node(content.Title, this, content));
+        public void Add(string title) => Content.Add(new Folder(title, this));
+
+        public INode this[int index] => Content[index];
+        public INode this[string title] => Content.Single(x => x.Title == title);
+    }
+    public class Node(string title, IFolder parent, IContent content) : INode
+    {
+        public string Title { get; set; } = title;
+        public IFolder Parent { get; set; } = parent;
+        public bool IsSelected { get; set; } = false;
+        public IContent Content { get; set; } = content;
+    }
+    public class Folder(string title, IFolder parent) : IFolder, INode
+    {
+        public string Title { get; set; } = title;
+        public IFolder Parent { get; set; } = parent;
+        public bool IsSelected { get; set; } = false;
+        public ObservableCollection<INode> Content { get; set; } = [];
+
+        public void Add(IContent content) => Content.Add(new Node(content.Title, this, content));
+        public void Add(string title) => Content.Add(new Folder(title, this));
+
+        public INode this[int index] => Content[index];
+        public INode this[string title] => Content.Single(x => x.Title == title);
+    }*/
     #endregion
+
+    #region Благослови меня Господь, на гуд структуру Node-ов
+    public abstract class Node
+    {
+        public string Title { get; set; }
+        public abstract object Content { get; }
+    }
+    public class FolderNode : Node
+    {
+        private NodeCollection nodes { get; set; } = [];
+        public override object Content => nodes;
+        public FolderNode(string title)
+        {
+            Title = title;
+        }
+
+        #region Методы Get и Add
+        public void Add(string title) => nodes.Add(new FolderNode(title));
+        public void Add(HandbookItem content) => nodes.Add(new HandbookNode(content));
+        public void Add(CharacterSheet content) => nodes.Add(new CharacterNode(content));
+        public void Add(AdventureNote content) => nodes.Add(new AdventureNode(content));
+
+        public void AddRange(List<string> titles) => titles.ForEach(x => nodes.Add(new FolderNode(x)));
+        public void AddRange(List<HandbookItem> contents) => contents.ForEach(x => nodes.Add(new HandbookNode(x)));
+        public void AddRange(List<CharacterSheet> contents) => contents.ForEach(x => nodes.Add(new CharacterNode(x)));
+        public void AddRange(List<AdventureNote> contents) => contents.ForEach(x => nodes.Add(new AdventureNode(x)));
+
+        public Node this[int index] => nodes[index];
+        public Node this[string title] => nodes.Single(x => x.Title == title);
+        #endregion
+    }
+    public class HandbookNode : Node
+    {
+        private HandbookItem _content { get; set; }
+        public override object Content => _content;
+        public HandbookNode(HandbookItem content)
+        {
+            Title = content.Title;
+            _content = content;
+        }
+    }
+    public class CharacterNode : Node
+    {
+        private CharacterSheet _content { get; set; }
+        public override object Content => _content;
+        public CharacterNode(CharacterSheet content)
+        {
+            Title = content.Name;
+            _content = content;
+        }
+    }
+    public class AdventureNode : Node
+    {
+        private AdventureNote _content { get; set; }
+        public override object Content => _content;
+        public AdventureNode(AdventureNote content)
+        {
+            Title = content.Title;
+            _content = content;
+        }
+    }
+    public class HandbookItem(string title)
+    {
+        public string Title { get; set; } = title;
+    }
+    public class CharacterSheet(string name)
+    {
+        public string Name { get; set; } = name;
+    }
+    public class AdventureNote(string title)
+    {
+        public string Title { get; set; } = title;
+    }
+    public class NodeCollection : ObservableCollection<Node> { }
+
+    #endregion
+
+    #region Благослови меня Господь, на гуд структуру Node-ов
+
+    /*public class HandbookFolder(string title)
+    {
+        public string Title { get; set; } = title;
+        public ObservableCollection<HandbookNode> Nodes { get; set; } = [];
+        public HandbookNode this[string title] => Nodes.Single(x => x.Title == title);
+        public void Add(string title) => Nodes.Add(new(title));
+    }
+    public class HandbookNode(string title)
+    {
+        public string Title => Content.Title;
+        public HandbookItem Content { get; set; } = new(title);
+    }
+    public class HandbookItem(string title)
+    {
+        public string Title { get; set; } = title;
+    }
+
+    public class CharactersFolder(string title) : ObservableCollection<CharacterNode>
+    {
+        public string Title { get; set; } = title;
+        public CharacterNode this[string title] => this.Single(x => x.Title == title);
+    }
+    public class CharacterNode(CharacterSheet content)
+    {
+        public string Title => Content.Name;
+        public CharacterSheet Content { get; set; } = content;
+    }
+    public class CharacterSheet(string name)
+    {
+        public string Name { get; set; } = name;
+    }
+
+    public class AdventuresFolder(string title) : ObservableCollection<AdventureNode>
+    {
+        public string Title { get; set; } = title;
+        public AdventureNode this[string title] => this.Single(x => x.Title == title);
+    }
+    public class AdventureNode(AdventureNote content)
+    {
+        public string Title => Content.Title;
+        public AdventureNote Content { get; set; } = content;
+    }
+    public class AdventureNote(string title)
+    {
+        public string Title { get; set; } = title;
+    }*/
+
+
+    #endregion
+
+
 }

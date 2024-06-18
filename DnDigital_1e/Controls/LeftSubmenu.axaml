@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="300" d:DesignHeight="400"
 			 xmlns:vm="using:DnDigital_1e.ViewModels"
+			 xmlns:model="clr-namespace:DnDigital_1e.Models"
 			 x:DataType="vm:MainWindowViewModel"
              x:Class="DnDigital_1e.Controls.LeftSubmenu">
 	
@@ -32,6 +33,29 @@
 		<Style Selector="TabItem">
 			<Setter Property="IsVisible" Value="False"/>
 		</Style>
+		<Style Selector="TreeView">
+			<Style Selector="^.Navigation">
+				<Style Selector="^ TreeViewItem">
+					<Setter Property="CornerRadius" Value="5"/>
+					<Setter Property="Margin" Value="0, 5, 0, 0"/>
+					<Style Selector="^.Folder">
+						<Setter Property="IsHitTestVisible" Value="False"/>
+					</Style>
+					<Style Selector="^:pointerover /template/ Border#PART_LayoutRoot">
+						<Setter Property="Background" Value="{DynamicResource A1}" />
+					</Style>
+					<Style Selector="^:pressed /template/ Border#PART_LayoutRoot">
+						<Setter Property="Background" Value="{DynamicResource A1}" />
+					</Style>
+					<Style Selector="^:selected /template/ Border#PART_LayoutRoot">
+						<Setter Property="Background" Value="{DynamicResource A1}" />
+					</Style>
+					<Style Selector="^:selected:pointerover /template/ Border#PART_LayoutRoot">
+						<Setter Property="Background" Value="{DynamicResource A1}" />
+					</Style>
+				</Style>
+			</Style>
+		</Style>
 	</UserControl.Styles>
 	
 	<Border x:Name="LeftSubmenuBorder" Classes="Submenu Left">
@@ -49,8 +73,8 @@
 						<Popup x:Name="SortOrderPopup" PlacementTarget="{Binding #SortOrderButton}" Placement="BottomEdgeAlignedRight" IsOpen="{Binding #SortOrderButton.IsChecked}">
 							<Border Background="#23272E" CornerRadius="5" BorderBrush="#2E343C" BorderThickness="1" Padding="10">
 								<StackPanel>
-									<ToggleButton Content="По имени файла (A -> Z)" HorizontalAlignment="Stretch" Background="Transparent"/>
-									<ToggleButton Content="По имени файла (Z -> A)" HorizontalAlignment="Stretch" Background="Transparent"/>
+									<ToggleButton Content="По имени файла (А -> Я)" HorizontalAlignment="Stretch" Background="Transparent"/>
+									<ToggleButton Content="По имени файла (Я -> А)" HorizontalAlignment="Stretch" Background="Transparent"/>
 									<Separator Background="#2E343C" Margin="0,5"/>
 									<ToggleButton Content="По времени последнего изменения (от новых к старым)" HorizontalAlignment="Stretch" Background="Transparent"/>
 									<ToggleButton Content="По времени последнего изменения (от старых к новым)" HorizontalAlignment="Stretch" Background="Transparent"/>
@@ -87,28 +111,28 @@
 					</StackPanel>
 				</TabItem>
 			</TabControl>
-			<!--
 			<ScrollViewer>
 				<StackPanel Orientation="Vertical">
 					<Button HorizontalAlignment="Stretch" Background="Transparent" Margin="0,5">
-						<TextBlock Classes="H5" Text="{Binding SelectedTabNodes.Title}"/>
+						<TextBlock Classes="H5" Text="{Binding Treetop.Title}" DataContext="{Binding TreeDC}"/>
 					</Button>
-					<TreeView ItemsSource="{Binding SelectedTabNodes.SubNodes}" Background="{Binding #LeftSubmenuBorder.Background}">
-						<TreeView.ItemsPanel>
-							<ItemsPanelTemplate>
-								<StackPanel Spacing="5"/>
-							</ItemsPanelTemplate>
-						</TreeView.ItemsPanel>
-						<TreeView.ItemTemplate>
-							<TreeDataTemplate ItemsSource="{Binding SubNodes}">
-								<TreeViewItem FontSize="14" Padding="0" Margin="0"
-											  Header="{Binding Title}" IsSelected="{Binding IsSelected, Mode=TwoWay}"/>
+
+					<TreeView Classes      = "Navigation"
+							  DataContext  = "{Binding TreeDC}"
+							  ItemsSource  = "{Binding Treetop.Content}"
+							  SelectedItem = "{Binding SelectedNode, Mode=TwoWay}" >
+						<TreeView.DataTemplates>
+							<TreeDataTemplate DataType="model:FolderNode" ItemsSource="{Binding Content}">
+								<TextBlock Text="{Binding Title}"/>
 							</TreeDataTemplate>
-						</TreeView.ItemTemplate>
+							<DataTemplate DataType="model:Node">
+								<TextBlock Text="{Binding Title}"/>
+							</DataTemplate>
+						</TreeView.DataTemplates>
 					</TreeView>
+					
 				</StackPanel>
 			</ScrollViewer>
-			-->
 		</DockPanel>
 	</Border>
 </UserControl>

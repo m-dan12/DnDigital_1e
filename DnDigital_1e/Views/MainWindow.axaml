@@ -39,27 +39,6 @@
 		</Style>
 
 		<Style Selector="TreeView">
-			<Style Selector="^.Navigation">
-				<Style Selector="^ TreeViewItem">
-					<Setter Property="CornerRadius" Value="5"/>
-					<Setter Property="Margin" Value="0, 5, 0, 0"/>
-					<Style Selector="^.Folder">
-						<Setter Property="IsHitTestVisible" Value="False"/>
-					</Style>
-					<Style Selector="^:pointerover /template/ Border#PART_LayoutRoot">
-						<Setter Property="Background" Value="{DynamicResource A1}" />
-					</Style>
-					<Style Selector="^:pressed /template/ Border#PART_LayoutRoot">
-						<Setter Property="Background" Value="{DynamicResource A1}" />
-					</Style>
-					<Style Selector="^:selected /template/ Border#PART_LayoutRoot">
-						<Setter Property="Background" Value="{DynamicResource A1}" />
-					</Style>
-					<Style Selector="^:selected:pointerover /template/ Border#PART_LayoutRoot">
-						<Setter Property="Background" Value="{DynamicResource A1}" />
-					</Style>
-				</Style>
-			</Style>
 			<Style Selector="^.Content">
 				<Style Selector="^ TreeViewItem">
 					<Setter Property="CornerRadius" Value="5"/>
@@ -93,33 +72,23 @@
 		<controls:VerticalMenu DockPanel.Dock="Left"/>
 		<controls:LeftSubmenu DockPanel.Dock="Left" Width="300"/>
 		<controls:RightSubmenu DockPanel.Dock="Right" Width="300"/>
-		<ContentPresenter DataContext="{Binding ContentDataContext}" Content="{Binding Treetop}" Padding="5">
-			<ContentPresenter.DataTemplates>
-				<DataTemplate x:DataType="model:FolderNode">
-					<TreeView Classes="Content" ItemsSource="{Binding Content}">
-						<ItemsControl.ItemsPanel>
-							<ItemsPanelTemplate>
-								<UniformGrid Columns="3" VerticalAlignment="Top"/>
-							</ItemsPanelTemplate>
-						</ItemsControl.ItemsPanel>
-						<ItemsControl.ItemTemplate>
-							<DataTemplate>
-								<TextBlock Text="{Binding Title}"/>
-							</DataTemplate>
-						</ItemsControl.ItemTemplate>
-					</TreeView>
-				</DataTemplate>
-				<DataTemplate x:DataType="model:HandbookNode">
-					
-				</DataTemplate>
-				<DataTemplate x:DataType="model:CharacterNode">
-					
-				</DataTemplate>
-				<DataTemplate x:DataType="model:AdventureNode">
-					
-				</DataTemplate>
-			</ContentPresenter.DataTemplates>
-		</ContentPresenter>
+		<Panel>
+			<TreeView Classes      = "Content"
+					  DataContext  = "{Binding TreeDC}"
+				      ItemsSource  = "{Binding Content.Content}"
+					  SelectedItem = "{Binding SelectedContent, Mode=TwoWay}" >
+				<ItemsControl.ItemsPanel>
+					<ItemsPanelTemplate>
+						<UniformGrid Columns="4" VerticalAlignment="Top"/>
+					</ItemsPanelTemplate>
+				</ItemsControl.ItemsPanel>
+				<TreeView.DataTemplates>
+					<DataTemplate DataType="model:Node">
+						<TextBlock Text="{Binding Title}"/>
+					</DataTemplate>
+				</TreeView.DataTemplates>
+			</TreeView>
+		</Panel>
 		
 	</DockPanel>
 
