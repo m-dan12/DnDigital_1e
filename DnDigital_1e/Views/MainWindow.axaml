@@ -205,7 +205,7 @@
 				</TabControl>
 				<ScrollViewer>
 					<StackPanel Orientation="Vertical">
-						<Button HorizontalAlignment="Stretch" Content="{Binding SelectedTabNodes.Title}" FontWeight="Bold" FontSize="{Binding Resources.FontSizes[Body]}" Background="Transparent" Margin="0,5"/>
+						<Button HorizontalAlignment="Stretch" Content="{Binding SelectedTabNodes.Title}" FontWeight="Bold" FontSize="14" Background="Transparent" Margin="0,5"/>
 						<TreeView ItemsSource="{Binding SelectedTabNodes.SubNodes}" Background="{Binding #LeftSubmenuBorder.Background}">
 							<TreeView.ItemsPanel>
 								<ItemsPanelTemplate>
@@ -233,22 +233,8 @@
 				<TabItem Header="Заклинания" IsSelected="{Binding #Spells.IsChecked, Mode=TwoWay}"/>
 			</TabControl>
 		</Border>
-
-		<!-- Страницы -->
-		<TabControl SelectedIndex="{Binding SelectedTab}">
-
-			<TabItem Header="Главная" IsSelected="{Binding #HomePage.IsChecked, Mode=TwoWay}"/>
-			<TabItem Header="Справочник" IsSelected="{Binding #HandBook.IsChecked, Mode=TwoWay}">
-				<views:HandbookTab/>
-			</TabItem>
-			<TabItem Header="Персонажи" IsSelected="{Binding #Characters.IsChecked, Mode=TwoWay}">
-				<views:CharacterTab/>
-			</TabItem>
-			<TabItem Header="Приключения" IsSelected="{Binding #Adventures.IsChecked, Mode=TwoWay}">
-				<views:AdvanturesTab/>
-			</TabItem>
-			
-		</TabControl>
+		
+		<Panel/>
 		
 		
 	</DockPanel>

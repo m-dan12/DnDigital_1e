@@ -14,24 +14,8 @@ using Avalonia.Media;
 
 namespace DnDigital_1e.ViewModels
 {
-    public class ViewResources : ReactiveObject
-    {
-        public Dictionary<string, int> FontSizes { get; } = new Dictionary<string, int>()
-        {
-            //{Binding Res.FontSizes.Title1}
-            ["Display"] = 42,   // Название приложения?? Крч вот прям на пол экрана название приложения типо
-            ["Header"] = 34,    // Заголовки страниц?? Если б мы их еще юзали
-            ["Title1"] = 28,    // Вкладки, заголовки, формы
-            ["Title2"] = 22,    // Кнопки, вкладки, заголовки, формы
-            ["Headline"] = 22,  // информационные абзацы
-            ["Body"] = 14,      // описания станций
-            ["Caption"] = 12,   // временная метка, нижние колонтитулы
-        };
-    }
-
     public class MainWindowViewModel : ViewModelBase
     {
-        public ViewResources Resources { get; } = new ViewResources();
 
         #region Системные кнопки
 
