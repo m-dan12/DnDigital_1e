@@ -11,5 +11,15 @@
   
     <Application.Styles>
         <FluentTheme />
+		<StyleInclude Source="/Styles/Fonts.axaml"/>
+		<StyleInclude Source="/Styles/MenuToggle.axaml"/>
     </Application.Styles>
+	
+	<Application.Resources>
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceInclude Source="/Styles/Colors.axaml"/>
+			</ResourceDictionary.MergedDictionaries>
+		</ResourceDictionary>
+	</Application.Resources>
 </Application>

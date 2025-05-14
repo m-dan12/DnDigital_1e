@@ -1,12 +1,14 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:vm="using:DnDigital_1e.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="1920" d:DesignHeight="1080"
+        xmlns:vm="using:DnDigital_1e.ViewModels"
 		xmlns:views="clr-namespace:DnDigital_1e.Views"
-        x:Class="DnDigital_1e.Views.MainWindow"
+		xmlns:controls="clr-namespace:DnDigital_1e.Controls"
+		xmlns:model="clr-namespace:DnDigital_1e.Models"
         x:DataType="vm:MainWindowViewModel"
+        x:Class="DnDigital_1e.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
         Title="DnDigital_1e">
 
@@ -14,7 +16,6 @@
         <vm:MainWindowViewModel/>
     </Design.DataContext>
 
-	
 	<!-- Стили -->
     <Window.Styles>
 
@@ -22,76 +23,128 @@
 			<Setter Property="Background" Value="#191B1F"/>
 			<Setter Property="FontSize" Value="18"/>
 			<Setter Property="FontFamily" Value="Roboto"/>
-			<Setter Property="WindowState" Value="FullScreen"/>
+			<Setter Property="WindowState" Value="Maximized"/>
+			<Setter Property="ExtendClientAreaToDecorationsHint" Value="True"/>
+			<Setter Property="ExtendClientAreaTitleBarHeightHint" Value="-1"/>
+			<Setter Property="ExtendClientAreaChromeHints" Value="NoChrome"/>
+			<Setter Property="Padding" Value="{Binding $self.OffScreenMargin}"/>
+		</Style>
+		
+
+		<Style Selector="TabControl">
+			<Setter Property="Padding" Value="0"/>
+			<Setter Property="Margin" Value="0"/>
+			<Setter Property="BorderThickness" Value="0"/>
+			<Setter Property="CornerRadius" Value="0"/>
+			<Setter Property="TabStripPlacement" Value="Left"/>
 		</Style>
 		
 		<Style Selector="Border">
-			<Setter Property="Background" Value="#23272E"/>
-			<Setter Property="Padding" Value="5"/>
-			<Setter Property="CornerRadius" Value="5"/>
-			
-			<Style Selector="^.VerticalMenu">
-				<Setter Property="DockPanel.Dock" Value="Left"/>
-				<Setter Property="Width" Value="44"/>
+			<Style Selector="^.HorizontalMenu">
+				<Setter Property="Height" Value="42"/>
 				<Setter Property="CornerRadius" Value="0"/>
-				<Setter Property="Background" Value="#2E343C"/>
-				
-				<Style Selector="^ ToggleButton">
-					<Setter Property="DockPanel.Dock" Value="Top"/>
-					<Setter Property="VerticalAlignment" Value="Top"/>
-					<Setter Property="HorizontalAlignment" Value="Center"/>
-					<Setter Property="Margin" Value="0,5"/>
-					<Setter Property="IsEnabled" Value="{Binding !$self.IsChecked}"/>
+				<Setter Property="Background" Value="{DynamicResource B3}"/>
+				<Setter Property="DockPanel.Dock" Value="Top"/>
+			</Style>
+			<Style Selector="^.VerticalMenu">
+				<Setter Property="Width" Value="48"/>
+				<Setter Property="CornerRadius" Value="0"/>
+				<Setter Property="Background" Value="{DynamicResource B3}"/>
+				<Setter Property="DockPanel.Dock" Value="Left"/>
+			</Style>
+			<Style Selector="^.Submenu">
+				<Setter Property="HorizontalAlignment" Value="Stretch"/>
+				<Setter Property="DockPanel.Dock" Value="Left"/>
+				<Setter Property="Width" Value="300"/>
+				<Setter Property="CornerRadius" Value="0"/>
+				<Setter Property="Background" Value="{DynamicResource B2}"/>
+				<Style Selector="^.Left">
+					<Setter Property="DockPanel.Dock" Value="Left"/>
+				</Style>
+				<Style Selector="^.Right">
+					<Setter Property="DockPanel.Dock" Value="Right"/>
 				</Style>
 			</Style>
-			
-			<Style Selector="^.HorizontalMenu">
-				<Setter Property="DockPanel.Dock" Value="Top"/>
-				<Setter Property="Height" Value="44"/>
-				<Setter Property="CornerRadius" Value="0"/>
-				<Setter Property="Background" Value="#2E343C"/>
-				
-				<Style Selector="^ ToggleButton">
-					<Setter Property="DockPanel.Dock" Value="Left"/>
-					<Setter Property="VerticalAlignment" Value="Center"/>
-					<Setter Property="HorizontalAlignment" Value="Left"/>
-					<Setter Property="Margin" Value="5,0"/>
-					<Style Selector="^.Right">
-						<Setter Property="DockPanel.Dock" Value="Right"/>
-						<Setter Property="HorizontalAlignment" Value="Right"/>
+			<Style Selector="^.Line">
+					<Setter Property="Background" Value="{DynamicResource S2}"/>
+					<Style Selector="^.V">
+						<Setter Property="Width" Value="1"/>
+						<Setter Property="HorizontalAlignment" Value="Center"/>
+						<Setter Property="VerticalAlignment" Value="Stretch"/>
+					</Style>
+					<Style Selector="^.H">
+						<Setter Property="Height" Value="1"/>
+						<Setter Property="HorizontalAlignment" Value="Stretch"/>
+						<Setter Property="VerticalAlignment" Value="Center"/>
+						<Setter Property="Margin" Value="5 0"/>
+					</Style>
+				</Style>
+		</Style>
+		<Style Selector="TabItem">
+			<Setter Property="IsVisible" Value="False"/>
+		</Style>
+		<Style Selector="TreeView">
+			<Style Selector="^.Content">
+				<Style Selector="^ TreeViewItem">
+					<Setter Property="CornerRadius" Value="5"/>
+					<Setter Property="Margin" Value="5"/>
+					<Setter Property="MinHeight" Value="100"/>
+					<Setter Property="Background" Value="{DynamicResource B2}"/>
+				</Style>
+			</Style>
+			<Style Selector="^.Navigation">
+				<Style Selector="^ TreeViewItem">
+					<Setter Property="CornerRadius" Value="5"/>
+					<Setter Property="Margin" Value="0, 5, 0, 0"/>
+					<Style Selector="^.Folder">
+						<Setter Property="IsHitTestVisible" Value="False"/>
+					</Style>
+					<Style Selector="^:pointerover /template/ Border#PART_LayoutRoot">
+						<Setter Property="Background" Value="{DynamicResource A1}" />
+					</Style>
+					<Style Selector="^:pressed /template/ Border#PART_LayoutRoot">
+						<Setter Property="Background" Value="{DynamicResource A1}" />
+					</Style>
+					<Style Selector="^:selected /template/ Border#PART_LayoutRoot">
+						<Setter Property="Background" Value="{DynamicResource A1}" />
+					</Style>
+					<Style Selector="^:selected:pointerover /template/ Border#PART_LayoutRoot">
+						<Setter Property="Background" Value="{DynamicResource A1}" />
 					</Style>
 				</Style>
 			</Style>
-			
-			<Style Selector="^ ToggleButton">
-				<Setter Property="Width" Value="34"/>
-				<Setter Property="Height" Value="34"/>
-			</Style>
-
-			<Style Selector="^.Submenu">
-				<Setter Property="Background" Value="#23272E"/>
-				<Setter Property="DockPanel.Dock" Value="Left"/>
-				<Setter Property="CornerRadius" Value="0"/>
-				<Setter Property="Width" Value="300"/>
+		</Style>
+		
+		
+		<Style Selector="ToolTip">
+			<Setter Property="Background" Value="{DynamicResource A1}"/>
+			<Setter Property="BorderThickness" Value="0"/>
+			<Setter Property="Padding" Value="0"/>
+			<Style Selector="^ TextBlock">
+				<Setter Property="Margin" Value="15, 3"/>
+				<Setter Property="Foreground" Value="{DynamicResource B1}"/>
 			</Style>
 		</Style>
 		
-		<Style Selector="Button.WinButton">
-			<Setter Property="DockPanel.Dock" Value="Right"/>
-			<Setter Property="HorizontalAlignment" Value="Right"/>
-			<Setter Property="VerticalAlignment" Value="Stretch"/>
-			<Setter Property="CornerRadius" Value="0"/>
-			<Setter Property="BorderThickness" Value="0"/>
-			<Setter Property="Width" Value="44"/>
-		</Style>
-
-		<Style Selector="TextBlock">
-			<Setter Property="Foreground" Value="White"/>
-			<Setter Property="Margin" Value="15"/>
-		</Style>
-
-		<Style Selector="TabItem">
-			<Setter Property="IsVisible" Value="False"/>
+		<Style Selector="Popup#SortOrderPopup">
+			<Setter Property="PlacementTarget" Value="{Binding #SortOrderButton}"/>
+			<Setter Property="Placement" Value="BottomEdgeAlignedRight"/>
+			<Setter Property="IsOpen" Value="{Binding #SortOrderButton.IsChecked}"/>
+			<Style Selector="^ > Border">
+				<Setter Property="BorderBrush" Value="{DynamicResource B3}"/>
+				<Setter Property="Background" Value="{DynamicResource B2}"/>
+				<Setter Property="CornerRadius" Value="5"/>
+				<Setter Property="BorderThickness" Value="1"/>
+				<Setter Property="Padding" Value="10"/>
+			</Style>
+			<Style Selector="^ ToggleButton">
+				<Setter Property="HorizontalAlignment" Value="Stretch"/>
+				<Setter Property="Background" Value="Transparent"/>
+			</Style>
+			<Style Selector="^ Separator">
+				<Setter Property="Background" Value="{DynamicResource B3}"/>
+				<Setter Property="Margin" Value="0 5"/>
+			</Style>
 		</Style>
 	
 	</Window.Styles>
@@ -102,63 +155,528 @@
 		
 		<!-- Верхнее меню -->
 		<Border Classes="HorizontalMenu">
-			<DockPanel>
-				<!-- Левая часть верхнего меню -->
-				<ToggleButton x:Name="LeftSubmenu" Margin="0,0,5,0"/> <!-- Скрывает/открывает левое подменю -->
-				<ToggleButton x:Name="BurgerOrCharacterOrFolder" IsVisible="{Binding #LeftSubmenu.IsChecked}"/> <!-- Бургер со вкладками справочника / Иконка перса со списком персонажей / Папка с папками и заметками приключения -->
-				<ToggleButton x:Name="Bookmark" IsVisible="{Binding #LeftSubmenu.IsChecked}"/> <!-- Закладки -->
-				<ToggleButton x:Name="Search" IsVisible="{Binding #LeftSubmenu.IsChecked}"/> <!-- Поиск -->
-				
-				<!-- Правая часть верхнего меню -->
-					<!-- Кнопки свернуть, развернуть на весь экран и закрыть-->
-					<Button Classes="WinButton" Margin="0,-5,-5,-5"/>
-					<Button Classes="WinButton" Margin="0,-5"/>
-					<Button Classes="WinButton" Margin="5,-5,0,-5"/>
-					<!-- Почему еще один таб? Да потому что мне так хочется! -->
-				
-				<ToggleButton x:Name="RightSubmenu" Classes="Right"/> <!-- Скрывает/открывает правое подменю -->
-				<ToggleButton x:Name="Structure" Classes="Right" IsVisible="{Binding #RightSubmenu.IsChecked}"/> <!-- Структура заметки (Онли приключение) -->
-				<ToggleButton x:Name="DiceRoller" Classes="Right" IsVisible="{Binding #RightSubmenu.IsChecked}"/> <!-- Дайс-роллер и история бросков -->
-				<ToggleButton x:Name="Initiative" Classes="Right" IsVisible="{Binding #RightSubmenu.IsChecked}"/> <!-- Трекер инициативы -->
-			</DockPanel>
+			<Grid ColumnDefinitions="*, auto, auto">
+
+				<StackPanel Orientation="Horizontal" Spacing="5" Grid.Column="0" Margin="5">
+					<ToggleButton x:Name="LeftSubmenu" Classes="Menu Horizontal LeftSubmenu" IsChecked="{Binding LeftSubmenuIsChecked}" ToolTip.Tip="{Binding LeftSubmenuToolTip}"/>
+					<ToggleButton x:Name="Navigation" Classes="Menu Horizontal Navigation" IsVisible="{Binding #LeftSubmenu.IsChecked}" IsChecked="True"/>
+					<ToggleButton x:Name="Search" Classes="Menu Horizontal Search" IsVisible="{Binding #LeftSubmenu.IsChecked}"/>
+					<ToggleButton x:Name="Bookmark" Classes="Menu Horizontal Bookmark" IsVisible="{Binding #LeftSubmenu.IsChecked}"/>
+				</StackPanel>
+
+				<StackPanel Orientation="Horizontal" Spacing="5" Grid.Column="1" Margin="5">
+					<ToggleButton x:Name="Initiative" Classes="Menu Horizontal Initiative" IsVisible="{Binding #RightSubmenu.IsChecked}" IsChecked="True"/>
+					<ToggleButton x:Name="DiceRoller" Classes="Menu Horizontal DiceRoller" IsVisible="{Binding #RightSubmenu.IsChecked}"/>
+					<ToggleButton x:Name="Spells" Classes="Menu Horizontal Spells" IsVisible="{Binding #RightSubmenu.IsChecked}"/>
+					<ToggleButton x:Name="RightSubmenu" Classes="Menu Horizontal RightSubmenu" IsChecked="{Binding RightSubmenuIsChecked}" ToolTip.Tip="{Binding RightSubmenuToolTip}"/>
+				</StackPanel>
+
+				<StackPanel Orientation="Horizontal" Grid.Column="2">
+					<Button Classes="WinButton Hide" Command="{Binding HideCommand}"/>
+					<Button Classes="WinButton Expand" Command="{Binding ExpandCommand}"/>
+					<Button Classes="WinButton Close" Command="{Binding CloseCommand}"/>
+				</StackPanel>
+
+			</Grid>
 		</Border>
 		
-		<!-- Левое меню -->
+		<!-- Лгвое меню -->
 		<Border Classes="VerticalMenu">
+			<Grid RowDefinitions="*, auto">
+
+				<StackPanel DataContext="{Binding ToggleButtonDC}" Orientation="Vertical" Spacing="10" Grid.Row="0" Margin="5">
+					<ToggleButton x:Name="HomePage" Classes="Menu Vertical HomePage" IsChecked="{Binding HomePageIsSelected}"/>
+					<ToggleButton x:Name="HandBook" Classes="Menu Vertical HandBook" IsChecked="{Binding HandbookIsSelected}"/>
+					<ToggleButton x:Name="Characters" Classes="Menu Vertical Characters" IsChecked="{Binding CharactersIsSelected}"/>
+					<ToggleButton x:Name="Adventures" Classes="Menu Vertical Adventures" IsChecked="{Binding AdventuresIsSelected}"/>
+				</StackPanel>
+
+				<StackPanel Orientation="Vertical" Spacing="10" Grid.Row="1" Margin="5,5,5,15">
+					<ToggleButton x:Name="Help" Classes="Menu Vertical Help"/>
+					<ToggleButton x:Name="Settings" Classes="Menu Vertical Settings"/>
+				</StackPanel>
+
+			</Grid>
+		</Border>
+		
+		<!-- Правое подменю-->
+		<Border x:Name="RightSubmenuBorder" Classes="Submenu Right" IsVisible="{Binding #RightSubmenu.IsChecked, Mode=TwoWay}">
+			<TabControl>
+				<TabItem Header="Трекер инициативы" IsSelected="{Binding #Initiative.IsChecked, Mode=TwoWay}"/>
+				<TabItem Header="Дайсы" IsSelected="{Binding #DiceRoller.IsChecked, Mode=TwoWay}"/>
+				<TabItem Header="Заклинания" IsSelected="{Binding #Spells.IsChecked, Mode=TwoWay}"/>
+			</TabControl>
+		</Border>
+	
+		<!-- Левое подменю-->
+		<Border x:Name="LeftSubmenuBorder" Classes="Submenu Left" IsVisible="{Binding #LeftSubmenu.IsChecked, Mode=TwoWay}">
 			<DockPanel>
-				<ToggleButton x:Name="Profile" Margin="0,0,0,5"/>
-				<ToggleButton x:Name="HomePage"/>
-				<ToggleButton x:Name="HandBook"/>
-				<ToggleButton x:Name="Characters"/>
-				<ToggleButton x:Name="Adventures"/>
-				<ToggleButton x:Name="LogOut" DockPanel.Dock="Bottom" VerticalAlignment="Bottom" Margin="0,5,0,0"/>
-				<ToggleButton x:Name="Help" DockPanel.Dock="Bottom" VerticalAlignment="Bottom" Margin="0,5,0,0"/>
+				<TabControl DockPanel.Dock="Top" Margin="10">
+					<TabItem Header="Навигация" IsSelected="{Binding #Navigation.IsChecked, Mode=TwoWay}" >
+						<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="5">
+							
+							<!-- Новая заметка или персонаж //Нет в справочнике -->
+							<Button Classes="Submenu" IsVisible="{Binding !#HandBook.IsChecked}"/>
+							
+							<!-- Новая папка //Нет в справочнике -->
+							<Button Classes="Submenu" IsVisible="{Binding !#HandBook.IsChecked}"/>
+							
+							<!-- Порядок сортировки -->
+							<ToggleButton Classes="Submenu" x:Name="SortOrderButton"/>
+							
+							<!-- Свернуть все -->
+							<ToggleButton Classes="Submenu"/>
+							
+							
+							<Popup x:Name="SortOrderPopup">
+								<Border>
+									<StackPanel>
+										<ToggleButton Content="Поумолчанию"/>
+										<Separator/>
+										<ToggleButton Content="По имени файла (А -> Я)"/>
+										<ToggleButton Content="По имени файла (Я -> А)"/>
+										<Separator/>
+										<ToggleButton Content="По времени последнего изменения (от новых к старым)"/>
+										<ToggleButton Content="По времени последнего изменения (от старых к новым)"/>
+										<Separator/>
+										<ToggleButton Content="По времени создания (от новых к старым)"/>
+										<ToggleButton Content="По времени создания (от старых к новым)"/>
+									</StackPanel>
+								</Border>
+							</Popup>
+						
+						</StackPanel>
+					</TabItem>
+					<TabItem Header="Поиск" IsSelected="{Binding #Search.IsChecked, Mode=TwoWay}">
+						<Grid ColumnDefinitions="*, auto">
+							<Border Height="36" Background="#10FFFFFF" Margin="0,0,5,0" CornerRadius="5">
+								<Grid ColumnDefinitions="auto, *, auto">
+									<Svg Path="/Assets/Icons/SearchIcon.svg" Width="16" Margin="10,0"/>
+									<AutoCompleteBox Grid.Column="1" Background="Transparent" CornerRadius="0" BorderThickness="0"/>
+									<ToggleButton Width="30" Height="26" Grid.Column="2" Margin="5"/>
+								</Grid>
+							</Border>
+							<ToggleButton Height="36" Width="36" Grid.Column="1"/>
+						</Grid>
+					</TabItem>
+					<TabItem Header="Избранное" IsSelected="{Binding #Bookmark.IsChecked, Mode=TwoWay}">
+						<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="5">
+							<Button Height="26" Width="30"/>
+							<!-- Добавить в закладки текущую вкладку -->
+							<Button Height="26" Width="30"/>
+							<!-- Новая группа закладок -->
+							<Button Height="26" Width="30"/>
+							<!-- Свернуть все -->
+						</StackPanel>
+					</TabItem>
+				</TabControl>
+				<ScrollViewer>
+					<StackPanel Orientation="Vertical">
+						<Button HorizontalAlignment="Stretch" Background="Transparent" Margin="0,5">
+							<TextBlock Classes="H5" Text="{Binding Treetop.Title}" DataContext="{Binding TreeDC}"/>
+						</Button>
+
+						<TreeView Classes      = "Navigation"
+								  DataContext  = "{Binding TreeDC}"
+								  ItemsSource  = "{Binding Treetop.Content}"
+								  SelectedItem = "{Binding SelectedNode}" >
+							<TreeView.DataTemplates>
+								<TreeDataTemplate DataType="model:FolderNode" ItemsSource="{Binding Content}">
+									<TextBlock Text="{Binding Title}"/>
+								</TreeDataTemplate>
+								<DataTemplate DataType="model:Node">
+									<TextBlock Text="{Binding Title}"/>
+								</DataTemplate>
+							</TreeView.DataTemplates>
+						</TreeView>
+					
+					</StackPanel>
+				</ScrollViewer>
 			</DockPanel>
 		</Border>
 		
-		<!-- Левое подменю -->
-		<Border Classes="Submenu" IsVisible="{Binding #LeftSubmenu.IsChecked, Mode=TwoWay}"/>
-		
-		<!-- Правое подменю -->
-		<Border Classes="Submenu" DockPanel.Dock="Right" IsVisible="{Binding #RightSubmenu.IsChecked, Mode=TwoWay}"/>
-
-		<!-- Страницы -->
-		<TabControl Padding="0" Margin="0" BorderThickness="0" CornerRadius="0" TabStripPlacement="Left">
-
-			<TabItem Header="Профиль" IsSelected="{Binding IsChecked, ElementName=Profile, Mode=TwoWay}"/>
-			<TabItem Header="Главная" IsSelected="{Binding IsChecked, ElementName=HomePage, Mode=TwoWay}"/>
-			<TabItem Header="Справочник" IsSelected="{Binding #HandBook.IsChecked, Mode=TwoWay}">
-				<views:HandbookTab/>
-			</TabItem>
-			<TabItem Header="Персонажи" IsSelected="{Binding #Characters.IsChecked, Mode=TwoWay}">
-				<views:CharacterTab/>
-			</TabItem>
-			<TabItem Header="Приключения" IsSelected="{Binding #Adventures.IsChecked, Mode=TwoWay}">
-				<views:AdvanturesTab/>
-			</TabItem>
-			
-		</TabControl>
-		
+		<Panel>
+			<TreeView Classes      = "Content"
+					  DataContext  = "{Binding TreeDC}"
+				      ItemsSource  = "{Binding Content.Content}"
+					  SelectedItem = "{Binding SelectedContent}"
+					  Padding="5">
+				<ItemsControl.ItemsPanel>
+					<ItemsPanelTemplate>
+						<UniformGrid Columns="4" VerticalAlignment="Top"/>
+					</ItemsPanelTemplate>
+				</ItemsControl.ItemsPanel>
+				<TreeView.DataTemplates>
+					<DataTemplate DataType="model:Node">
+						<TextBlock Text="{Binding Title}"/>
+					</DataTemplate>
+				</TreeView.DataTemplates>
+			</TreeView>
+			<ContentControl DataContext  = "{Binding TreeDC}"
+							Content      = "{Binding Content.Content}"
+							Padding="10">
+				<ContentControl.DataTemplates>
+	  
+				<DataTemplate DataType="model:HandbookItem">
+					<Border Background="{StaticResource B2}" CornerRadius="5" Padding="50 25">
+						<ScrollViewer>
+							<StackPanel>
+								<TextBlock Classes="H1 Title" Text="{Binding Title}"/>
+							</StackPanel>
+						</ScrollViewer>
+					</Border>
+				</DataTemplate>
+	  
+				<DataTemplate DataType="model:CharacterSheet">
+					<ScrollViewer>
+						<StackPanel HorizontalAlignment="Center" Spacing="10">
+						<StackPanel.Styles>
+							<Style Selector="Border">
+								<Setter Property="CornerRadius" Value="5"/>
+							</Style>
+						</StackPanel.Styles>
+						
+						<StackPanel Orientation="Horizontal" Spacing="10" HorizontalAlignment="Center">
+							<Border Background="{DynamicResource B3}">
+								<StackPanel Orientation="Horizontal">
+									<Border Background="{DynamicResource B2}" BorderBrush="{DynamicResource B3}" BorderThickness="1">
+										<TextBlock Text="ИМЯ" Margin="15 10"/>
+									</Border>
+									<TextBlock Text="{Binding Name}" Margin="15 10"/>
+								</StackPanel>
+							</Border>
+							<Border Background="{DynamicResource B3}">
+								<StackPanel Orientation="Horizontal">
+									<Border Background="{DynamicResource B2}" BorderBrush="{DynamicResource B3}" BorderThickness="1">
+										<TextBlock Text="УРОВЕНь" Margin="15 10"/>
+									</Border>
+									<TextBlock Classes="Num" Text="20" Margin="15 10"/>
+								</StackPanel>
+							</Border>
+							<Border Background="{DynamicResource B3}">
+								<StackPanel Orientation="Horizontal">
+									<Border Background="{DynamicResource B2}" BorderBrush="{DynamicResource B3}" BorderThickness="1">
+										<TextBlock Text="КЛАСС ДОСПЕХА" Margin="15 10"/>
+									</Border>
+									<TextBlock Classes="Num" Text="16" Margin="15 10"/>
+								</StackPanel>
+							</Border>
+							<Border Background="{DynamicResource B3}">
+								<StackPanel Orientation="Horizontal">
+									<Border Background="{DynamicResource B2}" BorderBrush="{DynamicResource B3}" BorderThickness="1">
+										<TextBlock Text="СКОРОСТЬ" Margin="15 10"/>
+									</Border>
+									<TextBlock Classes="Num" Text="40" Margin="15 10"/>
+								</StackPanel>
+							</Border>
+							<Border Background="{DynamicResource B3}">
+								<StackPanel Orientation="Horizontal">
+									<Border Background="{DynamicResource B2}" BorderBrush="{DynamicResource B3}" BorderThickness="1">
+										<TextBlock Text="СКОРОСТЬ" Margin="15 10"/>
+									</Border>
+									<TextBlock Classes="Num" Text="40" Margin="15 10"/>
+								</StackPanel>
+							</Border>
+							<Border Background="{DynamicResource B3}">
+								<StackPanel Orientation="Horizontal">
+									<Border Background="{DynamicResource B2}" BorderBrush="{DynamicResource Green}" BorderThickness="1">
+										<TextBlock Classes="Green" Text="ХИТЫ: 24" Margin="15 10"/>
+									</Border>
+									<TextBlock Classes="Num Green" Text="15" Margin="15 10"/>
+								</StackPanel>
+							</Border>
+							<Border Background="{DynamicResource B3}">
+								<StackPanel Orientation="Horizontal">
+									<Border Background="{DynamicResource B2}" BorderBrush="{DynamicResource Yellow}" BorderThickness="1">
+										<TextBlock Classes="Yellow" Text="ЗОЛОТО" Margin="15 10"/>
+									</Border>
+									<TextBlock Classes="Num Yellow" Text="45" Margin="15 10"/>
+								</StackPanel>
+							</Border>
+						</StackPanel>
+						<StackPanel Orientation="Horizontal" Spacing="10">
+							<Border Width="300" Background="{DynamicResource B2}" BorderBrush="{DynamicResource B3}" Padding="15">
+								<StackPanel Spacing="10">
+									<StackPanel.Styles>
+										<Style Selector="TextBlock">
+											<Setter Property="VerticalAlignment" Value="Center"/>
+										</Style>
+									</StackPanel.Styles>
+									<!-- СИЛА -->
+									<Grid ColumnDefinitions="auto, *, auto" Height="35">
+										<TextBlock Classes="Title H4" Text="СИЛА"/>
+										<Border Classes="Line H" Grid.Column="1"/>
+										<TextBlock Classes="Num H4" Text="8" Grid.Column="2"/>
+									</Grid>
+									<Grid ColumnDefinitions="auto, *, auto" Height="35">
+										<StackPanel Orientation="Horizontal" Spacing="10">
+											<Button Classes="Dice D20">
+												<TextBlock Classes="Num Mod" Text="-1"/>
+											</Button>
+											<TextBlock Text="Проверка"/>
+										</StackPanel>
+										<Border Classes="Line V" Grid.Column="1"/>
+										<StackPanel Orientation="Horizontal" Spacing="10" Grid.Column="2">
+											<TextBlock Text="Спасбросок"/>
+											<Button Classes="Dice D20">
+												<TextBlock Classes="Num Mod Prof" Text="+1"/>
+											</Button>
+										</StackPanel>
+									</Grid>
+									<StackPanel Orientation="Horizontal" Spacing="10" Height="35">
+										<Button Classes="Dice D20">
+											<TextBlock Classes="Num Mod" Text="-1"/>
+										</Button>
+										<TextBlock Text="АТЛЕТИКА"/>
+									</StackPanel>
+										
+									<!-- ТЕЛОСЛОЖЕНИЕ -->
+									<Grid ColumnDefinitions="auto, *, auto" Height="35">
+										<TextBlock Classes="Title H4" Text="ТЕЛОСЛОЖЕНИЕ"/>
+										<Border Classes="Line H" Grid.Column="1"/>
+										<TextBlock Classes="Num H4" Text="8" Grid.Column="2"/>
+									</Grid>
+									<Grid ColumnDefinitions="auto, *, auto" Height="35">
+										<StackPanel Orientation="Horizontal" Spacing="10">
+											<Button Classes="Dice D20">
+												<TextBlock Classes="Num Mod" Text="-1"/>
+											</Button>
+											<TextBlock Text="Проверка"/>
+										</StackPanel>
+										<Border Classes="Line V" Grid.Column="1"/>
+										<StackPanel Orientation="Horizontal" Spacing="10" Grid.Column="2">
+											<TextBlock Text="Спасбросок"/>
+											<Button Classes="Dice D20">
+												<TextBlock Classes="Num Mod Prof" Text="+1"/>
+											</Button>
+										</StackPanel>
+									</Grid>
+										
+									<!-- ИНТЕЛЛЕКТ -->
+									<Grid ColumnDefinitions="auto, *, auto" Height="35">
+										<TextBlock Classes="Title H4" Text="ИНТЕЛЛЕКТ"/>
+										<Border Classes="Line H" Grid.Column="1"/>
+										<TextBlock Classes="Num H4" Text="8" Grid.Column="2"/>
+									</Grid>
+									<Grid ColumnDefinitions="auto, *, auto" Height="35">
+										<StackPanel Orientation="Horizontal" Spacing="10">
+											<Button Classes="Dice D20">
+												<TextBlock Classes="Num Mod" Text="-1"/>
+											</Button>
+											<TextBlock Text="Проверка"/>
+										</StackPanel>
+										<Border Classes="Line V" Grid.Column="1"/>
+										<StackPanel Orientation="Horizontal" Spacing="10" Grid.Column="2">
+											<TextBlock Text="Спасбросок"/>
+											<Button Classes="Dice D20">
+												<TextBlock Classes="Num Mod Prof" Text="+1"/>
+											</Button>
+										</StackPanel>
+									</Grid>
+									<StackPanel Orientation="Horizontal" Spacing="10" Height="35">
+										<Button Classes="Dice D20">
+											<TextBlock Classes="Num Mod" Text="-1"/>
+										</Button>
+										<TextBlock Text="АНАЛИЗ"/>
+									</StackPanel>
+									<StackPanel Orientation="Horizontal" Spacing="10" Height="35">
+										<Button Classes="Dice D20">
+											<TextBlock Classes="Num Mod" Text="-1"/>
+										</Button>
+										<TextBlock Text="ИСТОРИЯ"/>
+									</StackPanel>
+									<StackPanel Orientation="Horizontal" Spacing="10" Height="35">
+										<Button Classes="Dice D20">
+											<TextBlock Classes="Num Mod" Text="-1"/>
+										</Button>
+										<TextBlock Text="МАГИЯ"/>
+									</StackPanel>
+									<StackPanel Orientation="Horizontal" Spacing="10" Height="35">
+										<Button Classes="Dice D20">
+											<TextBlock Classes="Num Mod" Text="-1"/>
+										</Button>
+										<TextBlock Text="ПРИРОДА"/>
+									</StackPanel>
+									<StackPanel Orientation="Horizontal" Spacing="10" Height="35">
+										<Button Classes="Dice D20">
+											<TextBlock Classes="Num Mod" Text="-1"/>
+										</Button>
+										<TextBlock Text="РЕЛИГИЯ"/>
+									</StackPanel>
+										
+									<!-- ХАРИЗМА -->
+									<Grid ColumnDefinitions="auto, *, auto" Height="35">
+										<TextBlock Classes="Title H4" Text="ХАРИЗМА"/>
+										<Border Classes="Line H" Grid.Column="1"/>
+										<TextBlock Classes="Num H4" Text="8" Grid.Column="2"/>
+									</Grid>
+									<Grid ColumnDefinitions="auto, *, auto" Height="35">
+										<StackPanel Orientation="Horizontal" Spacing="10">
+											<Button Classes="Dice D20">
+												<TextBlock Classes="Num Mod" Text="-1"/>
+											</Button>
+											<TextBlock Text="Проверка"/>
+										</StackPanel>
+										<Border Classes="Line V" Grid.Column="1"/>
+										<StackPanel Orientation="Horizontal" Spacing="10" Grid.Column="2">
+											<TextBlock Text="Спасбросок"/>
+											<Button Classes="Dice D20">
+												<TextBlock Classes="Num Mod Prof" Text="+1"/>
+											</Button>
+										</StackPanel>
+									</Grid>
+									<StackPanel Orientation="Horizontal" Spacing="10" Height="35">
+										<Button Classes="Dice D20">
+											<TextBlock Classes="Num Mod" Text="-1"/>
+										</Button>
+										<TextBlock Text="ВЫСТУПЛЕНИЕ"/>
+									</StackPanel>
+									<StackPanel Orientation="Horizontal" Spacing="10" Height="35">
+										<Button Classes="Dice D20">
+											<TextBlock Classes="Num Mod" Text="-1"/>
+										</Button>
+										<TextBlock Text="ЗАПУГИВАНИЕ"/>
+									</StackPanel>
+									<StackPanel Orientation="Horizontal" Spacing="10" Height="35">
+										<Button Classes="Dice D20">
+											<TextBlock Classes="Num Mod" Text="-1"/>
+										</Button>
+										<TextBlock Text="ОБМАН"/>
+									</StackPanel>
+									<StackPanel Orientation="Horizontal" Spacing="10" Height="35">
+										<Button Classes="Dice D20">
+											<TextBlock Classes="Num Mod" Text="-1"/>
+										</Button>
+										<TextBlock Text="УБЕЖДЕНИЕ"/>
+									</StackPanel>
+								</StackPanel>
+							</Border>
+							<Grid RowDefinitions="auto, 10, *" Width="300">
+								<Border Background="{DynamicResource B2}" BorderBrush="{DynamicResource B3}" Padding="15">
+									<StackPanel Spacing="10">
+										<StackPanel.Styles>
+											<Style Selector="TextBlock">
+												<Setter Property="VerticalAlignment" Value="Center"/>
+											</Style>
+										</StackPanel.Styles>
+										<!-- ЛОВКОСТЬ -->
+										<Grid ColumnDefinitions="auto, *, auto" Height="35">
+											<TextBlock Classes="Title H4" Text="ЛОВКОСТЬ"/>
+											<Border Classes="Line H" Grid.Column="1"/>
+											<TextBlock Classes="Num H4" Text="8" Grid.Column="2"/>
+										</Grid>
+										<Grid ColumnDefinitions="auto, *, auto" Height="35">
+											<StackPanel Orientation="Horizontal" Spacing="10">
+												<Button Classes="Dice D20">
+													<TextBlock Classes="Num Mod" Text="-1"/>
+												</Button>
+												<TextBlock Text="Проверка"/>
+											</StackPanel>
+											<Border Classes="Line V" Grid.Column="1"/>
+											<StackPanel Orientation="Horizontal" Spacing="10" Grid.Column="2">
+												<TextBlock Text="Спасбросок"/>
+												<Button Classes="Dice D20">
+													<TextBlock Classes="Num Mod Prof" Text="+1"/>
+												</Button>
+											</StackPanel>
+										</Grid>
+										<StackPanel Orientation="Horizontal" Spacing="10" Height="35">
+											<Button Classes="Dice D20">
+												<TextBlock Classes="Num Mod" Text="-1"/>
+											</Button>
+											<TextBlock Text="АКРОБАТИКА"/>
+										</StackPanel>
+										<StackPanel Orientation="Horizontal" Spacing="10" Height="35">
+											<Button Classes="Dice D20">
+												<TextBlock Classes="Num Mod" Text="-1"/>
+											</Button>
+											<TextBlock Text="ЛОВКОСТЬ РУК"/>
+										</StackPanel>
+										<StackPanel Orientation="Horizontal" Spacing="10" Height="35">
+											<Button Classes="Dice D20">
+												<TextBlock Classes="Num Mod" Text="-1"/>
+											</Button>
+											<TextBlock Text="СКРЫТНОСТЬ"/>
+										</StackPanel>
+										
+										<!-- МУДРОСТЬ -->
+										<Grid ColumnDefinitions="auto, *, auto" Height="35">
+											<TextBlock Classes="Title H4" Text="МУДРОСТЬ"/>
+											<Border Classes="Line H" Grid.Column="1"/>
+											<TextBlock Classes="Num H4" Text="8" Grid.Column="2"/>
+										</Grid>
+										<Grid ColumnDefinitions="auto, *, auto" Height="35">
+											<StackPanel Orientation="Horizontal" Spacing="10">
+												<Button Classes="Dice D20">
+													<TextBlock Classes="Num Mod" Text="-1"/>
+												</Button>
+												<TextBlock Text="Проверка"/>
+											</StackPanel>
+											<Border Classes="Line V" Grid.Column="1"/>
+											<StackPanel Orientation="Horizontal" Spacing="10" Grid.Column="2">
+												<TextBlock Text="Спасбросок"/>
+												<Button Classes="Dice D20">
+													<TextBlock Classes="Num Mod Prof" Text="+1"/>
+												</Button>
+											</StackPanel>
+										</Grid>
+										<StackPanel Orientation="Horizontal" Spacing="10" Height="35">
+											<Button Classes="Dice D20">
+												<TextBlock Classes="Num Mod" Text="-1"/>
+											</Button>
+											<TextBlock Text="ВНИМАТЕЛЬНОСТЬ"/>
+										</StackPanel>
+										<StackPanel Orientation="Horizontal" Spacing="10" Height="35">
+											<Button Classes="Dice D20">
+												<TextBlock Classes="Num Mod" Text="-1"/>
+											</Button>
+											<TextBlock Text="ВЫЖИВАНИЕ"/>
+										</StackPanel>
+										<StackPanel Orientation="Horizontal" Spacing="10" Height="35">
+											<Button Classes="Dice D20">
+												<TextBlock Classes="Num Mod" Text="-1"/>
+											</Button>
+											<TextBlock Text="МЕДИЦИНА"/>
+										</StackPanel>
+										<StackPanel Orientation="Horizontal" Spacing="10" Height="35">
+											<Button Classes="Dice D20">
+												<TextBlock Classes="Num Mod" Text="-1"/>
+											</Button>
+											<TextBlock Text="ПРОНИЦАТЕЛЬНОСТЬ"/>
+										</StackPanel>
+										<StackPanel Orientation="Horizontal" Spacing="10" Height="35">
+											<Button Classes="Dice D20">
+												<TextBlock Classes="Num Mod" Text="-1"/>
+											</Button>
+											<TextBlock Text="УХОД ЗА ЖИВОТЫМИ"/>
+										</StackPanel>
+									</StackPanel>
+								</Border>
+								
+								<Border Background="{DynamicResource B2}" BorderBrush="{DynamicResource B3}" Grid.Row="2">
+									<StackPanel>
+										<TextBlock Text="ПАССИВНЫЕ ЧУВСТВА"/>
+									</StackPanel>
+								</Border>
+							</Grid>
+							<Border Width="610" VerticalAlignment="Stretch" Background="{DynamicResource B2}" BorderBrush="{DynamicResource B3}"/>
+						</StackPanel>
+						<Border HorizontalAlignment="Stretch" MinHeight="300" Background="{DynamicResource B2}" BorderBrush="{DynamicResource B3}"/>
+					</StackPanel>
+					</ScrollViewer>
+				</DataTemplate>
+	  
+				<DataTemplate DataType="model:AdventureNote">
+					<StackPanel>
+						<TextBlock Text="{Binding Title}"/>
+					</StackPanel>
+				</DataTemplate>
+		  
+				<DataTemplate DataType="model:NodeCollection"/>
+  
+				</ContentControl.DataTemplates>
+			</ContentControl>
+		</Panel>
 		
 	</DockPanel>
 

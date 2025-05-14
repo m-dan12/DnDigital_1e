@@ -1,0 +1,344 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+	<Design.PreviewWith>
+		<Border Background="{DynamicResource Dark}" Padding="10">
+			<StackPanel>
+				<StackPanel Orientation="Horizontal" Spacing="10">
+					<ToggleButton Classes="Menu Horizontal LeftSubmenu" HorizontalAlignment="Left"/>
+					<ToggleButton Classes="Menu Horizontal Navigation" HorizontalAlignment="Left"/>
+					<ToggleButton Classes="Menu Horizontal Search" HorizontalAlignment="Left"/>
+					<ToggleButton Classes="Menu Horizontal Bookmark" HorizontalAlignment="Left"/>
+					<ToggleButton Classes="Menu Horizontal Initiative" HorizontalAlignment="Left"/>
+					<ToggleButton Classes="Menu Horizontal DiceRoller" HorizontalAlignment="Left"/>
+					<ToggleButton Classes="Menu Horizontal Spells" HorizontalAlignment="Left"/>
+					<ToggleButton Classes="Menu Horizontal RightSubmenu" HorizontalAlignment="Left"/>
+				</StackPanel>
+				<StackPanel Spacing="10">
+					<ToggleButton Classes="Menu Vertical HomePage" HorizontalAlignment="Left"/>
+					<ToggleButton Classes="Menu Vertical HandBook" HorizontalAlignment="Left"/>
+					<ToggleButton Classes="Menu Vertical Characters" HorizontalAlignment="Left"/>
+					<ToggleButton Classes="Menu Vertical Adventures" HorizontalAlignment="Left"/>
+					<ToggleButton Classes="Menu Vertical Help" HorizontalAlignment="Left"/>
+					<ToggleButton Classes="Menu Vertical Settings" HorizontalAlignment="Left"/>
+				</StackPanel>
+			</StackPanel>
+		</Border>
+	</Design.PreviewWith>
+	
+	<Style Selector="Button.WinButton">
+		<Setter Property="CornerRadius" Value="0"/>
+		<Setter Property="BorderThickness" Value="0"/>
+		<Setter Property="Width" Value="48"/>
+		<Setter Property="Height" Value="42"/>
+		<Setter Property="Background" Value="#242930"/>
+		
+		<Style Selector="^.Hide">
+			<Setter Property="ContentTemplate">
+				<DataTemplate>
+					<Svg Path="/Assets/Icons/HideWindow.svg" Width="12"/>
+				</DataTemplate>
+			</Setter>
+		</Style>
+		
+		<Style Selector="^.Expand">
+			<Setter Property="ContentTemplate">
+				<DataTemplate>
+					<Svg Path="/Assets/Icons/ExpandWindow.svg" Width="14"/>
+				</DataTemplate>
+			</Setter>
+		</Style>
+		
+		<Style Selector="^.Close">
+			<Setter Property="ContentTemplate">
+				<DataTemplate>
+					<Svg Path="/Assets/Icons/CloseWindow.svg" Width="10"/>
+				</DataTemplate>
+			</Setter>
+		</Style>
+	</Style>
+
+	<Style Selector="ToggleButton.Submenu, Button.Submenu">
+		<Setter Property="Height" Value="26"/>
+		<Setter Property="Width" Value="30"/>
+		<Style Selector="^#SortOrderButton">
+			<Setter Property="ToolTip.Tip" Value="Порядок сортировки"/>
+			<Setter Property="ToolTip.Placement" Value="Bottom"/>
+			<Setter Property="ToolTip.VerticalOffset" Value="10"/>
+		</Style>
+	</Style>
+	<Style Selector="ToggleButton.Menu">
+		<Setter Property="Width" Value="38"/>
+		<Setter Property="Background" Value="Transparent"/>
+
+		<Style Selector="^.Vertical">
+			<Setter Property="HorizontalAlignment" Value="Center"/>
+			<Setter Property="Height" Value="38"/>
+			<!-- Setter Property="IsEnabled" Value="{Binding !$self.IsChecked}"/ -->
+
+			<Setter Property="ToolTip.Placement" Value="Right"/>
+			<Setter Property="ToolTip.HorizontalOffset" Value="10"/>
+			<Setter Property="ToolTip.VerticalOffset" Value="0"/>
+
+			<Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter,
+							 ^:pressed /template/ ContentPresenter#PART_ContentPresenter,
+							 ^:checked /template/ ContentPresenter#PART_ContentPresenter">
+				<Setter Property="Background" Value="{DynamicResource A1}"/>
+			</Style>
+
+			<Style Selector="^.HomePage">
+				<Setter Property="ToolTip.Tip" Value="Главная"/>
+				<Setter Property="ContentTemplate">
+					<DataTemplate>
+						<Svg Path="/Assets/Icons/HomePageIcon.svg"/>
+					</DataTemplate>
+				</Setter>
+				<Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter,
+								 ^:pressed /template/ ContentPresenter#PART_ContentPresenter,
+								 ^:checked /template/ ContentPresenter#PART_ContentPresenter">
+					<Setter Property="ContentTemplate">
+						<DataTemplate>
+							<Svg Path="/Assets/SelectedIcons/HomePageIcon.svg"/>
+						</DataTemplate>
+					</Setter>
+				</Style>
+			</Style>
+
+			<Style Selector="^.HandBook">
+				<Setter Property="ToolTip.Tip" Value="Справочник"/>
+				<Setter Property="ContentTemplate">
+					<DataTemplate>
+						<Svg Path="/Assets/Icons/HandbookIcon.svg"/>
+					</DataTemplate>
+				</Setter>
+				<Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter, ^:pressed /template/ ContentPresenter#PART_ContentPresenter, ^:checked /template/ ContentPresenter#PART_ContentPresenter">
+					<Setter Property="ContentTemplate">
+						<DataTemplate>
+							<Svg Path="/Assets/SelectedIcons/HandbookIcon.svg"/>
+						</DataTemplate>
+					</Setter>
+				</Style>
+			</Style>
+
+			<Style Selector="^.Characters">
+				<Setter Property="ToolTip.Tip" Value="Персонажи"/>
+				<Setter Property="ContentTemplate">
+					<DataTemplate>
+						<Svg Path="/Assets/Icons/CharacterIcon.svg"/>
+					</DataTemplate>
+				</Setter>
+				<Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter, ^:pressed /template/ ContentPresenter#PART_ContentPresenter, ^:checked /template/ ContentPresenter#PART_ContentPresenter">
+					<Setter Property="ContentTemplate">
+						<DataTemplate>
+							<Svg Path="/Assets/SelectedIcons/CharacterIcon.svg"/>
+						</DataTemplate>
+					</Setter>
+				</Style>
+			</Style>
+
+			<Style Selector="^.Adventures">
+				<Setter Property="ToolTip.Tip" Value="Приключения"/>
+				<Setter Property="ContentTemplate">
+					<DataTemplate>
+						<Svg Path="/Assets/Icons/AdventureIcon.svg"/>
+					</DataTemplate>
+				</Setter>
+				<Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter, ^:pressed /template/ ContentPresenter#PART_ContentPresenter, ^:checked /template/ ContentPresenter#PART_ContentPresenter">
+					<Setter Property="ContentTemplate">
+						<DataTemplate>
+							<Svg Path="/Assets/SelectedIcons/AdventureIcon.svg"/>
+						</DataTemplate>
+					</Setter>
+				</Style>
+			</Style>
+
+			<Style Selector="^.Help">
+				<Setter Property="ToolTip.Tip" Value="Справка"/>
+				<Setter Property="IsEnabled" Value="True"/>
+				<Setter Property="ContentTemplate">
+					<DataTemplate>
+						<Svg Path="/Assets/Icons/HelpIcon.svg"/>
+					</DataTemplate>
+				</Setter>
+				<Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter, ^:pressed /template/ ContentPresenter#PART_ContentPresenter, ^:checked /template/ ContentPresenter#PART_ContentPresenter">
+					<Setter Property="ContentTemplate">
+						<DataTemplate>
+							<Svg Path="/Assets/SelectedIcons/HelpIcon.svg"/>
+						</DataTemplate>
+					</Setter>
+				</Style>
+			</Style>
+
+			<Style Selector="^.Settings">
+				<Setter Property="ToolTip.Tip" Value="Настройки"/>
+				<Setter Property="IsEnabled" Value="True"/>
+				<Setter Property="ContentTemplate">
+					<DataTemplate>
+						<Svg Path="/Assets/Icons/SettingsIcon.svg"/>
+					</DataTemplate>
+				</Setter>
+				<Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter, ^:pressed /template/ ContentPresenter#PART_ContentPresenter, ^:checked /template/ ContentPresenter#PART_ContentPresenter">
+					<Setter Property="ContentTemplate">
+						<DataTemplate>
+							<Svg Path="/Assets/SelectedIcons/SettingsIcon.svg"/>
+						</DataTemplate>
+					</Setter>
+				</Style>
+			</Style>
+		</Style>
+
+		<Style Selector="^.Horizontal">
+			<Setter Property="VerticalAlignment" Value="Center"/>
+			<Setter Property="Height" Value="32"/>
+			<!-- Setter Property="IsEnabled" Value="{Binding !$self.IsChecked}"/ -->
+
+			<Setter Property="ToolTip.Placement" Value="Bottom"/>
+			<Setter Property="ToolTip.HorizontalOffset" Value="0"/>
+			<Setter Property="ToolTip.VerticalOffset" Value="10"/>
+
+			<Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter, ^:pressed /template/ ContentPresenter#PART_ContentPresenter, ^:checked /template/ ContentPresenter#PART_ContentPresenter">
+				<Setter Property="BorderBrush" Value="{DynamicResource Accent}"/>
+				<Setter Property="BorderThickness" Value="1"/>
+				<Setter Property="Background" Value="Transparent"/>
+			</Style>
+			<Style Selector="^:checked /template/ ContentPresenter#PART_ContentPresenter">
+				<Setter Property="Background" Value="Transparent"/>
+			</Style>
+
+			<Style Selector="^.LeftSubmenu">
+				<Setter Property="ToolTip.Placement" Value="Right"/>
+				<Setter Property="ToolTip.HorizontalOffset" Value="10"/>
+				<Setter Property="ToolTip.VerticalOffset" Value="0"/>
+				<Setter Property="IsEnabled" Value="True"/>
+				<Setter Property="ContentTemplate">
+					<DataTemplate>
+						<Svg Path="/Assets/Icons/LeftSubmenuIcon.svg"/>
+					</DataTemplate>
+				</Setter>
+				<Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter, ^:pressed /template/ ContentPresenter#PART_ContentPresenter, ^:checked /template/ ContentPresenter#PART_ContentPresenter">
+					<Setter Property="ContentTemplate">
+						<DataTemplate>
+							<Svg Path="/Assets/SelectedIcons/LeftSubmenuIcon.svg"/>
+						</DataTemplate>
+					</Setter>
+				</Style>
+			</Style>
+
+			<Style Selector="^.Navigation">
+				<Setter Property="ToolTip.Tip" Value="Навигация"/>
+				<Setter Property="ContentTemplate">
+					<DataTemplate>
+						<Svg Path="/Assets/Icons/FolderIcon.svg"/>
+					</DataTemplate>
+				</Setter>
+				<Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter, ^:pressed /template/ ContentPresenter#PART_ContentPresenter, ^:checked /template/ ContentPresenter#PART_ContentPresenter">
+					<Setter Property="ContentTemplate">
+						<DataTemplate>
+							<Svg Path="/Assets/SelectedIcons/FolderIcon.svg"/>
+						</DataTemplate>
+					</Setter>
+				</Style>
+			</Style>
+
+			<Style Selector="^.Search">
+				<Setter Property="ToolTip.Tip" Value="Поиск"/>
+				<Setter Property="ContentTemplate">
+					<DataTemplate>
+						<Svg Path="/Assets/Icons/SearchIcon.svg"/>
+					</DataTemplate>
+				</Setter>
+				<Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter, ^:pressed /template/ ContentPresenter#PART_ContentPresenter, ^:checked /template/ ContentPresenter#PART_ContentPresenter">
+					<Setter Property="ContentTemplate">
+						<DataTemplate>
+							<Svg Path="/Assets/SelectedIcons/SearchIcon.svg"/>
+						</DataTemplate>
+					</Setter>
+				</Style>
+			</Style>
+
+			<Style Selector="^.Bookmark">
+				<Setter Property="ToolTip.Tip" Value="Закладки"/>
+				<Setter Property="ContentTemplate">
+					<DataTemplate>
+						<Svg Path="/Assets/Icons/BookmarkIcon.svg"/>
+					</DataTemplate>
+				</Setter>
+				<Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter, ^:pressed /template/ ContentPresenter#PART_ContentPresenter, ^:checked /template/ ContentPresenter#PART_ContentPresenter">
+					<Setter Property="ContentTemplate">
+						<DataTemplate>
+							<Svg Path="/Assets/SelectedIcons/BookmarkIcon.svg"/>
+						</DataTemplate>
+					</Setter>
+				</Style>
+			</Style>
+
+			<Style Selector="^.Initiative">
+				<Setter Property="ToolTip.Tip" Value="Инициатива"/>
+				<Setter Property="ContentTemplate">
+					<DataTemplate>
+						<Svg Path="/Assets/Icons/InitiativeIcon.svg"/>
+					</DataTemplate>
+				</Setter>
+				<Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter, ^:pressed /template/ ContentPresenter#PART_ContentPresenter, ^:checked /template/ ContentPresenter#PART_ContentPresenter">
+					<Setter Property="ContentTemplate">
+						<DataTemplate>
+							<Svg Path="/Assets/SelectedIcons/InitiativeIcon.svg"/>
+						</DataTemplate>
+					</Setter>
+				</Style>
+			</Style>
+
+			<Style Selector="^.DiceRoller">
+				<Setter Property="ToolTip.Tip" Value="Дайсы"/>
+				<Setter Property="ContentTemplate">
+					<DataTemplate>
+						<Svg Path="/Assets/Icons/DiceRollerIcon.svg"/>
+					</DataTemplate>
+				</Setter>
+				<Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter, ^:pressed /template/ ContentPresenter#PART_ContentPresenter, ^:checked /template/ ContentPresenter#PART_ContentPresenter">
+					<Setter Property="ContentTemplate">
+						<DataTemplate>
+							<Svg Path="/Assets/SelectedIcons/DiceRollerIcon.svg"/>
+						</DataTemplate>
+					</Setter>
+				</Style>
+			</Style>
+
+			<Style Selector="^.Spells">
+				<Setter Property="ToolTip.Tip" Value="Заклинания"/>
+				<Setter Property="ContentTemplate">
+					<DataTemplate>
+						<Svg Path="/Assets/Icons/SpellsIcon.svg"/>
+					</DataTemplate>
+				</Setter>
+				<Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter, ^:pressed /template/ ContentPresenter#PART_ContentPresenter, ^:checked /template/ ContentPresenter#PART_ContentPresenter">
+					<Setter Property="ContentTemplate">
+						<DataTemplate>
+							<Svg Path="/Assets/SelectedIcons/SpellsIcon.svg"/>
+						</DataTemplate>
+					</Setter>
+				</Style>
+			</Style>
+
+			<Style Selector="^.RightSubmenu">
+				<Setter Property="ToolTip.Placement" Value="Left"/>
+				<Setter Property="ToolTip.HorizontalOffset" Value="-10"/>
+				<Setter Property="ToolTip.VerticalOffset" Value="0"/>
+				<Setter Property="IsEnabled" Value="True"/>
+				<Setter Property="ContentTemplate">
+					<DataTemplate>
+						<Svg Path="/Assets/Icons/RightSubmenuIcon.svg"/>
+					</DataTemplate>
+				</Setter>
+				<Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter, ^:pressed /template/ ContentPresenter#PART_ContentPresenter, ^:checked /template/ ContentPresenter#PART_ContentPresenter">
+					<Setter Property="ContentTemplate">
+						<DataTemplate>
+							<Svg Path="/Assets/SelectedIcons/RightSubmenuIcon.svg"/>
+						</DataTemplate>
+					</Setter>
+				</Style>
+			</Style>
+		</Style>
+	</Style>
+
+</Styles>
